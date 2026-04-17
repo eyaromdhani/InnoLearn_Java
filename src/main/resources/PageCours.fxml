@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.Controllers.CoursController"
+      prefWidth="1200.0" prefHeight="700.0"
+      style="-fx-background-color: #f0f0f5;">
+
+    <!-- NAVBAR -->
+    <HBox style="-fx-background-color: #3a0ca3; -fx-padding: 15 30 15 30;"
+          alignment="CENTER" spacing="40">
+        <Label text="🎓 InnoLearn"
+               style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <HBox alignment="CENTER" spacing="30" HBox.hgrow="ALWAYS">
+            <!-- BOUTON RETOUR -->
+            <HBox style="-fx-padding: 15 40 0 40;">
+                <Button text="← Retour" onAction="#retour"
+                        style="-fx-background-color: transparent;
+                   -fx-text-fill: #3a0ca3;
+                   -fx-font-size: 14px;
+                   -fx-font-weight: bold;
+                   -fx-cursor: hand;"/>
+            </HBox>
+            <Button text="Accueil" onAction="#ouvrirAccueil"
+                    style="-fx-background-color: transparent; -fx-text-fill: white;
+                           -fx-font-size: 13px; -fx-font-weight: bold; -fx-cursor: hand;"/>
+            <Button text="Cours" onAction="#ouvrirCours"
+                    style="-fx-background-color: transparent; -fx-text-fill: white;
+                           -fx-font-size: 13px; -fx-font-weight: bold; -fx-cursor: hand;"/>
+            <Button text="Projets"
+                    style="-fx-background-color: transparent; -fx-text-fill: white;
+                           -fx-font-size: 13px; -fx-font-weight: bold; -fx-cursor: hand;"/>
+            <Button text="Opportunités"
+                    style="-fx-background-color: transparent; -fx-text-fill: white;
+                           -fx-font-size: 13px; -fx-font-weight: bold; -fx-cursor: hand;"/>
+            <Button text="Événements"
+                    style="-fx-background-color: transparent; -fx-text-fill: white;
+                           -fx-font-size: 13px; -fx-font-weight: bold; -fx-cursor: hand;"/>
+        </HBox>
+        <Region HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <!-- TITRE -->
+    <VBox alignment="CENTER" style="-fx-padding: 30 0 10 0;" spacing="10">
+        <Label text="Cours disponibles"
+               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+        <Label fx:id="totalLabel" text="0 cours"
+               style="-fx-background-color: #e8e8ff; -fx-background-radius: 20;
+                      -fx-padding: 4 15 4 15; -fx-font-size: 13px; -fx-text-fill: #4361ee;"/>
+        <TextField fx:id="searchField" promptText="Rechercher une catégorie..."
+                   prefWidth="280"
+                   style="-fx-background-color: white;
+                              -fx-background-radius: 25;
+                              -fx-padding: 8 15 8 15;
+                              -fx-border-color: transparent;"/>
+        <ComboBox fx:id="triCombo" promptText="🔃 Trier par : Plus récents"
+                  prefWidth="280"
+                  style="-fx-background-color: white;
+                 -fx-background-radius: 25;
+                 -fx-padding: 8 15 8 15;"/>
+    </VBox>
+
+    <!-- CARDS -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: transparent; -fx-background: transparent;">
+        <FlowPane fx:id="coursContainer"
+                  hgap="20" vgap="20"
+                  style="-fx-padding: 20 40 20 40; -fx-background-color: #f0f0f5;"/>
+    </ScrollPane>
+
+</VBox>

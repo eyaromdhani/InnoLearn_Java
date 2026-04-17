@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.Controllers.PageAdminCoursController"
+      prefWidth="1200.0" prefHeight="700.0"
+      style="-fx-background-color: #f0f0f5;">
+
+    <!-- NAVBAR -->
+    <HBox style="-fx-background-color: #1a1a2e; -fx-padding: 15 30 15 30;"
+          alignment="CENTER" spacing="60">
+        <Label text="👑 InnoLearn Admin"
+               style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <HBox alignment="CENTER" spacing="60" HBox.hgrow="ALWAYS">
+            <Button text="⬅ Dashboard Admin" onAction="#onRetourDashboardClick"
+                    style="-fx-background-color: transparent; -fx-text-fill: white;
+                       -fx-font-size: 13px; -fx-font-weight: bold; -fx-cursor: hand;"/>
+            <Button text="Gestion des Cours"
+                    style="-fx-background-color: transparent; -fx-text-fill: #f72585;
+                       -fx-font-size: 13px; -fx-font-weight: bold; -fx-border-color: #f72585; -fx-border-width: 0 0 2 0; -fx-padding: 0 0 5 0;"/>
+        </HBox>
+        <Region HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <!-- HERO SECTION -->
+    <HBox style="-fx-background-color: linear-gradient(to right, #1a1a2e, #16213e); -fx-padding: 40 40 40 40;"
+          alignment="CENTER">
+        <VBox alignment="CENTER" spacing="10">
+            <Label text="Gestion Globale des Cours"
+                   style="-fx-text-fill: white; -fx-font-size: 32px; -fx-font-weight: bold;"/>
+            <Label text="Administrez tous les cours présents sur la plateforme."
+                   style="-fx-text-fill: #a0a0b0; -fx-font-size: 16px;"/>
+
+            <Button text="+ Ajouter un nouveau cours" onAction="#onAjouterCoursClick"
+                    style="-fx-background-color: #f72585; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10 25 10 25; -fx-background-radius: 30; -fx-cursor: hand;">
+                <VBox.margin>
+                    <Insets top="20.0" />
+                </VBox.margin>
+            </Button>
+        </VBox>
+    </HBox>
+
+    <!-- CONTAINER DES CARTES (Dynamic FlowPane) -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: transparent;">
+        <FlowPane fx:id="cardsContainer"
+                  hgap="20" vgap="20"
+                  style="-fx-padding: 30; -fx-background-color: #f0f0f5;"/>
+    </ScrollPane>
+</VBox>
