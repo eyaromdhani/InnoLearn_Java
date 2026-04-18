@@ -42,8 +42,13 @@ L'architecture est structurée pour séparer l'interface de la logique métier d
 
 ## Contributors
 Eya Allah Romdhani
+
 Myriam ben Azzoun
+
 Alae Naoui
+
 Rayen Sboui
+
 Mohamed Aziz Mesalmani
+
 Zied Ibrahim
