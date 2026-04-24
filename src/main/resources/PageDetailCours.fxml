@@ -103,6 +103,8 @@
                                 style="-fx-background-color: #3a3af0; -fx-pref-height: 3; -fx-background-radius: 3;"/>
                         <Label fx:id="dureeVideoLabel"
                                style="-fx-text-fill: #6060a0; -fx-font-size: 11px;"/>
+                        <Button text="Plein écran 🔲" onAction="#agrandirVideo"
+                                style="-fx-background-color: transparent; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 11px;"/>
                     </HBox>
                 </VBox>
             </HBox>
@@ -148,6 +150,14 @@
                         <Label fx:id="descriptionLabel"
                                style="-fx-text-fill: #555; -fx-font-size: 14px; -fx-line-spacing: 4;"
                                wrapText="true"/>
+
+                        <!-- Bouton magique -->
+                        <Button text="Créer ma Fiche de Révision (NotebookLM) ✨" onAction="#genererResumePDF" style="-fx-background-color: #3a0ca3; -fx-text-fill: white;"/>
+
+                        <!-- La zone où le résumé va s'afficher -->
+                        <TextArea fx:id="resumeTextArea" editable="false" wrapText="true" prefHeight="250"
+                                  promptText="Le résumé IA de ce cours apparaîtra ici..."/>
+
                     </VBox>
 
                     <!-- PLAN DU PARCOURS -->

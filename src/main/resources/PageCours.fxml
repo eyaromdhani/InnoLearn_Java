@@ -62,6 +62,26 @@
                   style="-fx-background-color: white;
                  -fx-background-radius: 25;
                  -fx-padding: 8 15 8 15;"/>
+
+               <!-- NOUVEAU COMBOBOX POUR LE NIVEAU -->
+        <ComboBox fx:id="niveauCombo" promptText="Tous niveaux"
+                  prefWidth="280"
+                  style="-fx-background-color: white;
+                         -fx-background-radius: 25;
+                         -fx-padding: 8 15 8 15;"/>
+
+        <!-- LE BOUTON MAGIQUE I.A. -->
+        <Button text="Recommandation IA ✨" 
+                onAction="#onShowRecommendationAI"
+                prefWidth="280"
+                style="-fx-background-color: linear-gradient(to right, #7209b7, #3a3af0);
+                       -fx-text-fill: white; 
+                       -fx-font-weight: bold;
+                       -fx-background-radius: 25; 
+                       -fx-padding: 10 15 10 15; 
+                       -fx-cursor: hand;
+                       -fx-effect: dropshadow(gaussian, rgba(114,9,183,0.4), 10, 0, 0, 4);"/>
+
     </VBox>
 
     <!-- CARDS -->

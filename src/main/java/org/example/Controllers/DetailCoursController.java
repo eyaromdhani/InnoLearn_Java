@@ -3,9 +3,11 @@ package org.example.Controllers;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 import org.example.Entities.Cours;
 import org.example.MainFX;
 import org.example.Services.FavorisService;
@@ -31,6 +33,7 @@ public class DetailCoursController {
     @FXML private VBox modulesContainer;
     @FXML private Button btnFavoris;
     @FXML private WebView videoWebView;
+    @FXML private javafx.scene.control.TextArea resumeTextArea;
 
     private boolean isFavori = false; // Etat local du favori 
     private Cours coursActuel;
@@ -212,9 +215,48 @@ public class DetailCoursController {
     }
 
     @FXML
+    public void agrandirVideo() {
+        if (videoWebView == null) return;
+
+        // 1. Sauvegarder le parent (le conteneur) actuel de la vidéo et sa position
+        Pane parent = (Pane) videoWebView.getParent();
+        int index = parent.getChildren().indexOf(videoWebView);
+        
+        // 2. Retirer la vidéo de son conteneur
+        parent.getChildren().remove(videoWebView);
+
+        // 3. Créer une nouvelle fenêtre temporaire (Stage) fond noir
+        StackPane root = new StackPane(videoWebView);
+        root.setStyle("-fx-background-color: black;");
+        Scene fullScreenScene = new Scene(root);
+        Stage fullScreenStage = new Stage();
+        fullScreenStage.setScene(fullScreenScene);
+        
+        // 4. Activer le plein écran (Échap pour en sortir est géré automatiquement par JavaFX)
+        fullScreenStage.setFullScreen(true);
+
+        // 5. Détecter quand le plein écran est fermé (via Echap ou le bouton exit)
+        fullScreenStage.fullScreenProperty().addListener((obs, etaitPleinEcran, estPleinEcranMaintenant) -> {
+            if (!estPleinEcranMaintenant) {
+                // Fermer la fenêtre pop-up
+                fullScreenStage.close();
+                // Remettre la vidéo à sa place initiale dans la page Détail Cours
+                parent.getChildren().add(index, videoWebView);
+            }
+        });
+
+        // Afficher la fenêtre plein écran
+        fullScreenStage.show();
+    }
+
+    @FXML
     public void retour() {
         try {
-            MainFX.chargerPage("/PageCours.fxml");
+            if(coursActuel != null){
+                MainFX.chargerPageAvecCategorie("/PageCours.fxml", coursActuel.getCategorieCourId());
+            } else {
+                MainFX.chargerPage("/PageCours.fxml");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -262,4 +304,42 @@ public class DetailCoursController {
                     "-fx-padding: 12 20 12 20; -fx-cursor: hand;");
         }
     }
+
+    @FXML
+    public void genererResumePDF() {
+        // 1. Vérification : Est-ce qu'on a bien un cours PDF ?
+        if (coursActuel == null) return;
+
+        if (!"Document".equalsIgnoreCase(coursActuel.getTypeMedia()) || coursActuel.getMediaUrl() == null || coursActuel.getMediaUrl().isEmpty()) {
+            resumeTextArea.setText("Ce cours n'a pas de PDF associé (ou n'est pas de type PDF). Impossible d'en faire un résumé.");
+            return;
+        }
+
+        resumeTextArea.setText("Lecture du PDF locale et création de la fiche de révision par Groq en cours... Veuillez patienter 🤖");
+
+        // 2. Faire ça en arrière-plan pour ne pas bloquer l'écran
+        new Thread(() -> {
+
+            // A. Extraire le vrai texte du fichier sur l'ordi
+            String cheminLocalFichier = coursActuel.getMediaUrl(); // ex: "C:\\Users\\SBS\\Documents\\cours_java.pdf"
+            org.example.Services.PdfService pdfService = new org.example.Services.PdfService();
+            String texteBrutDuPdf = pdfService.extraireTexte(cheminLocalFichier);
+
+            if (texteBrutDuPdf.startsWith("Erreur")) {
+                javafx.application.Platform.runLater(() -> resumeTextArea.setText(texteBrutDuPdf));
+                return;
+            }
+
+            // B. Envoyer ce texte à Groq pour résumé
+            org.example.Services.GroqRecommendationService aiService = new org.example.Services.GroqRecommendationService();
+            String resumeIntelligent = aiService.resumerTextePDF(texteBrutDuPdf);
+
+            // C. Afficher le résultat !
+            javafx.application.Platform.runLater(() -> {
+                resumeTextArea.setText(resumeIntelligent);
+            });
+
+        }).start();
+    }
+
 }
