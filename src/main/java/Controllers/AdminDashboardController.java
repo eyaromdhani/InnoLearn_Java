@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
@@ -41,6 +42,18 @@ public class AdminDashboardController implements Initializable {
     @FXML private ListView<StageCondidature> listCandidatures;
     @FXML private TextField txtSearchCandidatures;
 
+    // KPI Offres
+    @FXML private Label lblTotalOffres;
+    @FXML private Label lblOffresOuvertes;
+    @FXML private Label lblOffresFermees;
+    @FXML private javafx.scene.chart.PieChart chartOffres;
+
+    // KPI Candidatures
+    @FXML private Label lblTotalCandidatures;
+    @FXML private Label lblCandidaturesAcceptees;
+    @FXML private Label lblCandidaturesEnAttente;
+    @FXML private javafx.scene.chart.PieChart chartCandidatures;
+
     private ServiceOffreStage serviceOffre;
     private ServiceStageCondidature serviceCandidature;
     
@@ -60,6 +73,42 @@ public class AdminDashboardController implements Initializable {
         // Search listeners
         txtSearchOffres.textProperty().addListener((obs, old, newVal) -> filterOffres(newVal));
         txtSearchCandidatures.textProperty().addListener((obs, old, newVal) -> filterCandidatures(newVal));
+    }
+
+    private void updateKPIs() {
+        if (allOffres != null) {
+            long total = allOffres.size();
+            long ouvertes = allOffres.stream().filter(o -> "Ouverte".equalsIgnoreCase(o.getStatut()) || "ACTIF".equalsIgnoreCase(o.getStatut())).count();
+            long fermees = total - ouvertes;
+
+            lblTotalOffres.setText(String.valueOf(total));
+            lblOffresOuvertes.setText(String.valueOf(ouvertes));
+            lblOffresFermees.setText(String.valueOf(fermees));
+
+            ObservableList<javafx.scene.chart.PieChart.Data> pieData = FXCollections.observableArrayList(
+                new javafx.scene.chart.PieChart.Data("Ouvertes", ouvertes),
+                new javafx.scene.chart.PieChart.Data("Fermées", fermees)
+            );
+            chartOffres.setData(pieData);
+        }
+
+        if (allCandidatures != null) {
+            long total = allCandidatures.size();
+            long acceptees = allCandidatures.stream().filter(c -> "Acceptée".equalsIgnoreCase(c.getStatut())).count();
+            long attente = allCandidatures.stream().filter(c -> "EN_ATTENTE".equalsIgnoreCase(c.getStatut())).count();
+            long refusees = total - acceptees - attente;
+
+            lblTotalCandidatures.setText(String.valueOf(total));
+            lblCandidaturesAcceptees.setText(String.valueOf(acceptees));
+            lblCandidaturesEnAttente.setText(String.valueOf(attente));
+
+            ObservableList<javafx.scene.chart.PieChart.Data> pieData = FXCollections.observableArrayList(
+                new javafx.scene.chart.PieChart.Data("Acceptées", acceptees),
+                new javafx.scene.chart.PieChart.Data("En Attente", attente),
+                new javafx.scene.chart.PieChart.Data("Refusées", refusees)
+            );
+            chartCandidatures.setData(pieData);
+        }
     }
 
     private void setupOffresTable() {
@@ -180,6 +229,8 @@ public class AdminDashboardController implements Initializable {
 
             allCandidatures = serviceCandidature.afficherAll();
             listCandidatures.setItems(FXCollections.observableArrayList(allCandidatures));
+
+            updateKPIs();
         } catch (SQLException e) {
             e.printStackTrace();
         }

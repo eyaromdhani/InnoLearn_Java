@@ -37,6 +37,20 @@
                             </children>
                         </VBox>
 
+                        <!-- Score d'Adéquation AI -->
+                        <VBox alignment="CENTER_RIGHT" spacing="5.0">
+                            <children>
+                                <HBox spacing="8.0" alignment="CENTER_RIGHT">
+                                    <children>
+                                        <Label style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 11px; -fx-font-weight: bold;" text="SCORE IA" />
+                                        <Label fx:id="lblScore" style="-fx-background-color: #6366f1; -fx-text-fill: white; -fx-font-weight: 900; -fx-font-size: 16px; -fx-padding: 4 10; -fx-background-radius: 8px;" text="—%" />
+                                    </children>
+                                </HBox>
+                                <Label fx:id="lblScoreJustification" maxWidth="180.0" wrapText="true" textAlignment="RIGHT"
+                                       style="-fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 10px; -fx-font-style: italic;" text="Analyse en cours..." />
+                            </children>
+                        </VBox>
+
                         <Region HBox.hgrow="ALWAYS" />
 
                         <!-- Status badge -->

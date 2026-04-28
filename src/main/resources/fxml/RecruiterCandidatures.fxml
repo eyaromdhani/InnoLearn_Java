@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.SVGPath?>
 
 <ScrollPane fitToWidth="true" styleClass="main-scroll-pane" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.RecruiterCandidaturesController">
    <content>
@@ -28,9 +29,77 @@
                   </HBox>
                </children>
             </VBox>
+ 
+             <!-- KPI Cards Section (Dynamic) -->
+             <HBox spacing="30.0" alignment="CENTER" pickOnBounds="false" style="-fx-padding: 0 80 40 80; -fx-translate-y: -40;">
+                 <children>
+                     <!-- Card 1: Total Received -->
+                     <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                         <children>
+                             <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                 <children>
+                                     <VBox HBox.hgrow="ALWAYS">
+                                         <children>
+                                             <Label styleClass="kpi-label" text="TOTAL REÇUES" />
+                                             <Label fx:id="lblStatTotal" styleClass="kpi-value" text="0" />
+                                         </children>
+                                     </VBox>
+                                     <StackPane styleClass="kpi-icon-container" style="-fx-background-color: rgba(99, 102, 241, 0.1);">
+                                         <children>
+                                             <SVGPath content="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" fill="#6366f1" scaleX="0.9" scaleY="0.9" />
+                                         </children>
+                                     </StackPane>
+                                 </children>
+                             </HBox>
+                         </children>
+                     </VBox>
+ 
+                     <!-- Card 2: Accepted -->
+                     <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                         <children>
+                             <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                 <children>
+                                     <VBox HBox.hgrow="ALWAYS">
+                                         <children>
+                                             <Label styleClass="kpi-label" text="ACCEPTÉES" />
+                                             <Label fx:id="lblStatAccepted" styleClass="kpi-value" text="0" />
+                                         </children>
+                                     </VBox>
+                                     <StackPane styleClass="kpi-icon-container" style="-fx-background-color: rgba(34, 197, 94, 0.1);">
+                                         <children>
+                                             <SVGPath content="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="#22c55e" scaleX="1.2" scaleY="1.2" />
+                                         </children>
+                                     </StackPane>
+                                 </children>
+                             </HBox>
+                         </children>
+                     </VBox>
+ 
+                     <!-- Card 3: Refused -->
+                     <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                         <children>
+                             <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                 <children>
+                                     <VBox HBox.hgrow="ALWAYS">
+                                         <children>
+                                             <Label styleClass="kpi-label" text="REFUSÉES" />
+                                             <Label fx:id="lblStatRefused" styleClass="kpi-value" text="0" />
+                                         </children>
+                                     </VBox>
+                                     <StackPane styleClass="kpi-icon-container" style="-fx-background-color: rgba(239, 68, 68, 0.1);">
+                                         <children>
+                                             <SVGPath content="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" fill="#ef4444" scaleX="1.2" scaleY="1.2" />
+                                         </children>
+                                     </StackPane>
+                                 </children>
+                             </HBox>
+                         </children>
+                     </VBox>
+                 </children>
+             </HBox>
 
             <!-- Card Grid Section -->
-            <VBox spacing="30.0">
+            <VBox pickOnBounds="false" spacing="30.0">
                <padding>
                   <Insets bottom="60.0" left="80.0" right="80.0" top="40.0" />
                </padding>
@@ -50,6 +119,24 @@
                                   <VBox spacing="30.0" style="-fx-padding: 30 0 0 0;">
                                       <children>
                                           <FlowPane fx:id="cardsContainerCandidatures" hgap="30.0" vgap="30.0" />
+                                      </children>
+                                  </VBox>
+                              </content>
+                          </Tab>
+                          <Tab text="Candidatures Acceptées">
+                              <content>
+                                  <VBox spacing="30.0" style="-fx-padding: 30 0 0 0;">
+                                      <children>
+                                          <FlowPane fx:id="cardsContainerAcceptees" hgap="30.0" vgap="30.0" />
+                                      </children>
+                                  </VBox>
+                              </content>
+                          </Tab>
+                           <Tab text="Candidatures Refusées">
+                              <content>
+                                  <VBox spacing="30.0" style="-fx-padding: 30 0 0 0;">
+                                      <children>
+                                          <FlowPane fx:id="cardsContainerRefusees" hgap="30.0" vgap="30.0" />
                                       </children>
                                   </VBox>
                               </content>

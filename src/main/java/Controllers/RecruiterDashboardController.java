@@ -24,10 +24,16 @@ public class RecruiterDashboardController implements Initializable {
 
     @FXML private TextField txtSearch;
     @FXML private ComboBox<String> comboEnterprise;
+    @FXML private ComboBox<String> comboDomaine;
     @FXML private ComboBox<String> comboDuration;
+    @FXML private ComboBox<String> comboSort;
     @FXML private Label lblCount;
     @FXML private FlowPane cardsContainer;
     @FXML private Circle heroCircle;
+
+    @FXML private Label lblStatMyOffers;
+    @FXML private Label lblStatMyApps;
+    @FXML private Label lblStatPending;
 
     private ServiceOffreStage serviceOffre;
     private final int MOCK_RECRUITER_ID = 8;
@@ -38,19 +44,102 @@ public class RecruiterDashboardController implements Initializable {
         serviceOffre = new ServiceOffreStage(MyDatabase.getInstance().getConnection());
         
         loadData();
+        setupFilters();
+        loadStats();
+    }
 
-        // Add search listener
-        txtSearch.textProperty().addListener((obs, oldVal, newVal) -> {
-            filterData(newVal);
-        });
+    private void setupFilters() {
+        if (comboSort != null) {
+            comboSort.getItems().addAll("Plus récents", "Plus anciens");
+        }
+        if (comboDuration != null) {
+            comboDuration.getItems().addAll("Tous", "1-2 mois", "3-4 mois", "6 mois+");
+        }
+
+        // Fetch unique values for Entreprise and Domaine from allMyOffres
+        if (allMyOffres != null) {
+            List<String> entreprises = allMyOffres.stream().map(OffreStage::getEntreprise).distinct().sorted().toList();
+            List<String> domaines = allMyOffres.stream().map(OffreStage::getDomaine).distinct().sorted().toList();
+
+            comboEnterprise.getItems().add("Toutes les entreprises");
+            comboEnterprise.getItems().addAll(entreprises);
+            comboDomaine.getItems().add("Tous les domaines");
+            comboDomaine.getItems().addAll(domaines);
+        }
+
+        // Real-time listeners
+        txtSearch.textProperty().addListener((obs, oldV, newV) -> applyFilters());
+        comboSort.valueProperty().addListener((obs, oldV, newV) -> applyFilters());
+        comboEnterprise.valueProperty().addListener((obs, oldV, newV) -> applyFilters());
+        comboDomaine.valueProperty().addListener((obs, oldV, newV) -> applyFilters());
+        comboDuration.valueProperty().addListener((obs, oldV, newV) -> applyFilters());
+    }
+
+    private void applyFilters() {
+        if (allMyOffres == null) return;
+
+        String query = txtSearch.getText().toLowerCase();
+        String ent = comboEnterprise.getValue();
+        String dom = comboDomaine.getValue();
+        String dur = comboDuration.getValue();
+        String sort = comboSort.getValue();
+
+        List<OffreStage> filtered = allMyOffres.stream().filter(o -> {
+            boolean matchesSearch = query.isEmpty() || 
+                o.getTitre().toLowerCase().contains(query) || 
+                o.getEntreprise().toLowerCase().contains(query);
+            
+            boolean matchesEnt = ent == null || ent.equals("Toutes les entreprises") || ent.equals("Toutes") || o.getEntreprise().equals(ent);
+            boolean matchesDom = dom == null || dom.equals("Tous les domaines") || o.getDomaine().equals(dom);
+            
+            boolean matchesDur = true;
+            if (dur != null && !dur.equals("Tous") && !dur.equals("Toutes")) {
+                if (dur.equals("1-2 mois")) matchesDur = o.getDuree() <= 2;
+                else if (dur.equals("3-4 mois")) matchesDur = o.getDuree() >= 3 && o.getDuree() <= 4;
+                else if (dur.equals("6 mois+")) matchesDur = o.getDuree() >= 6;
+            }
+            
+            return matchesSearch && matchesEnt && matchesDom && matchesDur;
+        }).toList();
+
+        // Apply sorting
+        if (sort != null) {
+            boolean asc = sort.equals("Plus anciens");
+            filtered = filtered.stream().sorted((a, b) -> {
+                int res = a.getDate_publication().compareTo(b.getDate_publication());
+                return asc ? res : -res;
+            }).toList();
+        }
+
+        updateDisplay(filtered);
+    }
+
+    private void loadStats() {
+        new Thread(() -> {
+            try {
+                ServiceStageCondidature serviceDemande = new ServiceStageCondidature(MyDatabase.getInstance().getConnection());
+                
+                // 1. Total My Offers (Filtered by Recruiter ID)
+                int myOffersCount = serviceOffre.afficherParRecruteur(MOCK_RECRUITER_ID).size();
+                
+                // 2. Candidatures Stats for this recruiter's offers
+                java.util.Map<String, Integer> stats = serviceDemande.getStatsCandidaturesForRecruiter(MOCK_RECRUITER_ID);
+
+                javafx.application.Platform.runLater(() -> {
+                    lblStatMyOffers.setText(String.valueOf(myOffersCount));
+                    lblStatMyApps.setText(String.valueOf(stats.getOrDefault("total", 0)));
+                    lblStatPending.setText(String.valueOf(stats.getOrDefault("pending", 0)));
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     private void loadData() {
         try {
-            List<OffreStage> all = serviceOffre.afficherAll();
-            // Display ALL offers
-            allMyOffres = all;
-            
+            // Filter to only show THIS recruiter's offers
+            allMyOffres = serviceOffre.afficherParRecruteur(MOCK_RECRUITER_ID);
             updateDisplay(allMyOffres);
             
             // Populate combos
@@ -59,7 +148,7 @@ public class RecruiterDashboardController implements Initializable {
                     .distinct()
                     .collect(Collectors.toList());
             comboEnterprise.getItems().clear();
-            comboEnterprise.getItems().add("Toutes");
+            comboEnterprise.getItems().add("Toutes les entreprises");
             comboEnterprise.getItems().addAll(enterprises);
             
         } catch (SQLException e) {

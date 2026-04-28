@@ -34,6 +34,8 @@ public class ProfileController implements Initializable {
     @FXML private TextArea txtLettreMotivation;
     @FXML private Label lblFileName;
     @FXML private Button btnChooseFile;
+    @FXML private Label lblWelcome;
+    @FXML private Label lblUserMeta;
     
     // Experience Form
     @FXML private Button btnAddExperience;
@@ -69,8 +71,31 @@ public class ProfileController implements Initializable {
         expType.setValue("Formation");
 
         // Load existing profile and experiences
+        loadUserData();
         loadExistingProfile();
         loadExperiences();
+    }
+
+    private void loadUserData() {
+        try {
+            java.sql.Connection conn = MyDatabase.getInstance().getConnection();
+            try (java.sql.Statement st = conn.createStatement()) {
+                // Fetching from table 'user' (ID 10 = Jihene)
+                try (java.sql.ResultSet rs = st.executeQuery("SELECT * FROM user WHERE id = " + MOCK_STUDENT_ID)) {
+                    if (rs.next()) {
+                        String nom = rs.getString("name");
+                        String email = rs.getString("email");
+                        lblWelcome.setText("Profil de " + (nom != null ? nom : "Jihene"));
+                        lblUserMeta.setText("Étudiante Esprit — " + (email != null ? email : "jihen@esprit.tn"));
+                    }
+                } catch (Exception e) {
+                    System.err.println("Note: Could not load user labels from DB: " + e.getMessage());
+                    lblWelcome.setText("Mon Profil Professionnel (Jihene)");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadExperiences() {
@@ -185,6 +210,96 @@ public class ProfileController implements Initializable {
             lblFileName.setText(selectedFile.getName());
             currentCVPath = selectedFile.getAbsolutePath();
             System.out.println("Fichier sélectionné : " + currentCVPath);
+        }
+    }
+
+    @FXML
+    private void handleGenerateCV(ActionEvent event) {
+        if (txtDomaine.getText().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Attention", "Veuillez préciser votre domaine pour générer le CV.");
+            return;
+        }
+
+        // Show FileChooser for save location
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Télécharger votre CV généré");
+        String defaultName = "CV_" + txtDomaine.getText().replaceAll("\\s+", "_") + ".pdf";
+        fileChooser.setInitialFileName(defaultName);
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers PDF", "*.pdf"));
+        
+        File destFile = fileChooser.showSaveDialog(btnChooseFile.getScene().getWindow());
+        if (destFile == null) {
+            return; // User cancelled
+        }
+
+        try {
+            // Générer Accroche IA
+            Services.ServiceGroq aiService = new Services.ServiceGroq();
+            String accroche = aiService.generateCvIntro(
+                    txtDomaine.getText(),
+                    comboNiveau.getValue() != null ? comboNiveau.getValue() : "Non précisé",
+                    txtCompetences.getText()
+            );
+
+            // Fetch current experiences
+            java.util.List<Experience> experiences = serviceExperience.getParEtudiant(MOCK_STUDENT_ID);
+            
+            // Temporary profile object
+            StageCondidature tempProfile = new StageCondidature();
+            tempProfile.setDomaine(txtDomaine.getText());
+            tempProfile.setCompetences(txtCompetences.getText());
+
+            // Fetch User Details from Real DB (User/Utilisateur)
+            String sName = null, sEmail = null, sPhone = null, sAddress = null;
+            try {
+                 java.sql.Connection conn = utils.MyDatabase.getInstance().getConnection();
+                 try (java.sql.Statement st = conn.createStatement()) {
+                    // Query table `user`
+                    try (java.sql.ResultSet rs = st.executeQuery("SELECT * FROM user WHERE id = " + MOCK_STUDENT_ID)) {
+                        if (rs.next()) {
+                            sName = rs.getString("name");
+                            sEmail = rs.getString("email");
+                            
+                            // Check for phone_number (from screenshot) or telephone
+                            try { sPhone = rs.getString("phone_number"); } catch(Exception e) {
+                                try { sPhone = rs.getString("telephone"); } catch(Exception e2) {}
+                            }
+                            
+                            // Check for adresse or address
+                            try { sAddress = rs.getString("adresse"); } catch(Exception e) {
+                                try { sAddress = rs.getString("address"); } catch(Exception e2) {}
+                            }
+                        }
+                    } catch(Exception e) {
+                        System.out.println("Error on 'user' table fetch: " + e.getMessage());
+                    }
+                }
+            } catch(Exception dbE) {
+                System.out.println("DB Connection error when fetching student: " + dbE.getMessage());
+            }
+
+            // Generate PDF
+            String sLangues = txtLangues.getText();
+            String sInterests = "Technologies Web, IA, Lecture, Voyage."; // Default or parsed from description
+            
+            Services.ServicePDF pdfService = new Services.ServicePDF();
+            String pathResult = pdfService.genererCvPdf(tempProfile, experiences, accroche, destFile.getAbsolutePath(), 
+                                                        sName, sEmail, sPhone, sAddress, sLangues, sInterests);
+
+            // Update UI
+            currentCVPath = pathResult;
+            lblFileName.setText(destFile.getName());
+            
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "Votre CV a été téléchargé avec succès au chemin:\n" + pathResult);
+            
+            // Ouvrir le fichier automatiquement si possible
+            if (java.awt.Desktop.isDesktopSupported()) {
+                java.awt.Desktop.getDesktop().open(new File(pathResult));
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue lors de la génération: " + e.getMessage());
         }
     }
 

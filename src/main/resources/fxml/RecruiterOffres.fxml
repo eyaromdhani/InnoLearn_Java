@@ -43,6 +43,16 @@
                         <Button mnemonicParsing="false" onAction="#handleActualiser" styleClass="btn-secondary" text="Actualiser" />
                      </children>
                   </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="15.0">
+                     <children>
+                        <Label text="Rechercher :" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="txtSearch" promptText="Titre, Entreprise, Domaine..." prefWidth="250" styleClass="profile-input"/>
+                        <Button text="Chercher" onAction="#handleSearch" styleClass="btn-save-profile" style="-fx-padding: 5 15;"/>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label text="Trier par date :" style="-fx-font-weight: bold;"/>
+                        <ComboBox fx:id="comboSort" prefWidth="150" styleClass="profile-combo" />
+                     </children>
+                  </HBox>
 
                   <TabPane tabClosingPolicy="UNAVAILABLE" styleClass="admin-tab-pane">
                       <tabs>

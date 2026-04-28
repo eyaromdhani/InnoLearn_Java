@@ -50,20 +50,21 @@ public class ServiceOffreStage implements ServiceOffreStageInterface {
              ResultSet rs = ste.executeQuery(req)) {
 
             while (rs.next()) {
-                OffreStage os = new OffreStage();
-                os.setId(rs.getInt("id"));
-                os.setTitre(rs.getString("titre"));
-                os.setDescription(rs.getString("description"));
-                os.setEntreprise(rs.getString("entreprise"));
-                os.setLieu(rs.getString("lieu"));
-                os.setDomaine(rs.getString("domaine"));
-                os.setCompetences(rs.getString("competences"));
-                os.setDuree(rs.getInt("duree"));
-                os.setDate_publication(rs.getTimestamp("date_publication"));
-                os.setStatut(rs.getString("statut"));
-                os.setId_recruteur(rs.getObject("id_recruteur", Integer.class));
+                liste.add(extractOffreFromResultSet(rs));
+            }
+        }
+        return liste;
+    }
 
-                liste.add(os);
+    public List<OffreStage> afficherParRecruteur(int idRecruteur) throws SQLException {
+        List<OffreStage> liste = new ArrayList<>();
+        String req = "SELECT * FROM offrestage WHERE id_recruteur = ?";
+        try (PreparedStatement pst = conn.prepareStatement(req)) {
+            pst.setInt(1, idRecruteur);
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    liste.add(extractOffreFromResultSet(rs));
+                }
             }
         }
         return liste;
@@ -141,5 +142,50 @@ public class ServiceOffreStage implements ServiceOffreStageInterface {
                 System.out.println("Aucune offre trouvée avec l'ID : " + id);
             }
         }
+    }
+
+    public List<OffreStage> search(String input) throws SQLException {
+        List<OffreStage> liste = new ArrayList<>();
+        String req = "SELECT * FROM offrestage WHERE titre LIKE ? OR entreprise LIKE ? OR domaine LIKE ?";
+        try (PreparedStatement pst = conn.prepareStatement(req)) {
+            String searchPattern = "%" + input + "%";
+            pst.setString(1, searchPattern);
+            pst.setString(2, searchPattern);
+            pst.setString(3, searchPattern);
+            try (ResultSet rs = pst.executeQuery()) {
+                while(rs.next()) {
+                    liste.add(extractOffreFromResultSet(rs));
+                }
+            }
+        }
+        return liste;
+    }
+
+    public List<OffreStage> sortByDate(boolean asc) throws SQLException {
+        List<OffreStage> liste = new ArrayList<>();
+        String req = "SELECT * FROM offrestage ORDER BY date_publication " + (asc ? "ASC" : "DESC");
+        try (Statement ste = conn.createStatement();
+             ResultSet rs = ste.executeQuery(req)) {
+            while(rs.next()) {
+                liste.add(extractOffreFromResultSet(rs));
+            }
+        }
+        return liste;
+    }
+
+    private OffreStage extractOffreFromResultSet(ResultSet rs) throws SQLException {
+        OffreStage os = new OffreStage();
+        os.setId(rs.getInt("id"));
+        os.setTitre(rs.getString("titre"));
+        os.setDescription(rs.getString("description"));
+        os.setEntreprise(rs.getString("entreprise"));
+        os.setLieu(rs.getString("lieu"));
+        os.setDomaine(rs.getString("domaine"));
+        os.setCompetences(rs.getString("competences"));
+        os.setDuree(rs.getInt("duree"));
+        os.setDate_publication(rs.getTimestamp("date_publication"));
+        os.setStatut(rs.getString("statut"));
+        os.setId_recruteur(rs.getObject("id_recruteur", Integer.class));
+        return os;
     }
 }

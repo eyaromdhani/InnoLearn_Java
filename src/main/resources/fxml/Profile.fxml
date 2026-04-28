@@ -13,6 +13,14 @@
         <Insets bottom="40.0" left="40.0" right="40.0" top="30.0" />
     </padding>
     <children>
+        <!-- Page Header -->
+        <VBox spacing="5.0">
+            <children>
+                <Label fx:id="lblWelcome" style="-fx-font-size: 32px; -fx-font-weight: 800; -fx-text-fill: #1a1a3d;" text="Mon Profil Professionnel" />
+                <Label fx:id="lblUserMeta" style="-fx-font-size: 14px; -fx-text-fill: #64748b;" text="Gestion de votre CV et de votre parcours académique" />
+            </children>
+        </VBox>
+
         <HBox spacing="30.0">
             <children>
                 <!-- Left Column: Informations Générales -->
@@ -117,6 +125,8 @@
                                     </children>
                                 </VBox>
                                 <Button maxWidth="1.7976931348623157E308" onAction="#handleUploadPDF" styleClass="btn-cv-action" text="Télécharger mon CV (PDF)" />
+                                <Label alignment="CENTER" styleClass="cv-card-subtitle" text="Ou laissez l'IA générer un CV pour vous" textAlignment="CENTER" wrapText="true" maxWidth="1.7976931348623157E308" />
+                                <Button maxWidth="1.7976931348623157E308" onAction="#handleGenerateCV" styleClass="btn-save-profile" text="✨ Générer CV avec IA" />
                             </children>
                         </VBox>
 

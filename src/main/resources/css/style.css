@@ -132,7 +132,80 @@
     -fx-text-fill: #2c3e50;
     -fx-padding: 0 0 20px 0;
 }
-/* ... keeping existing styles ... */
+/* Filter Area Redesign */
+.filter-row {
+    -fx-background-color: white;
+    -fx-background-radius: 15px;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.03), 15, 0, 0, 5);
+}
+
+.filter-input-container {
+    -fx-background-color: #f8faff;
+    -fx-background-radius: 12px;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 12px;
+    -fx-padding: 5 12;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.filter-input-container:focused-within {
+    -fx-border-color: #6366f1;
+    -fx-background-color: white;
+}
+
+.filter-input-container .text-field, 
+.filter-input-container .combo-box {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0 5;
+    -fx-font-size: 13px;
+    -fx-text-fill: #1e293b;
+}
+
+.filter-icon {
+    -fx-fill: #6366f1;
+}
+
+.btn-recommendation {
+    -fx-background-color: linear-gradient(to right, #6366f1, #a855f7);
+    -fx-background-radius: 12px;
+    -fx-text-fill: white;
+    -fx-font-weight: 800;
+    -fx-padding: 12 25;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(168, 85, 247, 0.3), 10, 0, 0, 4);
+}
+
+.btn-recommendation:hover {
+    -fx-translate-y: -2px;
+    -fx-effect: dropshadow(three-pass-box, rgba(168, 85, 247, 0.5), 15, 0, 0, 6);
+}
+
+.date-range-container {
+    -fx-background-color: #f8faff;
+    -fx-background-radius: 12px;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 12px;
+    -fx-padding: 15;
+}
+
+.date-range-label {
+    -fx-font-size: 10px;
+    -fx-font-weight: 900;
+    -fx-text-fill: #64748b;
+    -fx-letter-spacing: 1;
+}
+
+.date-pill {
+    -fx-background-color: white;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 8px;
+    -fx-padding: 5 12;
+    -fx-text-fill: #6366f1;
+    -fx-font-size: 11px;
+    -fx-font-weight: 700;
+}
 
 /* Sidebar Styling */
 .sidebar {
@@ -1376,6 +1449,195 @@
     -fx-text-fill: #e67e22;
 }
 
+
 .char-counter-label.danger {
     -fx-text-fill: #e74c3c;
 }
+
+/* KPI Cards Styles Refined */
+.kpi-card {
+    -fx-background-color: white !important;
+    -fx-background-radius: 15px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 15, 0, 0, 5);
+    -fx-min-width: 240px;
+}
+
+.kpi-label {
+    -fx-font-size: 11px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #94a3b8 !important;
+}
+
+.kpi-value {
+    -fx-font-size: 32px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #1e293b !important;
+}
+
+.kpi-icon-container {
+    -fx-min-width: 45px;
+    -fx-min-height: 45px;
+    -fx-max-width: 45px;
+    -fx-max-height: 45px;
+    -fx-background-radius: 12px;
+    -fx-alignment: CENTER;
+}
+
+.kpi-card ProgressBar {
+    -fx-pref-height: 6px;
+}
+
+.kpi-card ProgressBar .track {
+    -fx-background-color: #f1f5f9;
+    -fx-background-radius: 10px;
+}
+
+.kpi-progress-blue .bar { -fx-background-color: #6366f1; -fx-background-radius: 10px; }
+.kpi-progress-green .bar { -fx-background-color: #22c55e; -fx-background-radius: 10px; }
+.kpi-progress-gray .bar { -fx-background-color: #cbd5e0; -fx-background-radius: 10px; }
+
+/* =========================================
+   EXTERNAL / FOREIGN OPPORTUNITIES STYLES
+   ========================================= */
+
+/* External Offer Card */
+.external-card {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-padding: 24px;
+    -fx-pref-width: 360px;
+    -fx-min-height: 280px;
+    -fx-effect: dropshadow(three-pass-box, rgba(99, 102, 241, 0.08), 20, 0, 0, 8);
+    -fx-border-color: #eef2ff;
+    -fx-border-radius: 20px;
+    -fx-border-width: 1.5px;
+    -fx-cursor: hand;
+}
+
+.external-card:hover {
+    -fx-translate-y: -6px;
+    -fx-effect: dropshadow(three-pass-box, rgba(99, 102, 241, 0.22), 30, 0, 0, 12);
+    -fx-border-color: #c7d2fe;
+}
+
+/* Company Logo Placeholder */
+.external-logo-container {
+    -fx-background-color: linear-gradient(to bottom right, #eef2ff, #e0e7ff);
+    -fx-background-radius: 14px;
+    -fx-min-width: 52px;
+    -fx-min-height: 52px;
+    -fx-max-width: 52px;
+    -fx-max-height: 52px;
+    -fx-alignment: CENTER;
+    -fx-effect: dropshadow(three-pass-box, rgba(99, 102, 241, 0.1), 8, 0, 0, 2);
+}
+
+/* Card Title */
+.external-card-title {
+    -fx-font-size: 17px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #1e1b4b;
+    -fx-wrap-text: true;
+}
+
+/* Company Name */
+.external-card-company {
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #6366f1;
+}
+
+/* Location Label */
+.external-card-location {
+    -fx-font-size: 12px;
+    -fx-text-fill: #64748b;
+    -fx-font-weight: 600;
+}
+
+/* Description Text */
+.external-card-description {
+    -fx-fill: #64748b;
+    -fx-font-size: 13px;
+    -fx-line-spacing: 4px;
+}
+
+/* Badge "EXTERNE" */
+.external-badge {
+    -fx-background-color: linear-gradient(to right, #6366f1, #8b5cf6);
+    -fx-background-radius: 20px;
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
+    -fx-font-weight: 800;
+    -fx-padding: 4 14;
+}
+
+/* Location Container */
+.external-location-box {
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 10px;
+    -fx-padding: 6 12;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 10px;
+}
+
+/* Apply Button */
+.btn-external-apply {
+    -fx-background-color: linear-gradient(to right, #6366f1, #8b5cf6);
+    -fx-background-radius: 14px;
+    -fx-text-fill: white;
+    -fx-font-weight: 800;
+    -fx-font-size: 13px;
+    -fx-padding: 14 24;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(99, 102, 241, 0.3), 12, 0, 0, 4);
+}
+
+.btn-external-apply:hover {
+    -fx-translate-y: -2px;
+    -fx-effect: dropshadow(three-pass-box, rgba(99, 102, 241, 0.45), 18, 0, 0, 6);
+    -fx-background-color: linear-gradient(to right, #4f46e5, #7c3aed);
+}
+
+.btn-external-apply:pressed {
+    -fx-translate-y: 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(99, 102, 241, 0.15), 6, 0, 0, 2);
+}
+
+/* Separator Line inside card */
+.external-card-separator {
+    -fx-background-color: linear-gradient(to right, transparent, #e2e8f0, transparent);
+    -fx-min-height: 1px;
+    -fx-max-height: 1px;
+}
+
+/* External Loading State */
+.external-loading-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6366f1;
+    -fx-padding: 40 0;
+}
+
+/* Empty state for external offers */
+.external-empty-label {
+    -fx-font-size: 15px;
+    -fx-text-fill: #94a3b8;
+    -fx-font-weight: 600;
+    -fx-padding: 60 0;
+}
+
+/* External Section Header */
+.external-section-header {
+    -fx-font-size: 22px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #1e1b4b;
+    -fx-padding: 0 0 10 0;
+}
+
+.external-section-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #64748b;
+    -fx-padding: 0 0 20 0;
+}
+

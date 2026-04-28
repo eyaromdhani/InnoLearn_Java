@@ -37,9 +37,24 @@ public class StagesController implements Initializable {
     @FXML private HBox tabOffres;
     @FXML private HBox tabDemandes;
     @FXML private HBox tabProfile;
+    @FXML private HBox tabInsights;
+    @FXML private HBox tabExternal;
+    @FXML private Label lblStatTotalOffres;
+    @FXML private Label lblStatMyApps;
+    @FXML private Label lblStatAccepted;
+    @FXML private Label lblStatPending;
 
     @FXML private NavbarController navbarController;
     @FXML private ScrollPane scrollPaneContent;
+    @FXML private VBox filterArea;
+    @FXML private javafx.scene.control.TextField txtSearch;
+    @FXML private javafx.scene.control.ComboBox<String> comboSort;
+    @FXML private javafx.scene.control.ComboBox<String> comboEntreprise;
+    @FXML private javafx.scene.control.ComboBox<String> comboDomaine;
+    @FXML private javafx.scene.control.ComboBox<String> comboDuree;
+    @FXML private HBox filterRow2;
+    @FXML private HBox containerEntreprise;
+    @FXML private Button btnRecommendationAI;
     
     private Node listViewBackup;
 
@@ -56,6 +71,8 @@ public class StagesController implements Initializable {
         // Initialize Services
         serviceOffre = new ServiceOffreStage(MyDatabase.getInstance().getConnection());
         serviceDemande = new ServiceStageCondidature(MyDatabase.getInstance().getConnection());
+        
+        loadHeaderStats();
 
         // Load Hero Image
         try {
@@ -72,8 +89,130 @@ public class StagesController implements Initializable {
         
         // Backup the list view for later returning
         listViewBackup = scrollPaneContent.getContent();
+
+        // Setup Sorting & Filters
+        setupFilters();
+
+        // Backup the list view for later returning
+        listViewBackup = scrollPaneContent.getContent();
+    }
+
+    private void setupFilters() {
+        if (comboSort != null) {
+            comboSort.getItems().addAll("Plus récents", "Plus anciens");
+        }
+        if (comboDuree != null) {
+            comboDuree.getItems().addAll("Tous", "1-2 mois", "3-4 mois", "6 mois+");
+        }
+
+        // Fetch unique values for Entreprise and Domaine
+        new Thread(() -> {
+            try {
+                List<OffreStage> all = serviceOffre.afficherAll();
+                List<String> entreprises = all.stream().map(OffreStage::getEntreprise).distinct().sorted().toList();
+                List<String> domaines = all.stream().map(OffreStage::getDomaine).distinct().sorted().toList();
+
+                javafx.application.Platform.runLater(() -> {
+                    comboEntreprise.getItems().add("Toutes les entreprises");
+                    comboEntreprise.getItems().addAll(entreprises);
+                    comboDomaine.getItems().add("Tous les domaines");
+                    comboDomaine.getItems().addAll(domaines);
+                });
+            } catch (Exception e) { e.printStackTrace(); }
+        }).start();
+
+        // Listeners for real-time filtering
+        txtSearch.textProperty().addListener((obs, oldV, newV) -> applyFilters());
+        comboSort.valueProperty().addListener((obs, oldV, newV) -> applyFilters());
+        comboEntreprise.valueProperty().addListener((obs, oldV, newV) -> applyFilters());
+        comboDomaine.valueProperty().addListener((obs, oldV, newV) -> applyFilters());
+        comboDuree.valueProperty().addListener((obs, oldV, newV) -> applyFilters());
+    }
+
+    private void applyFilters() {
+        if (tabExternal.getStyleClass().contains("hero-tab-item-active")) {
+            loadExternalOffers(txtSearch.getText(), comboDomaine.getValue());
+            return;
+        }
+
+        boolean isDemandes = tabDemandes.getStyleClass().contains("hero-tab-item-active");
+        String query = txtSearch.getText().toLowerCase();
+        String dom = comboDomaine.getValue();
+        String sort = comboSort.getValue();
+
+        try {
+            if (isDemandes) {
+                List<StageCondidature> all = serviceDemande.afficherDemandes();
+                List<StageCondidature> filtered = all.stream().filter(sc -> {
+                    boolean matchesSearch = query.isEmpty() || sc.getTitre().toLowerCase().contains(query);
+                    boolean matchesDom = dom == null || dom.equals("Tous les domaines") || sc.getDomaine().equals(dom);
+                    return matchesSearch && matchesDom;
+                }).toList();
+
+                if (sort != null) {
+                    boolean asc = sort.equals("Plus anciens");
+                    filtered = filtered.stream().sorted((a, b) -> {
+                        int res = a.getDate_publication().compareTo(b.getDate_publication());
+                        return asc ? res : -res;
+                    }).toList();
+                }
+                renderDemandes(filtered);
+            } else {
+                List<OffreStage> all = serviceOffre.afficherAll();
+                String ent = comboEntreprise.getValue();
+                String dur = comboDuree.getValue();
+
+                List<OffreStage> filtered = all.stream().filter(o -> {
+                    boolean matchesSearch = query.isEmpty() || 
+                        o.getTitre().toLowerCase().contains(query) || 
+                        o.getEntreprise().toLowerCase().contains(query);
+                    
+                    boolean matchesEnt = ent == null || ent.equals("Toutes les entreprises") || o.getEntreprise().equals(ent);
+                    boolean matchesDom = dom == null || dom.equals("Tous les domaines") || o.getDomaine().equals(dom);
+                    
+                    boolean matchesDur = true;
+                    if (dur != null && !dur.equals("Tous")) {
+                        if (dur.equals("1-2 mois")) matchesDur = o.getDuree() <= 2;
+                        else if (dur.equals("3-4 mois")) matchesDur = o.getDuree() >= 3 && o.getDuree() <= 4;
+                        else if (dur.equals("6 mois+")) matchesDur = o.getDuree() >= 6;
+                    }
+                    
+                    return matchesSearch && matchesEnt && matchesDom && matchesDur;
+                }).toList();
+
+                if (sort != null) {
+                    boolean asc = sort.equals("Plus anciens");
+                    filtered = filtered.stream().sorted((a, b) -> {
+                        int res = a.getDate_publication().compareTo(b.getDate_publication());
+                        return asc ? res : -res;
+                    }).toList();
+                }
+                renderOffres(filtered);
+            }
+        } catch (Exception e) { e.printStackTrace(); }
     }
     
+    private void loadHeaderStats() {
+        new Thread(() -> {
+            try {
+                // 1. Total Offers
+                int totalOffres = serviceOffre.afficherAll().size();
+                
+                // 2. Student Apps Stats (Student 10)
+                java.util.Map<String, Integer> stats = serviceDemande.getStatsCandidatures(10);
+                
+                javafx.application.Platform.runLater(() -> {
+                    lblStatTotalOffres.setText(String.valueOf(totalOffres));
+                    lblStatMyApps.setText(String.valueOf(stats.getOrDefault("total", 0)));
+                    lblStatAccepted.setText(String.valueOf(stats.getOrDefault("accepted", 0)));
+                    lblStatPending.setText(String.valueOf(stats.getOrDefault("pending", 0)));
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
     public void showOffresList() {
         if (listViewBackup != null) {
             scrollPaneContent.setContent(listViewBackup);
@@ -102,6 +241,20 @@ public class StagesController implements Initializable {
     public void handleShowOffres() {
         restoreListView();
         setActiveTab(tabOffres);
+        if (filterArea != null) {
+            filterArea.setVisible(true);
+            filterArea.setManaged(true);
+            
+            // Local-specific filters
+            containerEntreprise.setVisible(true);
+            containerEntreprise.setManaged(true);
+            btnRecommendationAI.setVisible(true);
+            btnRecommendationAI.setManaged(true);
+            filterRow2.setVisible(true);
+            filterRow2.setManaged(true);
+            
+            txtSearch.setPromptText("Rechercher une offre...");
+        }
         loadOffres();
     }
 
@@ -109,6 +262,20 @@ public class StagesController implements Initializable {
     public void handleShowDemandes() {
         restoreListView();
         setActiveTab(tabDemandes);
+        if (filterArea != null) {
+            filterArea.setVisible(true);
+            filterArea.setManaged(true);
+
+            // Local-specific filters (Entreprise and Duration don't apply to student demands)
+            containerEntreprise.setVisible(false);
+            containerEntreprise.setManaged(false);
+            btnRecommendationAI.setVisible(false);
+            btnRecommendationAI.setManaged(false);
+            filterRow2.setVisible(true); // Keep sort
+            filterRow2.setManaged(true);
+            
+            txtSearch.setPromptText("Rechercher un profil...");
+        }
         loadDemandes();
     }
 
@@ -124,11 +291,112 @@ public class StagesController implements Initializable {
         loadProfile();
     }
 
+    @FXML
+    public void handleShowInsights() {
+        setActiveTab(tabInsights);
+        loadInsights();
+    }
+
+    @FXML
+    public void handleShowExternal() {
+        restoreListView();
+        setActiveTab(tabExternal);
+        if (filterArea != null) {
+            filterArea.setVisible(true);
+            filterArea.setManaged(true);
+            
+            // External specific: Hide entreprise, recommendation, and row 2 (not used for API yet)
+            containerEntreprise.setVisible(false);
+            containerEntreprise.setManaged(false);
+            btnRecommendationAI.setVisible(false);
+            btnRecommendationAI.setManaged(false);
+            filterRow2.setVisible(false);
+            filterRow2.setManaged(false);
+            
+            txtSearch.setPromptText("Lieu (ex: Paris, London, Remote)...");
+        }
+        loadExternalOffers(null, null);
+    }
+
+    private void loadExternalOffers(String category, String location) {
+        contentArea.getChildren().clear();
+
+        // Premium loading state
+        VBox loadingBox = new VBox(10);
+        loadingBox.setAlignment(javafx.geometry.Pos.CENTER);
+        loadingBox.setStyle("-fx-padding: 60 0;");
+
+        SVGPath globeIcon = new SVGPath();
+        globeIcon.setContent("M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z");
+        globeIcon.setFill(Color.web("#6366f1"));
+        globeIcon.setScaleX(2.0);
+        globeIcon.setScaleY(2.0);
+
+        Label loadingLabel = new Label("🌍 Chargement des opportunités internationales...");
+        loadingLabel.getStyleClass().add("external-loading-label");
+
+        loadingBox.getChildren().addAll(globeIcon, loadingLabel);
+        contentArea.getChildren().add(loadingBox);
+
+        new Thread(() -> {
+            Services.ServiceExternalOffer service = new Services.ServiceExternalOffer();
+            List<Entities.ExternalOffer> offers = service.fetchInternships(category, location);
+            javafx.application.Platform.runLater(() -> renderExternalOffers(offers));
+        }).start();
+    }
+
+    private void renderExternalOffers(List<Entities.ExternalOffer> offers) {
+        contentArea.getChildren().clear();
+        if (offers.isEmpty()) {
+            VBox emptyBox = new VBox(10);
+            emptyBox.setAlignment(javafx.geometry.Pos.CENTER);
+            emptyBox.setStyle("-fx-padding: 60 0;");
+
+            SVGPath emptyIcon = new SVGPath();
+            emptyIcon.setContent("M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z");
+            emptyIcon.setFill(Color.web("#cbd5e1"));
+            emptyIcon.setScaleX(2.5);
+            emptyIcon.setScaleY(2.5);
+
+            Label emptyLabel = new Label("Aucune opportunité internationale trouvée pour le moment.");
+            emptyLabel.getStyleClass().add("external-empty-label");
+
+            emptyBox.getChildren().addAll(emptyIcon, emptyLabel);
+            contentArea.getChildren().add(emptyBox);
+            return;
+        }
+
+        for (Entities.ExternalOffer offer : offers) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ExternalOfferItem.fxml"));
+                Node card = loader.load();
+                ExternalOfferItemController controller = loader.getController();
+                controller.setData(offer);
+                contentArea.getChildren().add(card);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void loadInsights() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/StudentResponses.fxml"));
+            Parent insightsView = loader.load();
+            scrollPaneContent.setContent(insightsView);
+            scrollPaneContent.setVvalue(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void setActiveTab(HBox active) {
         // Reset all tabs
         tabOffres.getStyleClass().remove("hero-tab-item-active");
         tabDemandes.getStyleClass().remove("hero-tab-item-active");
         tabProfile.getStyleClass().remove("hero-tab-item-active");
+        tabInsights.getStyleClass().remove("hero-tab-item-active");
+        tabExternal.getStyleClass().remove("hero-tab-item-active");
         
         // Activate selected
         active.getStyleClass().add("hero-tab-item-active");
@@ -189,27 +457,93 @@ public class StagesController implements Initializable {
         }
     }
 
-    private void loadOffres() {
+
+    private void renderOffres(List<OffreStage> offres) {
         contentArea.getChildren().clear();
+        for (OffreStage os : offres) {
+            VBox card = createCard(
+                os.getTitre(),
+                os.getEntreprise(),
+                os.getDomaine(),
+                os.getLieu(),
+                "M21 16.5c0 .38-.21.71-.53.88l-7.97 4.27a1.006 1.006 0 01-.94 0l-7.97-4.27A1 1 0 013 16.5V7.5c0-.38.21-.71.53-.88l7.97-4.27a1.006 1.006 0 01.94 0l7.97 4.27c.32.17.53.5.53.88v9z", // Briefcase icon
+                "#3498db",
+                "Voir Détails",
+                e -> showOffreDetail(os)
+            );
+            
+            card.setOnMouseClicked(e -> showOffreDetail(os));
+            contentArea.getChildren().add(card);
+        }
+    }
+
+    private void loadOffres() {
         try {
             List<OffreStage> offres = serviceOffre.afficherAll();
-            for (OffreStage os : offres) {
-                VBox card = createCard(
-                    os.getTitre(),
-                    os.getEntreprise(),
-                    os.getDomaine(),
-                    os.getLieu(),
-                    "M21 16.5c0 .38-.21.71-.53.88l-7.97 4.27a1.006 1.006 0 01-.94 0l-7.97-4.27A1 1 0 013 16.5V7.5c0-.38.21-.71.53-.88l7.97-4.27a1.006 1.006 0 01.94 0l7.97 4.27c.32.17.53.5.53.88v9z", // Briefcase icon
-                    "#3498db",
-                    "Voir Détails",
-                    e -> showOffreDetail(os)
-                );
+            renderOffres(offres);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void handleSearch() {
+        applyFilters();
+    }
+
+    @FXML
+    public void handleRecommendations() {
+        restoreListView();
+        setActiveTab(tabOffres);
+        contentArea.getChildren().clear();
+        
+        Label loading = new Label("Analyse de votre profil en cours pour les recommandations...");
+        loading.setStyle("-fx-text-fill: #6366f1; -fx-font-weight: bold;");
+        contentArea.getChildren().add(loading);
+
+        new Thread(() -> {
+            try {
+                // 1. Get student domain
+                Entities.StageCondidature profile = serviceDemande.getProfileEtudiant(10); // Hardcoded ID 10
+                if (profile == null || profile.getDomaine() == null) {
+                    javafx.application.Platform.runLater(() -> {
+                        contentArea.getChildren().clear();
+                        contentArea.getChildren().add(new Label("Veuillez d'abord compléter votre domaine dans 'Mon Profil' pour recevoir des recommandations."));
+                    });
+                    return;
+                }
+
+                String domain = profile.getDomaine().toLowerCase();
                 
-                // Set action on whole card as well for better accessibility
-                card.setOnMouseClicked(e -> showOffreDetail(os));
-                
-                contentArea.getChildren().add(card);
+                // 2. Fetch all local offers and filter
+                List<Entities.OffreStage> allOffres = serviceOffre.afficherAll();
+                List<Entities.OffreStage> filtered = allOffres.stream()
+                        .filter(o -> o.getDomaine().toLowerCase().contains(domain) || domain.contains(o.getDomaine().toLowerCase()))
+                        .toList();
+
+                // 3. Render
+                javafx.application.Platform.runLater(() -> {
+                    contentArea.getChildren().clear();
+                    if (filtered.isEmpty()) {
+                        contentArea.getChildren().add(new Label("Désolé, aucune offre locale ne correspond exactement à votre domaine (" + domain + ") pour le moment."));
+                    } else {
+                        Label header = new Label("✨ Recommandations basées sur votre profil (" + domain + ") :");
+                        header.setStyle("-fx-font-weight: bold; -fx-text-fill: #6366f1; -fx-padding: 0 0 10 0;");
+                        contentArea.getChildren().add(header);
+                        renderOffres(filtered);
+                    }
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+        }).start();
+    }
+
+    private void searchOffres(String query) {
+        try {
+            List<OffreStage> result = serviceOffre.search(query);
+            renderOffres(result);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -234,23 +568,47 @@ public class StagesController implements Initializable {
 
             // Updated to use the filtered method
             List<StageCondidature> demandes = serviceDemande.afficherDemandes();
-            for (StageCondidature sc : demandes) {
-                VBox card = createCard(
-                    sc.getTitre(),
-                    "Profil Étudiant",
-                    sc.getDomaine(),
-                    sc.getStatut(),
-                    "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z", // Person icon
-                    "#2ecc71",
-                    "Voir Détails",
-                    e -> showDemandDetail(sc)
-                );
-                
-                card.setOnMouseClicked(e -> showDemandDetail(sc));
-                contentArea.getChildren().add(card);
-            }
+            renderDemandes(demandes);
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void renderDemandes(List<StageCondidature> demandes) {
+        // Find if addCard is already there (or clear and re-add if needed)
+        // For simplicity when filtering, we might want to keep the "Add" card only if not filtering?
+        // But usually it's better to keep it.
+        
+        contentArea.getChildren().clear();
+        
+        // Always show the Add card
+        VBox addCard = createCard(
+            "Publier une Demande",
+            "Créez votre profil public",
+            "Nouveau",
+            "Ajouter",
+            "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z", // Plus icon
+            "#6358ff",
+            "Commencer",
+            e -> handleAddNewDemand()
+        );
+        addCard.setStyle(addCard.getStyle() + "; -fx-border-style: dashed; -fx-border-width: 2px; -fx-border-color: #6358ff;");
+        contentArea.getChildren().add(addCard);
+
+        for (StageCondidature sc : demandes) {
+            VBox card = createCard(
+                sc.getTitre(),
+                "Profil Étudiant",
+                sc.getDomaine(),
+                sc.getStatut(),
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z", // Person icon
+                "#2ecc71",
+                "Voir Détails",
+                e -> showDemandDetail(sc)
+            );
+            
+            card.setOnMouseClicked(e -> showDemandDetail(sc));
+            contentArea.getChildren().add(card);
         }
     }
 

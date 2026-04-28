@@ -24,7 +24,13 @@ import java.util.List;
 public class RecruiterCandidaturesController {
 
     @FXML private FlowPane cardsContainerCandidatures;
+    @FXML private FlowPane cardsContainerAcceptees;
+    @FXML private FlowPane cardsContainerRefusees;
     @FXML private FlowPane cardsContainerDemandes;
+    
+    @FXML private Label lblStatTotal;
+    @FXML private Label lblStatAccepted;
+    @FXML private Label lblStatRefused;
 
     private ServiceStageCondidature serviceMethod =
             new ServiceStageCondidature(MyDatabase.getInstance().getConnection());
@@ -38,8 +44,28 @@ public class RecruiterCandidaturesController {
         try {
             final int MOCK_RECRUITER_ID = 8;
             // Charger les candidatures liées à ce recruteur
-            List<StageCondidature> candidatures = serviceMethod.afficherParRecruteur(MOCK_RECRUITER_ID);
-            updateDisplay(cardsContainerCandidatures, candidatures);
+            List<StageCondidature> allMyCandidatures = serviceMethod.afficherParRecruteur(MOCK_RECRUITER_ID);
+            
+            // Filter by status
+            List<StageCondidature> pending = allMyCandidatures.stream()
+                .filter(c -> c.getStatut() == null || c.getStatut().isEmpty() || c.getStatut().toUpperCase().contains("ATT") || c.getStatut().toUpperCase().contains("PEND"))
+                .toList();
+            List<StageCondidature> accepted = allMyCandidatures.stream()
+                .filter(c -> c.getStatut() != null && (c.getStatut().toUpperCase().contains("ACC") || c.getStatut().toUpperCase().contains("CONF")))
+                .toList();
+            List<StageCondidature> refused = allMyCandidatures.stream()
+                .filter(c -> c.getStatut() != null && (c.getStatut().toUpperCase().contains("REF")))
+                .toList();
+
+            updateDisplay(cardsContainerCandidatures, pending);
+            updateDisplay(cardsContainerAcceptees, accepted);
+            updateDisplay(cardsContainerRefusees, refused);
+
+            if (lblStatTotal != null) {
+                lblStatTotal.setText(String.valueOf(allMyCandidatures.size()));
+                lblStatAccepted.setText(String.valueOf(accepted.size()));
+                lblStatRefused.setText(String.valueOf(refused.size()));
+            }
 
             // Charger les demandes générales des étudiants
             List<StageCondidature> demandes = serviceMethod.afficherDemandes();
@@ -109,17 +135,28 @@ public class RecruiterCandidaturesController {
         btnView.setStyle("-fx-padding: 5 15;");
         btnView.setOnAction(e -> showDetailPopup(sc));
 
-        Button btnRefuse = new Button("Refuser");
-        btnRefuse.getStyleClass().add("btn-danger");
-        btnRefuse.setStyle("-fx-padding: 5 15;");
-        btnRefuse.setOnAction(e -> handleAction(sc, "Refusée"));
+        boolean isPending = sc.getStatut() == null || sc.getStatut().isEmpty() || sc.getStatut().toUpperCase().contains("ATT") || sc.getStatut().toUpperCase().contains("PEND");
 
-        Button btnAccept = new Button("Accepter");
-        btnAccept.getStyleClass().add("btn-primary");
-        btnAccept.setStyle("-fx-background-color: #2ecc71; -fx-padding: 5 15;");
-        btnAccept.setOnAction(e -> handleAction(sc, "Acceptée"));
+        if (isPending) {
+            Button btnRefuse = new Button("Refuser");
+            btnRefuse.getStyleClass().add("btn-danger");
+            btnRefuse.setStyle("-fx-padding: 5 15;");
+            btnRefuse.setOnAction(e -> handleAction(sc, "Refusée"));
 
-        footer.getChildren().addAll(btnView, btnRefuse, btnAccept);
+            Button btnAccept = new Button("Accepter");
+            btnAccept.getStyleClass().add("btn-primary");
+            btnAccept.setStyle("-fx-background-color: #2ecc71; -fx-padding: 5 15;");
+            btnAccept.setOnAction(e -> handleAction(sc, "Acceptée"));
+
+            footer.getChildren().addAll(btnView, btnRefuse, btnAccept);
+        } else {
+            Button btnReset = new Button("Modifier le choix");
+            btnReset.setStyle("-fx-background-color: #f1c40f; -fx-text-fill: white; -fx-background-radius: 10px; -fx-padding: 5 15; -fx-font-weight: bold;");
+            btnReset.setCursor(javafx.scene.Cursor.HAND);
+            btnReset.setOnAction(e -> handleAction(sc, "EN_ATTENTE"));
+            
+            footer.getChildren().addAll(btnView, btnReset);
+        }
         card.getChildren().addAll(header, content, footer);
         return card;
     }

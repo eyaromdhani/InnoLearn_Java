@@ -25,19 +25,68 @@ public class CandidatureDetailController {
     @FXML private Button  btnAccepter;
     @FXML private Button  btnRefuser;
 
+    @FXML private Label   lblScore;
+    @FXML private Label   lblScoreJustification;
+
     private StageCondidature candidature;
     private ServiceStageCondidature service;
+    private Services.ServiceGroq serviceGroq = new Services.ServiceGroq();
+    private Services.ServiceOffreStage serviceOffre;
     private Runnable onActionCallback;
 
     public void setCandidature(StageCondidature sc) {
         this.candidature = sc;
         this.service = new ServiceStageCondidature(MyDatabase.getInstance().getConnection());
+        this.serviceOffre = new Services.ServiceOffreStage(MyDatabase.getInstance().getConnection());
         populate(sc);
+        calculateAIScore(sc);
     }
 
     /** Called after setCandidature to refresh the parent list when an action is taken. */
     public void setOnActionCallback(Runnable callback) {
         this.onActionCallback = callback;
+    }
+
+    // ─── AI Scoring ──────────────────────────────────────────────────────────
+    private void calculateAIScore(StageCondidature sc) {
+        if (sc.getId_offre() == null) {
+            lblScore.setText("N/A");
+            lblScoreJustification.setText("Aucune offre liée.");
+            return;
+        }
+
+        new Thread(() -> {
+            try {
+                Entities.OffreStage offre = serviceOffre.getById(sc.getId_offre());
+                if (offre != null) {
+                    String offerText = String.format("Titre: %s\nDomaine: %s\nDescription: %s\nCompétences: %s",
+                        offre.getTitre(), offre.getDomaine(), offre.getDescription(), offre.getCompetences());
+                    
+                    String studentText = String.format("Expérience: %s\nCompétences: %s\nMotivation: %s",
+                        sc.getDescription(), sc.getCompetences(), sc.getLettre_motivation());
+
+                    org.json.JSONObject result = serviceGroq.calculateMatchingScore(offerText, studentText);
+                    
+                    if (result != null) {
+                        int score = result.getInt("score");
+                        String justification = result.getString("justification");
+
+                        javafx.application.Platform.runLater(() -> {
+                            lblScore.setText(score + "%");
+                            lblScoreJustification.setText(justification);
+                            
+                            // Dynamic color
+                            if (score >= 80) lblScore.setStyle(lblScore.getStyle() + "-fx-background-color: #059669;");
+                            else if (score >= 50) lblScore.setStyle(lblScore.getStyle() + "-fx-background-color: #ca8a04;");
+                            else lblScore.setStyle(lblScore.getStyle() + "-fx-background-color: #dc2626;");
+                        });
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                javafx.application.Platform.runLater(() -> lblScoreJustification.setText("Erreur d'analyse."));
+            }
+        }).start();
     }
 
     // ─── Populate UI ──────────────────────────────────────────────────────────

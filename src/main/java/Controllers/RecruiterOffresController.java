@@ -31,31 +31,67 @@ public class RecruiterOffresController {
     private ServiceOffreStage serviceMethod = new ServiceOffreStage(MyDatabase.getInstance().getConnection());
     private final int MOCK_RECRUITER_ID = 8; // Simulated Logged in recruiter
 
+    @FXML private javafx.scene.control.TextField txtSearch;
+    @FXML private javafx.scene.control.ComboBox<String> comboSort;
+
     @FXML
     public void initialize() {
+        if (comboSort != null) {
+            comboSort.getItems().addAll("Date croissante", "Date décroissante");
+            comboSort.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+                if (newVal != null) {
+                    try {
+                        boolean asc = newVal.equals("Date croissante");
+                        List<OffreStage> sorted = serviceMethod.sortByDate(asc);
+                        processData(sorted);
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
         loadData();
     }
 
     private void loadData() {
         try {
             List<OffreStage> tous = serviceMethod.afficherAll();
-            
-            // Mes offres
-            List<OffreStage> mesOffres = tous.stream()
-                    .filter(o -> o.getId_recruteur() != null && o.getId_recruteur() == MOCK_RECRUITER_ID)
-                    .collect(Collectors.toList());
-            
-            // Autres offres
-            List<OffreStage> autresOffres = tous.stream()
-                    .filter(o -> o.getId_recruteur() == null || o.getId_recruteur() != MOCK_RECRUITER_ID)
-                    .collect(Collectors.toList());
-            
-            updateDisplayMesOffres(mesOffres);
-            updateDisplayAutresOffres(autresOffres);
-            
+            processData(tous);
         } catch (SQLException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger les offres.", e.getMessage());
         }
+    }
+
+    @FXML
+    private void handleSearch() {
+        if (txtSearch != null && serviceMethod != null) {
+            String query = txtSearch.getText();
+            try {
+                if (query.isEmpty()) {
+                    loadData();
+                } else {
+                    List<OffreStage> result = serviceMethod.search(query);
+                    processData(result);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void processData(List<OffreStage> tous) {
+        // Mes offres
+        List<OffreStage> mesOffres = tous.stream()
+                .filter(o -> o.getId_recruteur() != null && o.getId_recruteur() == MOCK_RECRUITER_ID)
+                .collect(Collectors.toList());
+        
+        // Autres offres
+        List<OffreStage> autresOffres = tous.stream()
+                .filter(o -> o.getId_recruteur() == null || o.getId_recruteur() != MOCK_RECRUITER_ID)
+                .collect(Collectors.toList());
+        
+        updateDisplayMesOffres(mesOffres);
+        updateDisplayAutresOffres(autresOffres);
     }
 
     private void updateDisplayMesOffres(List<OffreStage> offres) {
