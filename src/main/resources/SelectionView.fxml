@@ -19,7 +19,7 @@
     </padding>
 
     <VBox alignment="CENTER" spacing="10">
-        <Text text="Bienvenue sur InnoLearn" styleClass="text-title" fill="#6366F1"/>
+        <Text text="Bienvenue sur InnoLearn" styleClass="text-title" fill="#3B82F6"/>
         <Text text="Veuillez choisir votre espace pour continuer" styleClass="text-subtitle"/>
     </VBox>
 
