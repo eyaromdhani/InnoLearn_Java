@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane stylesheets="@styles.css" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.ReviewController">
+   <children>
+      <VBox spacing="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <!-- Navigation Bar -->
+            <HBox styleClass="nav-bar" spacing="15.0">
+               <children>
+                  <Label text="🎓 InnoLearn Feedback" styleClass="nav-logo" />
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button text="Retour aux Événements" styleClass="btn-secondary" onAction="#retour" />
+               </children>
+            </HBox>
+
+            <!-- Hero Section -->
+            <VBox styleClass="hero-bg" spacing="10.0">
+               <children>
+                  <Label text="FEEDBACK &amp; EXPÉRIENCE" styleClass="hero-tag" />
+                  <Label fx:id="lblEventTitle" text="Nom de l'événement" styleClass="hero-title-white" style="-fx-font-size: 28px;" />
+                  <Label text="Partagez votre avis avec la communauté." style="-fx-text-fill: white; -fx-opacity: 0.8;" />
+               </children>
+               <padding>
+                  <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+               </padding>
+            </VBox>
+
+            <!-- Content Area -->
+            <HBox spacing="30.0" VBox.vgrow="ALWAYS" style="-fx-padding: 30 40 40 40;">
+                <children>
+                    <!-- Left: Review History -->
+                    <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+                        <children>
+                            <Label text="Historique des Avis" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2D1A6A;" />
+                            <ListView fx:id="lvReviews" VBox.vgrow="ALWAYS" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: #E0E0E0;" />
+                        </children>
+                    </VBox>
+
+                    <!-- Right: Post a Review -->
+                    <VBox spacing="15.0" prefWidth="350.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 25; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+                        <children>
+                            <Label text="Laisser un Avis" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2D1A6A;" />
+                            
+                            <VBox spacing="5.0">
+                                <Label text="Note (1-5 ⭐)" style="-fx-font-weight: bold; -fx-text-fill: #666666;" />
+                                <ComboBox fx:id="cbRating" prefWidth="300.0" styleClass="input-rounded" />
+                            </VBox>
+                            
+                            <VBox spacing="5.0" VBox.vgrow="ALWAYS">
+                                <Label text="Votre Commentaire" style="-fx-font-weight: bold; -fx-text-fill: #666666;" />
+                                <TextArea fx:id="taComment" prefHeight="150.0" promptText="Racontez-nous votre expérience..." wrapText="true" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #E0E0E0;" />
+                            </VBox>
+                            
+                            <Button onAction="#envoyerReview" prefWidth="300.0" styleClass="btn-primary" text="Envoyer mon avis" style="-fx-font-size: 14px; -fx-padding: 10 0;" />
+                        </children>
+                    </VBox>
+                </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

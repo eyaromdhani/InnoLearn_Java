@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane stylesheets="@styles.css" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.AfficherEvent">
+   <children>
+      <ScrollPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" fitToWidth="true" styleClass="scroll-pane">
+   <content>
+      <VBox spacing="0.0">
+         <children>
+            <!-- Navigation Bar -->
+            <HBox styleClass="nav-bar" spacing="15.0">
+               <children>
+                  <Label text="🎓 InnoLearn Admin" styleClass="nav-logo" />
+                  <Region HBox.hgrow="ALWAYS" />
+                  <HBox spacing="20.0" alignment="CENTER">
+                      <Button text="Tableau de Bord" styleClass="nav-link" />
+                      <Button text="Événements" styleClass="nav-link" style="-fx-underline: true;" />
+                      <Button text="Inscriptions" styleClass="nav-link" onAction="#gotoInscription" />
+                      <Button text="Utilisateurs" styleClass="nav-link" />
+                  </HBox>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <HBox spacing="15.0" alignment="CENTER">
+                      <Label text="Administrateur" style="-fx-text-fill: white; -fx-font-weight: bold;" />
+                      <Label text="AD" style="-fx-background-color: #FFAA00; -fx-text-fill: #2D1A6A; -fx-background-radius: 15; -fx-padding: 5 8;" />
+                  </HBox>
+               </children>
+            </HBox>
+
+            <!-- Premium Hero Section for Admin -->
+            <VBox styleClass="hero-bg" spacing="20.0">
+               <children>
+                  <HBox spacing="20.0">
+                     <children>
+                        <VBox spacing="15.0" prefWidth="400.0">
+                            <children>
+                                <Label text="CONTRÔLE &amp; ORGANISATION" styleClass="hero-tag" />
+                                <TextFlow>
+                                    <Text text="Gérez vos &amp;&#10;" styleClass="hero-title-white" />
+                                    <Text text="Événements Live" styleClass="hero-title" />
+                                </TextFlow>
+                                <VBox spacing="10.0" fillWidth="false">
+                                    <HBox spacing="10.0" alignment="CENTER_LEFT">
+                                        <children>
+                                            <Button text="+ Nouvel Événement" styleClass="btn-primary" onAction="#gotoajouter" style="-fx-font-size: 14px; -fx-padding: 8 20;" />
+                                            <Label text="Total: " style="-fx-text-fill: white; -fx-font-weight: bold;" />
+                                            <Label fx:id="lblTotalEvents" text="0" style="-fx-text-fill: #FFAA00; -fx-font-weight: 900; -fx-font-size: 16px;" />
+                                        </children>
+                                    </HBox>
+                                    <HBox spacing="10" alignment="CENTER_LEFT">
+                                        <children>
+                                            <TextField fx:id="tfSearch" promptText="Rechercher un événement..." styleClass="input-rounded" prefWidth="250.0" />
+                                            <ComboBox fx:id="cbSort" promptText="Trier par..." styleClass="input-rounded" prefWidth="150.0" />
+                                        </children>
+                                    </HBox>
+                                </VBox>
+                            </children>
+                        </VBox>
+                        <!-- Place holder for 3D Illustration -->
+                        <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                            <Label text="⚙️" textFill="#FFFFFF" opacity="0.2" style="-fx-font-size: 100px;" />
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+
+            <!-- Content Area (Grid) -->
+            <VBox spacing="20.0" style="-fx-padding: 30 40 40 40;">
+                <children>
+                    <Label text="Liste des Événements Actifs" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2D1A6A;" />
+                    <FlowPane fx:id="eventsGrid" hgap="25.0" vgap="25.0" prefWrapLength="800.0" />
+                </children>
+            </VBox>
+         </children>
+      </VBox>
+   </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
