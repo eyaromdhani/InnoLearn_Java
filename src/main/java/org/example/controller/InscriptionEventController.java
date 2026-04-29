@@ -342,6 +342,20 @@ public class InscriptionEventController {
         }
     }
 
+    @FXML
+    void gotoAccueil() {
+        try {
+            FXMLLoader loader = new FXMLLoader(MainFX.class.getResource("/PageAccueil.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) eventsGrid.getScene().getWindow();
+            stage.setTitle("InnoLearn - Accueil");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            afficherAlerte(Alert.AlertType.ERROR, "Erreur", "Impossible de retourner à la page d'accueil.");
+        }
+    }
+
     private String getInscriptionStatus(int eventId, Integer userId, String email) {
         List<InscriptionEvent> inscriptions = inscriptionEventService.getAllInscriptions();
         for (InscriptionEvent inscription : inscriptions) {

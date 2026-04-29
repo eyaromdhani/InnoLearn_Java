@@ -15,12 +15,11 @@ public class MainFX extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-       //FXMLLoader loader = new FXMLLoader(MainFX.class.getResource("/AfficherEvent.fxml"));//admin
-       FXMLLoader loader = new FXMLLoader(MainFX.class.getResource("/InscriptionEvent.fxml"));//user
+       FXMLLoader loader = new FXMLLoader(MainFX.class.getResource("/PageAccueil.fxml"));
 
         try {
             Scene scene = new Scene(loader.load());
-            primaryStage.setTitle("Gestion Event");
+            primaryStage.setTitle("InnoLearn - Événements");
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {

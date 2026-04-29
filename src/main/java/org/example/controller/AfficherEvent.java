@@ -211,7 +211,21 @@ public class AfficherEvent {
             stage.show();
         } catch (IOException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur",
-                    "Impossible de retourner à la page des événements.");
+                    "Impossible de charger la page.");
+        }
+    }
+
+    @FXML
+    public void gotoAccueil() {
+        try {
+            FXMLLoader loader = new FXMLLoader(MainFX.class.getResource("/PageAccueil.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) eventsGrid.getScene().getWindow();
+            stage.setTitle("InnoLearn - Accueil");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de retourner à la page d'accueil.");
         }
     }
 

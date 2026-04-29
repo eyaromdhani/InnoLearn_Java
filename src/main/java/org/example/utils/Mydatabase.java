@@ -8,7 +8,7 @@ public class Mydatabase {
     // TODO: Provide your Database username and password if not root / empty
     final String USERNAME="root";
     // TODO: Replace 'NOM_DE_LA_BASE' with your actual database name
-    String url="jdbc:mysql://localhost:3306/innolearn_db";
+    String url="jdbc:mysql://localhost:3306/Zied_db";
     final String PASSWORD="";
      Connection connection;
      static Mydatabase  instance;

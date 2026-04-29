@@ -28,7 +28,7 @@
                   <Label text="🎓 InnoLearn" styleClass="nav-logo" />
                   <Region HBox.hgrow="ALWAYS" />
                   <HBox spacing="20.0" alignment="CENTER">
-                      <Button text="Accueil" styleClass="nav-link" />
+                      <Button text="Accueil" styleClass="nav-link" onAction="#gotoAccueil" />
                       <Button text="Mes Cours" styleClass="nav-link" />
                       <Button text="Événements" styleClass="nav-link" style="-fx-underline: true;" />
                       <Button text="Quiz" styleClass="nav-link" />
