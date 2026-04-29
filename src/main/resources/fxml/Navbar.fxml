@@ -22,7 +22,7 @@
         <!-- Menu Links -->
         <HBox alignment="CENTER" spacing="10.0">
             <children>
-                <Label fx:id="linkAccueil" styleClass="nav-link" text="Accueil" />
+                <Label fx:id="linkAccueil" onMouseClicked="#handleAccueilClick" styleClass="nav-link" style="-fx-cursor: hand;" text="Accueil" />
                 <Label fx:id="linkCours" styleClass="nav-link" text="Cours" />
                 <Label fx:id="linkProjets" styleClass="nav-link" text="Projets" />
                 <Label fx:id="linkEvenements" styleClass="nav-link" text="Événements" />

@@ -63,20 +63,12 @@ public class NavbarController implements Initializable {
 
     @FXML
     private void handleLogoClick() {
-        try {
-            // Load Home.fxml
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/Home.fxml"));
-            
-            // Get the current stage
-            Stage stage = (Stage) logoContainer.getScene().getWindow();
-            
-            // Set the new scene root
-            stage.getScene().setRoot(root);
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Error loading Home.fxml: " + e.getMessage());
-        }
+        navigateTo("/fxml/PageAccueil.fxml");
+    }
+
+    @FXML
+    private void handleAccueilClick() {
+        navigateTo("/fxml/PageAccueil.fxml");
     }
 
     @FXML

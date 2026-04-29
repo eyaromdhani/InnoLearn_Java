@@ -10,9 +10,9 @@ public class MainFX extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        URL resource = getClass().getResource("/fxml/Stages.fxml");
+        URL resource = getClass().getResource("/fxml/PageAccueil.fxml");
         if (resource == null) {
-            System.err.println("Cannot find /fxml/Home.fxml");
+            System.err.println("Cannot find /fxml/PageAccueil.fxml");
             System.exit(1);
         }
         Parent root = FXMLLoader.load(resource);
