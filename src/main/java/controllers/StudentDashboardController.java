@@ -120,4 +120,16 @@ public class StudentDashboardController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void handleGoToAccueil() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/SelectionView.fxml"));
+            Stage stage = (Stage) quizGrid.getScene().getWindow();
+            stage.setTitle("InnoLearn - Accueil");
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

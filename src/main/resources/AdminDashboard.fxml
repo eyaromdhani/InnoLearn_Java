@@ -18,7 +18,7 @@
         <Label text="InnoLearn" styleClass="nav-logo"/>
         
         <HBox alignment="CENTER" spacing="10">
-            <Button text="Accueil" styleClass="nav-button"/>
+            <Button text="Accueil" styleClass="nav-button" onAction="#handleGoToAccueil"/>
             <Button text="Mes Cours" styleClass="nav-button"/>
             <Button text="Bibliothèque" styleClass="nav-button" onAction="#handleGoToBooks"/>
             <Button text="Quiz" styleClass="nav-button, nav-button-active"/>
