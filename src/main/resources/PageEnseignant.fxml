@@ -38,7 +38,7 @@
     </HBox>
 
     <!-- HERO SECTION -->
-    <HBox style="-fx-background-color: linear-gradient(to right, #3a0ca3, #7209b7, #f72585);"
+    <HBox style="-fx-background-color: linear-gradient(to right, #3a0ca3, #7209b7);"
           prefHeight="250" alignment="CENTER_LEFT" spacing="40">
         <padding><Insets top="40" right="60" bottom="40" left="60"/></padding>
 

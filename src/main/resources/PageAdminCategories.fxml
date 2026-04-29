@@ -28,7 +28,7 @@
     </HBox>
 
     <!-- HERO SECTION -->
-    <HBox style="-fx-background-color: linear-gradient(to right, #1a1a2e, #16213e); -fx-padding: 40 40 40 40;"
+    <HBox style="-fx-background-color: linear-gradient(to right, #3a0ca3, #7209b7); -fx-padding: 40 40 40 40;"
           alignment="CENTER">
         <VBox alignment="CENTER" spacing="10">
             <Label text="Gestion des Catégories"

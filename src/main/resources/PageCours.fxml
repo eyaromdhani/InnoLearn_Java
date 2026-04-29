@@ -10,7 +10,7 @@
       style="-fx-background-color: #f0f0f5;">
 
     <!-- NAVBAR -->
-    <HBox style="-fx-background-color: #3a0ca3; -fx-padding: 15 30 15 30;"
+    <HBox style="-fx-background-color:  linear-gradient(to right, #1a0050, #3a0ca3); -fx-padding: 15 30 15 30;"
           alignment="CENTER" spacing="40">
         <Label text="🎓 InnoLearn"
                style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;"/>
@@ -40,6 +40,9 @@
             <Button text="Événements"
                     style="-fx-background-color: transparent; -fx-text-fill: white;
                            -fx-font-size: 13px; -fx-font-weight: bold; -fx-cursor: hand;"/>
+            <Button text="Quiz"
+                    style="-fx-background-color: transparent; -fx-text-fill: white;
+                       -fx-font-size: 13px; -fx-font-weight: bold;"/>
         </HBox>
         <Region HBox.hgrow="ALWAYS"/>
     </HBox>
