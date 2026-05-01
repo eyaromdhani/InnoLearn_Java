@@ -5,25 +5,32 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.SVGPath?>
 
-<VBox prefHeight="700.0" prefWidth="900.0" spacing="0.0" style="-fx-background-color: #f8f9fa;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controllers.AdminDashboardController">
+<VBox prefHeight="700.0" prefWidth="900.0" spacing="0.0" style="-fx-background-color: #f1f5f9;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controllers.AdminDashboardController">
     <children>
-        <!-- Top Navbar -->
-        <fx:include fx:id="navbar" source="Navbar.fxml" />
-
-        <!-- Admin Dashboard Header -->
-        <VBox styleClass="admin-header">
-            <padding>
-                <Insets bottom="20.0" left="40.0" right="40.0" top="30.0" />
-            </padding>
+        <!-- Top Section with Gradient -->
+        <VBox styleClass="admin-top-container">
             <children>
-                <Label styleClass="admin-title-main" text="Dashboard Overview" />
+                <fx:include fx:id="navbar" source="Navbar.fxml" />
+                
+                <VBox styleClass="admin-header">
+                    <children>
+                        <Label styleClass="admin-title-main" text="Gestion des Stages" />
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <children>
+                                <Label style="-fx-text-fill: #a5b4fc; -fx-font-weight: bold; -fx-font-size: 13px;" text="ADMINISTRATION" />
+                                <Label style="-fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 13px;" text="•" />
+                                <Label style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 13px;" text="Offres et candidatures en temps réel" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
             </children>
         </VBox>
 
         <!-- Main Content (Tabbed) -->
         <VBox VBox.vgrow="ALWAYS">
             <padding>
-                <Insets left="40.0" right="40.0" />
+                <Insets top="-25.0" left="40.0" right="40.0" />
             </padding>
             <children>
                 <VBox spacing="0.0" style="-fx-background-color: white; -fx-background-radius: 20px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 15, 0, 0, 8);">
@@ -44,22 +51,22 @@
                                                 <!-- KPIs Offres -->
                                                 <HBox spacing="20.0" alignment="CENTER">
                                                     <children>
-                                                        <VBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #f8fafc; -fx-background-radius: 15; -fx-padding: 15; -fx-min-width: 150;">
+                                                        <VBox alignment="CENTER" spacing="5.0" styleClass="admin-kpi-card" style="-fx-min-width: 170;">
                                                             <children>
-                                                                <Label style="-fx-text-fill: #64748b; -fx-font-size: 11; -fx-font-weight: bold;" text="TOTAL OFFRES" />
-                                                                <Label fx:id="lblTotalOffres" style="-fx-font-size: 20; -fx-font-weight: 800;" text="0" />
+                                                                <Label style="-fx-text-fill: #64748b; -fx-font-size: 12; -fx-font-weight: 700;" text="TOTAL OFFRES" />
+                                                                <Label fx:id="lblTotalOffres" style="-fx-font-size: 26; -fx-font-weight: 900; -fx-text-fill: #1e293b;" text="0" />
                                                             </children>
                                                         </VBox>
-                                                        <VBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #dcfce7; -fx-background-radius: 15; -fx-padding: 15; -fx-min-width: 150;">
+                                                        <VBox alignment="CENTER" spacing="5.0" styleClass="admin-kpi-card" style="-fx-background-color: #f0fdf4; -fx-min-width: 170;">
                                                             <children>
-                                                                <Label style="-fx-text-fill: #16a34a; -fx-font-size: 11; -fx-font-weight: bold;" text="OUVERTES" />
-                                                                <Label fx:id="lblOffresOuvertes" style="-fx-font-size: 20; -fx-font-weight: 800; -fx-text-fill: #16a34a;" text="0" />
+                                                                <Label style="-fx-text-fill: #16a34a; -fx-font-size: 12; -fx-font-weight: 700;" text="OUVERTES" />
+                                                                <Label fx:id="lblOffresOuvertes" style="-fx-font-size: 26; -fx-font-weight: 900; -fx-text-fill: #16a34a;" text="0" />
                                                             </children>
                                                         </VBox>
-                                                        <VBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #fee2e2; -fx-background-radius: 15; -fx-padding: 15; -fx-min-width: 150;">
+                                                        <VBox alignment="CENTER" spacing="5.0" styleClass="admin-kpi-card" style="-fx-background-color: #fef2f2; -fx-min-width: 170;">
                                                             <children>
-                                                                <Label style="-fx-text-fill: #dc2626; -fx-font-size: 11; -fx-font-weight: bold;" text="FERMÉES" />
-                                                                <Label fx:id="lblOffresFermees" style="-fx-font-size: 20; -fx-font-weight: 800; -fx-text-fill: #dc2626;" text="0" />
+                                                                <Label style="-fx-text-fill: #dc2626; -fx-font-size: 12; -fx-font-weight: 700;" text="FERMÉES" />
+                                                                <Label fx:id="lblOffresFermees" style="-fx-font-size: 26; -fx-font-weight: 900; -fx-text-fill: #dc2626;" text="0" />
                                                             </children>
                                                         </VBox>
                                                     </children>

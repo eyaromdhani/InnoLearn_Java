@@ -33,7 +33,5 @@ public class MainFX extends Application {
         controller.initAvecCategorie(categorieId);
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    public static void main(String[] args) {launch(args);}
 }

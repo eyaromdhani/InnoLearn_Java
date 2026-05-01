@@ -36,7 +36,7 @@
             <Button text="Événements"  onAction="#ouvrirEvenements"
                     style="-fx-background-color: transparent; -fx-text-fill: white;
                        -fx-font-size: 13px; -fx-font-weight: bold;"/>
-            <Button text="Quiz"
+            <Button text="Quiz" onAction="#ouvrirQuiz"
                     style="-fx-background-color: transparent; -fx-text-fill: white;
                        -fx-font-size: 13px; -fx-font-weight: bold;"/>
         </HBox>

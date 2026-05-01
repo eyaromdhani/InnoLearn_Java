@@ -101,6 +101,16 @@ public class PPController {
             e.printStackTrace();
         }
     }
+    @FXML
+    public void ouvrirQuiz() {
+        try {
+            // Cela ramène à la fameuse page StudentQuizDashboard
+            MainFX.chargerPage("/StudentQuizDashboard.fxml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.Controllers.SuspiciousAlertsController"
+      stylesheets="@modern_style.css"
+      styleClass="main-bg"
+      prefHeight="600.0" prefWidth="800.0" spacing="20">
+
+    <padding>
+        <Insets top="30" right="40" left="40" bottom="30"/>
+    </padding>
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <Button text="←" onAction="#handleBack" styleClass="button-questions" style="-fx-font-size: 18px; -fx-padding: 5 15;"/>
+        <VBox>
+            <Label text="Alertes d'Intégrité" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1E293B;"/>
+            <Label fx:id="quizTitleLabel" text="Quiz : Titre" style="-fx-text-fill: #64748B; -fx-font-size: 14px;"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS" />
+        <Label fx:id="alertCountLabel" text="0 Alertes" styleClass="badge-alert"/>
+    </HBox>
+
+    <!-- Results List -->
+    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
+        <VBox fx:id="alertsContainer" spacing="15">
+            <!-- Alert cards will be injected here -->
+            <padding>
+                <Insets bottom="20"/>
+            </padding>
+        </VBox>
+    </ScrollPane>
+
+</VBox>

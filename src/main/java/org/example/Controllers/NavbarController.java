@@ -65,7 +65,7 @@ public class NavbarController implements Initializable {
 
     @FXML
     private void handleAccueilClick() {
-        navigateTo("/PageAdmin.fxml");
+        navigateTo("/PageEtudiant.fxml");
     }
 
     @FXML
@@ -80,11 +80,17 @@ public class NavbarController implements Initializable {
             // Set the new scene root
             stage.getScene().setRoot(root);
             
-        } catch (IOException e) {
+        } catch (Exception  e) {
             e.printStackTrace();
             System.err.println("Error loading Stages.fxml: " + e.getMessage());
         }
     }
+
+    @FXML
+    private void handleQuizClick() {
+        navigateTo("/StudentQuizDashboard.fxml");
+    }
+
 
     /**
      * Highlights the active link in the navbar.

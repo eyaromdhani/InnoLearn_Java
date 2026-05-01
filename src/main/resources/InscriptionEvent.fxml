@@ -59,7 +59,7 @@
                                     <ComboBox fx:id="cbCategory" promptText="Toutes les catégories" styleClass="input-rounded" prefWidth="250.0" />
                                     <TextField fx:id="tfSearch" promptText="Trouver un événement..." styleClass="input-rounded" prefWidth="250.0" />
                                     <ComboBox fx:id="cbSort" promptText="Trier par..." styleClass="input-rounded" prefWidth="250.0" />
-                                    <Button text="Mes Inscriptions" styleClass="btn-primary" onAction="#gotoMesInscriptions" />
+
                                 </VBox>
                             </children>
                         </VBox>

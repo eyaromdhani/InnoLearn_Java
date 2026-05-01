@@ -122,6 +122,19 @@
             <version>5.5.13.3</version>
         </dependency>
 
+        <!-- iText PDF Kernel - Gestion Quiz -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>kernel</artifactId>
+            <version>7.2.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>layout</artifactId>
+            <version>7.2.5</version>
+        </dependency>
+
 
     </dependencies>
 
@@ -137,6 +150,7 @@
                     <options>
                         <option>--add-opens</option>
                         <option>java.base/java.lang.reflect=ALL-UNNAMED</option>
+                        <option>-Dprism.order=sw</option>
                     </options>
                 </configuration>
             </plugin>

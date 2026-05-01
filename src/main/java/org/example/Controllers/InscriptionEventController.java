@@ -342,7 +342,7 @@ public class InscriptionEventController {
     @FXML
     void gotoAccueil() {
         try {
-            FXMLLoader loader = new FXMLLoader(MainFX.class.getResource("/PageAccueil.fxml"));
+            FXMLLoader loader = new FXMLLoader(MainFX.class.getResource("/PageEtudiant.fxml"));
             Scene scene = new Scene(loader.load());
             Stage stage = (Stage) eventsGrid.getScene().getWindow();
             stage.setTitle("InnoLearn - Accueil");

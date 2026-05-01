@@ -52,5 +52,13 @@ public class PageAdminController {
         }
     }
 
+    @FXML
+    void onGestionQuizClick(Event event) {
+        try {
+            MainFX.chargerPage("/AdminQuizDashboard.fxml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

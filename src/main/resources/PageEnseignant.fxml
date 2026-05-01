@@ -27,7 +27,7 @@
                        -fx-text-fill: white;
                        -fx-font-size: 14px;
                        -fx-font-weight: bold;"/>
-            <Button text="Statistiques"
+            <Button text="Quiz" onAction="#onGestionQuizClick"
                     style="-fx-background-color: transparent; -fx-text-fill: white;
                        -fx-font-size: 13px; -fx-font-weight: bold;"/>
             <Button text="Planifications"

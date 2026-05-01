@@ -28,7 +28,8 @@
                 <Label fx:id="linkEvenements" styleClass="nav-link" text="Événements" />
                 <Label fx:id="linkStages" onMouseClicked="#handleStagesClick" styleClass="nav-link" style="-fx-cursor: hand;" text="Stages" />
                 <Label fx:id="linkLivres" styleClass="nav-link" text="Livres" />
-                <Label fx:id="linkQuiz" styleClass="nav-link" text="Quiz" />
+                <Label fx:id="linkQuiz" onMouseClicked="#handleQuizClick" styleClass="nav-link" style="-fx-cursor: hand;" text="Quiz" />
+
             </children>
         </HBox>
         
