@@ -87,6 +87,11 @@ public class NavbarController implements Initializable {
     }
 
     @FXML
+    private void handleProjetsClick() {
+        navigateTo("/ProjectList.fxml");
+    }
+
+    @FXML
     private void handleQuizClick() {
         navigateTo("/StudentQuizDashboard.fxml");
     }

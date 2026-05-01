@@ -27,7 +27,7 @@
             <Button text="Cours" onAction="#ouvrirCours"
                     style="-fx-background-color: transparent; -fx-text-fill: white;
                -fx-font-size: 13px; -fx-font-weight: bold; -fx-cursor: hand;"/>
-            <Button text="Projets"
+            <Button text="Projets" onAction="#ouvrirProjets"
                     style="-fx-background-color: transparent; -fx-text-fill: white;
                        -fx-font-size: 13px; -fx-font-weight: bold;"/>
             <Button text="Opportunités" onAction="#ouvrirOpportunites"

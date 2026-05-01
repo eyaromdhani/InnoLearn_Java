@@ -82,6 +82,16 @@
                 <Button text="Accéder" onAction="#onGestionQuizClick" style="-fx-background-color: #8338ec; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 20 8 20; -fx-cursor: hand;" />
             </VBox>
 
+            <!-- CARTE PROJETS (NOUVEAU) -->
+            <VBox alignment="CENTER" spacing="20" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3); -fx-padding: 30; -fx-cursor: hand;"
+                  onMouseClicked="#onGestionProjetsClick">
+                <Label text="🚀" style="-fx-font-size: 50px;" />
+                <Label text="Gestion des Projets" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;" />
+                <Label text="Piloter les projets" style="-fx-font-size: 12px; -fx-text-fill: #666;" />
+                <Button text="Accéder" onAction="#onGestionProjetsClick" style="-fx-background-color: #ff9f1c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 20 8 20; -fx-cursor: hand;" />
+            </VBox>
+
+
         </HBox>
     </VBox>
 </VBox>

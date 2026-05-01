@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.SVGPath?>
 
-<HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="navbar-home" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controllers.NavbarController">
+<HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="nav-bar" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controllers.NavbarController">
     <children>
         <!-- Logo -->
         <HBox fx:id="logoContainer" alignment="CENTER_LEFT" onMouseClicked="#handleLogoClick" spacing="10.0" style="-fx-cursor: hand;">
@@ -24,7 +24,7 @@
             <children>
                 <Label fx:id="linkAccueil" onMouseClicked="#handleAccueilClick" styleClass="nav-link" style="-fx-cursor: hand;" text="Accueil" />
                 <Label fx:id="linkCours" styleClass="nav-link" text="Cours" />
-                <Label fx:id="linkProjets" styleClass="nav-link" text="Projets" />
+                <Label fx:id="linkProjets" onMouseClicked="#handleProjetsClick" styleClass="nav-link" style="-fx-cursor: hand;" text="Projets" />
                 <Label fx:id="linkEvenements" styleClass="nav-link" text="Événements" />
                 <Label fx:id="linkStages" onMouseClicked="#handleStagesClick" styleClass="nav-link" style="-fx-cursor: hand;" text="Stages" />
                 <Label fx:id="linkLivres" styleClass="nav-link" text="Livres" />

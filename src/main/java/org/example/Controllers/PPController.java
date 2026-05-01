@@ -86,6 +86,15 @@ public class PPController {
     }
 
     @FXML
+    public void ouvrirProjets() {
+        try {
+            MainFX.chargerPage("/ProjectList.fxml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void ouvrirEvenements() {
         try {
             MainFX.chargerPage("/InscriptionEvent.fxml");

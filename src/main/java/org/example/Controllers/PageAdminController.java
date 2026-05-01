@@ -61,4 +61,14 @@ public class PageAdminController {
         }
     }
 
+    @FXML
+    void onGestionProjetsClick(javafx.event.Event event) {
+        try {
+            MainFX.chargerPage("/AdminProjectList.fxml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
