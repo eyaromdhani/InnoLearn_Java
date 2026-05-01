@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane stylesheets="@styles.css" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.AjouterEvent">
+   <children>
+      <ScrollPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" fitToWidth="true" styleClass="scroll-pane">
+   <content>
+      <VBox spacing="0.0">
+         <children>
+            <!-- Navigation Bar -->
+            <HBox styleClass="nav-bar" spacing="15.0">
+               <children>
+                  <Label text="🎓 InnoLearn Admin" styleClass="nav-logo" />
+                  <Region HBox.hgrow="ALWAYS" />
+                  <HBox spacing="20.0" alignment="CENTER">
+                      <Button text="Événements" styleClass="nav-link" onAction="#retour" />
+                      <Button text="Inscriptions" styleClass="nav-link" />
+                  </HBox>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button text="Retour" styleClass="btn-secondary" onAction="#retour" />
+               </children>
+            </HBox>
+
+            <!-- Hero Section -->
+            <VBox styleClass="hero-bg" spacing="10.0">
+               <children>
+                  <Label text="CONFIGURATION D'ÉVÉNEMENT" styleClass="hero-tag" />
+                  <Label fx:id="ltitle" text="Ajouter Event" styleClass="hero-title-white" style="-fx-font-size: 32px;" />
+               </children>
+               <padding>
+                  <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+               </padding>
+            </VBox>
+
+            <!-- Form Area -->
+            <VBox alignment="CENTER" style="-fx-padding: -30 0 40 0;">
+                <children>
+                    <VBox maxWidth="500.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+                        <children>
+                            <VBox spacing="5.0">
+                                <Label text="Titre de l'événement" style="-fx-font-weight: bold; -fx-text-fill: #2D1A6A;" />
+                                <TextField fx:id="tftitre" promptText="Ex: Workshop JavaFX Masterclass" styleClass="input-rounded" />
+                            </VBox>
+
+                            <HBox spacing="20.0">
+                                <children>
+                                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                        <Label text="Lieu" style="-fx-font-weight: bold; -fx-text-fill: #2D1A6A;" />
+                                        <TextField fx:id="tflieux" promptText="Ex: Amphithéâtre A" styleClass="input-rounded" />
+                                    </VBox>
+                                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                        <Label text="Capacité" style="-fx-font-weight: bold; -fx-text-fill: #2D1A6A;" />
+                                        <TextField fx:id="tfcapaciter" promptText="Ex: 50" styleClass="input-rounded" />
+                                    </VBox>
+                                </children>
+                            </HBox>
+
+                            <VBox spacing="5.0">
+                                <Label text="Catégorie / Type" style="-fx-font-weight: bold; -fx-text-fill: #2D1A6A;" />
+                                <ComboBox fx:id="cbtype" promptText="Sélectionner le type" styleClass="input-rounded" prefWidth="500.0" />
+                            </VBox>
+
+                            <HBox spacing="20.0">
+                                <children>
+                                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                        <Label text="Date de début" style="-fx-font-weight: bold; -fx-text-fill: #2D1A6A;" />
+                                        <DatePicker fx:id="dpdebut" promptText="Cliquer pour choisir" prefWidth="250.0" />
+                                    </VBox>
+                                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                        <Label text="Date de fin" style="-fx-font-weight: bold; -fx-text-fill: #2D1A6A;" />
+                                        <DatePicker fx:id="dpfin" promptText="Cliquer pour choisir" prefWidth="250.0" />
+                                    </VBox>
+                                </children>
+                            </HBox>
+
+                            <VBox spacing="5.0">
+                                <Label text="Description" style="-fx-font-weight: bold; -fx-text-fill: #2D1A6A;" />
+                                <TextArea fx:id="tadesc" prefHeight="100.0" promptText="Décrivez l'événement..." styleClass="input-rounded" style="-fx-background-radius: 10; -fx-border-radius: 10;" />
+                            </VBox>
+
+                            <HBox alignment="CENTER" spacing="20.0" style="-fx-padding: 10 0 0 0;">
+                                <children>
+                                    <Button fx:id="btnajouter" onAction="#ajouter" prefWidth="200.0" styleClass="btn-primary" text="Ajouter l'événement" style="-fx-font-size: 14px; -fx-padding: 10 0;" />
+                                </children>
+                            </HBox>
+                        </children>
+                    </VBox>
+                </children>
+            </VBox>
+         </children>
+      </VBox>
+   </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
