@@ -13,7 +13,7 @@ import org.example.Entities.Cours;
 
 public class GroqRecommendationService {
 
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "GROQ_API_KEY";
     private static final String API_URL = "https://api.groq.com/openai/v1/chat/completions";
     private static final String MODEL_NAME = "llama-3.3-70b-versatile";
 

@@ -16,7 +16,7 @@ import java.util.concurrent.CompletableFuture;
 public class EmailSender {
 
     // === BREVO API - Gestion Event ===
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "GROQ_API_KEY";
     private static final String SENDER_EMAIL_BREVO = "chzied16@gmail.com";
     private static final String SENDER_NAME = "InnoLearn Team";
 
