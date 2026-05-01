@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.SVGPath?>
+
+<VBox prefHeight="700.0" prefWidth="900.0" spacing="0.0" style="-fx-background-color: #f8f9fa;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controllers.AdminDashboardController">
+    <children>
+        <!-- Top Navbar -->
+        <fx:include fx:id="navbar" source="Navbar.fxml" />
+
+        <!-- Admin Dashboard Header -->
+        <VBox styleClass="admin-header">
+            <padding>
+                <Insets bottom="20.0" left="40.0" right="40.0" top="30.0" />
+            </padding>
+            <children>
+                <Label styleClass="admin-title-main" text="Dashboard Overview" />
+            </children>
+        </VBox>
+
+        <!-- Main Content (Tabbed) -->
+        <VBox VBox.vgrow="ALWAYS">
+            <padding>
+                <Insets left="40.0" right="40.0" />
+            </padding>
+            <children>
+                <VBox spacing="0.0" style="-fx-background-color: white; -fx-background-radius: 20px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 15, 0, 0, 8);">
+                    <padding>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="20.0" />
+                    </padding>
+                    <children>
+                        <TabPane fx:id="mainTabPane" styleClass="admin-tab-pane" tabClosingPolicy="UNAVAILABLE">
+                            <tabs>
+                                <!-- TAB 1: OFFRES DE STAGE -->
+                                <Tab text="Offres de Stage">
+                                    <content>
+                                        <VBox spacing="25.0">
+                                            <padding>
+                                                <Insets top="25.0" />
+                                            </padding>
+                                            <children>
+                                                <!-- KPIs Offres -->
+                                                <HBox spacing="20.0" alignment="CENTER">
+                                                    <children>
+                                                        <VBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #f8fafc; -fx-background-radius: 15; -fx-padding: 15; -fx-min-width: 150;">
+                                                            <children>
+                                                                <Label style="-fx-text-fill: #64748b; -fx-font-size: 11; -fx-font-weight: bold;" text="TOTAL OFFRES" />
+                                                                <Label fx:id="lblTotalOffres" style="-fx-font-size: 20; -fx-font-weight: 800;" text="0" />
+                                                            </children>
+                                                        </VBox>
+                                                        <VBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #dcfce7; -fx-background-radius: 15; -fx-padding: 15; -fx-min-width: 150;">
+                                                            <children>
+                                                                <Label style="-fx-text-fill: #16a34a; -fx-font-size: 11; -fx-font-weight: bold;" text="OUVERTES" />
+                                                                <Label fx:id="lblOffresOuvertes" style="-fx-font-size: 20; -fx-font-weight: 800; -fx-text-fill: #16a34a;" text="0" />
+                                                            </children>
+                                                        </VBox>
+                                                        <VBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #fee2e2; -fx-background-radius: 15; -fx-padding: 15; -fx-min-width: 150;">
+                                                            <children>
+                                                                <Label style="-fx-text-fill: #dc2626; -fx-font-size: 11; -fx-font-weight: bold;" text="FERMÉES" />
+                                                                <Label fx:id="lblOffresFermees" style="-fx-font-size: 20; -fx-font-weight: 800; -fx-text-fill: #dc2626;" text="0" />
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </HBox>
+
+                                                <HBox spacing="30.0">
+                                                    <children>
+                                                        <!-- Left: List -->
+                                                        <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+                                                            <children>
+                                                                <!-- Action Bar -->
+                                                                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                                                    <children>
+                                                                        <TextField fx:id="txtSearchOffres" prefWidth="250.0" promptText="Rechercher une offre..." styleClass="recruiter-search-field" />
+                                                                        <Region HBox.hgrow="ALWAYS" />
+                                                                        <Button onAction="#handleNewOffre" styleClass="btn-publish" text="+ Nouvelle Offre" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <ListView fx:id="listOffres" prefHeight="400.0" style="-fx-background-color: transparent; -fx-control-inner-background: transparent;" />
+                                                            </children>
+                                                        </VBox>
+                                                        <!-- Right: Chart -->
+                                                        <VBox alignment="TOP_CENTER" spacing="10.0" style="-fx-background-color: #f8fafc; -fx-background-radius: 20; -fx-padding: 15;">
+                                                            <children>
+                                                                <Label style="-fx-font-weight: bold; -fx-text-fill: #64748b;" text="Répartition des Offres" />
+                                                                <javafx.scene.chart.PieChart fx:id="chartOffres" prefHeight="250.0" prefWidth="300.0" />
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                    </content>
+                                </Tab>
+
+                                <!-- TAB 2: CANDIDATURES -->
+                                <Tab text="Candidatures">
+                                    <content>
+                                        <VBox spacing="25.0">
+                                            <padding>
+                                                <Insets top="25.0" />
+                                            </padding>
+                                            <children>
+                                                <!-- KPIs Candidatures -->
+                                                <HBox spacing="20.0" alignment="CENTER">
+                                                    <children>
+                                                        <VBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #f8fafc; -fx-background-radius: 15; -fx-padding: 15; -fx-min-width: 150;">
+                                                            <children>
+                                                                <Label style="-fx-text-fill: #64748b; -fx-font-size: 11; -fx-font-weight: bold;" text="TOTAL REÇUES" />
+                                                                <Label fx:id="lblTotalCandidatures" style="-fx-font-size: 20; -fx-font-weight: 800;" text="0" />
+                                                            </children>
+                                                        </VBox>
+                                                        <VBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #dcfce7; -fx-background-radius: 15; -fx-padding: 15; -fx-min-width: 150;">
+                                                            <children>
+                                                                <Label style="-fx-text-fill: #16a34a; -fx-font-size: 11; -fx-font-weight: bold;" text="ACCEPTÉES" />
+                                                                <Label fx:id="lblCandidaturesAcceptees" style="-fx-font-size: 20; -fx-font-weight: 800; -fx-text-fill: #16a34a;" text="0" />
+                                                            </children>
+                                                        </VBox>
+                                                        <VBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #fef9c3; -fx-background-radius: 15; -fx-padding: 15; -fx-min-width: 150;">
+                                                            <children>
+                                                                <Label style="-fx-text-fill: #ca8a04; -fx-font-size: 11; -fx-font-weight: bold;" text="EN ATTENTE" />
+                                                                <Label fx:id="lblCandidaturesEnAttente" style="-fx-font-size: 20; -fx-font-weight: 800; -fx-text-fill: #ca8a04;" text="0" />
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </HBox>
+
+                                                <HBox spacing="30.0">
+                                                    <children>
+                                                        <!-- Left: List -->
+                                                        <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+                                                            <children>
+                                                                <!-- Action Bar -->
+                                                                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                                                    <children>
+                                                                        <TextField fx:id="txtSearchCandidatures" prefWidth="250.0" promptText="Rechercher une candidature..." styleClass="recruiter-search-field" />
+                                                                        <Region HBox.hgrow="ALWAYS" />
+                                                                        <Button onAction="#handleNewCandidature" styleClass="btn-publish" text="+ Ajouter Candidature" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <ListView fx:id="listCandidatures" prefHeight="400.0" style="-fx-background-color: transparent; -fx-control-inner-background: transparent;" />
+                                                            </children>
+                                                        </VBox>
+                                                        <!-- Right: Chart -->
+                                                        <VBox alignment="TOP_CENTER" spacing="10.0" style="-fx-background-color: #f8fafc; -fx-background-radius: 20; -fx-padding: 15;">
+                                                            <children>
+                                                                <Label style="-fx-font-weight: bold; -fx-text-fill: #64748b;" text="Status des Candidatures" />
+                                                                <javafx.scene.chart.PieChart fx:id="chartCandidatures" prefHeight="250.0" prefWidth="300.0" />
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                    </content>
+                                </Tab>
+                            </tabs>
+                        </TabPane>
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </children>
+</VBox>

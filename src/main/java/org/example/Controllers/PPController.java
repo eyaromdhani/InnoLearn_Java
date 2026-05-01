@@ -93,6 +93,15 @@ public class PPController {
             e.printStackTrace();
         }
     }
+    @FXML
+    public void ouvrirOpportunites() {
+        try {
+            MainFX.chargerPage("/Stages.fxml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     private void chargerCategories() {

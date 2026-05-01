@@ -2,27 +2,15 @@ package org.example.Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
-import java.io.IOException;
+import org.example.MainFX;
 
 public class PageAccueilController {
 
     @FXML
     void onEspaceEtudiantClick(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PageEtudiant.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root, 1024, 768)); // Assume une taille plus grande pour la fenêtre principale
-            stage.setTitle("Espace Etudiant");
-            stage.show();
-        } catch (IOException e) {
+            MainFX.chargerPage("/PageEtudiant.fxml");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -30,14 +18,17 @@ public class PageAccueilController {
     @FXML
     void onEspaceEnseignantClick(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PageEnseignant.fxml"));
-            Parent root = loader.load();
+            MainFX.chargerPage("/PageEnseignant.fxml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root, 900, 600));
-            stage.setTitle("Espace Enseignant - Mes Cours");
-            stage.show();
-        } catch (IOException e) {
+    @FXML
+    void onEspaceRecruteurClick(ActionEvent event) {
+        try {
+            MainFX.chargerPage("/RecruiterDashboard.fxml");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -45,14 +36,8 @@ public class PageAccueilController {
     @FXML
     void onEspaceAdminClick(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PageAdmin.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root, 1200, 700));
-            stage.setTitle("Espace Administrateur");
-            stage.show();
-        } catch (IOException e) {
+            MainFX.chargerPage("/PageAdmin.fxml");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

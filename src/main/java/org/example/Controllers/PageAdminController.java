@@ -43,5 +43,14 @@ public class PageAdminController {
             e.printStackTrace();
         }
     }
+    @FXML
+    void onGestionStagesClick(javafx.event.Event event) {
+        try {
+            MainFX.chargerPage("/AdminDashboard.fxml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

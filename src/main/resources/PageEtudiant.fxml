@@ -30,7 +30,7 @@
             <Button text="Projets"
                     style="-fx-background-color: transparent; -fx-text-fill: white;
                        -fx-font-size: 13px; -fx-font-weight: bold;"/>
-            <Button text="Opportunités"
+            <Button text="Opportunités" onAction="#ouvrirOpportunites"
                     style="-fx-background-color: transparent; -fx-text-fill: white;
                        -fx-font-size: 13px; -fx-font-weight: bold;"/>
             <Button text="Événements"  onAction="#ouvrirEvenements"
@@ -89,7 +89,7 @@
                   -fx-background-radius: 200;">
             <ImageView fitWidth="250" fitHeight="250" preserveRatio="true">
                 <image>
-                    <Image url="@/images/student.png"/>
+                    <Image url="@/assets/student.png"/>
                 </image>
             </ImageView>
         </StackPane>

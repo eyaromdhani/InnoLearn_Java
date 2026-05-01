@@ -5,32 +5,39 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MyDataBase {
-    final String url = "jdbc:mysql://localhost:3306/innolearn_db";
-    final String user = "root";
-    final String pwd = "";
+    private final String URL = "jdbc:mysql://127.0.0.1:3306/innolearn_db?serverTimezone=UTC";
+    private final String USER = "root";
+    private final String PASSWORD = "";
 
-    private Connection conn;
-    static MyDataBase instance ;
-    //constructor
-    private MyDataBase(){
-        try{
-            conn = DriverManager.getConnection(url, user, pwd);
-            System.out.println("Connected to database successfully");
-        }catch(SQLException e) {
-            System.out.println(e.getMessage());
+    private Connection connection;
+    private static MyDataBase instance;
+
+    // Constructeur privé
+    private MyDataBase() {
+        try {
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println("Connexion établie !");
+        } catch (SQLException e) {
+            System.err.println("Erreur de connexion : " + e.getMessage());
         }
     }
 
-    public static MyDataBase getInstance()  {
+    // Méthode pour obtenir l'instance unique
+    public static MyDataBase getInstance() {
         if (instance == null) {
-            instance = new MyDataBase() ;
+            instance = new MyDataBase();
         }
         return instance;
     }
 
     public Connection getConnection() {
-        return conn;
+        try {
+            if (connection == null || connection.isClosed()) {
+                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur de reconnexion : " + e.getMessage());
+        }
+        return connection;
     }
-
-
 }
