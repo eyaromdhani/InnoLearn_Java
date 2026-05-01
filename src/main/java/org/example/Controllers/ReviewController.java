@@ -1,4 +1,4 @@
-package org.example.controller;
+package org.example.Controllers;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -7,9 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.MainFX;
-import org.example.entity.Event;
-import org.example.entity.Review;
-import org.example.service.ReviewService;
+import org.example.Entities.Event;
+import org.example.Entities.Review;
+import org.example.Services.ReviewService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

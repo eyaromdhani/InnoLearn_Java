@@ -1,4 +1,4 @@
-package org.example.controller;
+package org.example.Controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,8 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import org.example.MainFX;
-import org.example.entity.InscriptionEvent;
-import org.example.service.InscriptionEventService;
+import org.example.Services.EventService;
+import org.example.Entities.InscriptionEvent;
+import org.example.Services.InscriptionEventService;
 
 import java.io.IOException;
 import java.util.List;
@@ -54,10 +55,10 @@ public class GestionInscriptionController {
             
             // Send Confirmation Email in a background thread to not block UI
             new Thread(() -> {
-                org.example.service.EventService evS = new org.example.service.EventService();
-                List<org.example.entity.Event> events = evS.getAllEvents();
+                EventService evS = new EventService();
+                List<org.example.Entities.Event> events = evS.getAllEvents();
                 String eventTitle = "votre événement";
-                for(org.example.entity.Event ev : events) {
+                for(org.example.Entities.Event ev : events) {
                     if(ev.getId() == selectedInscription.getEventId()) {
                         eventTitle = ev.getTitre();
                         break;

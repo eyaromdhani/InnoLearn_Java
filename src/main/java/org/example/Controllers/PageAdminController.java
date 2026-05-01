@@ -34,4 +34,14 @@ public class PageAdminController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    void onGestionEvenementsClick(Event event) {
+        try {
+            MainFX.chargerPage("/AfficherEvent.fxml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

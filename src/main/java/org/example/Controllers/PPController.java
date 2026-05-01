@@ -85,6 +85,16 @@ public class PPController {
         }
     }
 
+    @FXML
+    public void ouvrirEvenements() {
+        try {
+            MainFX.chargerPage("/InscriptionEvent.fxml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     private void chargerCategories() {
         categorieCombo.getItems().add("Toutes les catégories");
         for (Categorie_cours c : toutesLesCategories) {

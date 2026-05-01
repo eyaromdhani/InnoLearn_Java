@@ -1,4 +1,4 @@
-package org.example.controller;
+package org.example.Controllers;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -9,8 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.MainFX;
-import org.example.entity.Event;
-import org.example.service.EventService;
+import org.example.Entities.Event;
+import org.example.Services.EventService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

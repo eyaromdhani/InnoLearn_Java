@@ -1,7 +1,7 @@
 package org.example.Services;
 
 import org.example.Entities.Categorie_cours;
-import org.example.utiles.MyDataBase;
+import org.example.utils.MyDataBase;
 
 import java.sql.*;
 import java.util.ArrayList;

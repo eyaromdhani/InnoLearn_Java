@@ -1,7 +1,7 @@
-package org.example.service;
+package org.example.Services;
 
-import org.example.entity.Review;
-import org.example.utils.Mydatabase;
+import org.example.Entities.Review;
+import org.example.utils.MyDataBase;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ public class ReviewService {
     private Connection connection;
 
     public ReviewService() {
-        this.connection = Mydatabase.getInstance().getConnection();
+        this.connection = MyDataBase.getInstance().getConnection();
     }
 
     public void addReview(Review r) {

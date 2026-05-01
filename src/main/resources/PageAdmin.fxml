@@ -54,6 +54,15 @@
                 <Label text="Structurer la base avec des catégories (CRUD)" style="-fx-font-size: 14px; -fx-text-fill: #666;" />
                 <Button text="Accéder" onAction="#onGestionCategoriesClick" style="-fx-background-color: #f72585; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 30 10 30; -fx-cursor: hand;" />
             </VBox>
+
+            <VBox alignment="CENTER" spacing="20" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3); -fx-padding: 50; -fx-cursor: hand;"
+                  onMouseClicked="#onGestionEvenementsClick">
+                <Label text="📅" style="-fx-font-size: 60px;" />
+                <Label text="Gestion des Événements" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;" />
+                <Label text="Gérer les inscriptions et les événements." style="-fx-font-size: 14px; -fx-text-fill: #666;" />
+                <Button text="Accéder" onAction="#onGestionEvenementsClick" style="-fx-background-color: #4361ee; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 30 10 30; -fx-cursor: hand;" />
+            </VBox>
+
         </HBox>
     </VBox>
 </VBox>

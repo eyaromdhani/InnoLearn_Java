@@ -33,7 +33,7 @@
             <Button text="Opportunités"
                     style="-fx-background-color: transparent; -fx-text-fill: white;
                        -fx-font-size: 13px; -fx-font-weight: bold;"/>
-            <Button text="Événements"
+            <Button text="Événements"  onAction="#ouvrirEvenements"
                     style="-fx-background-color: transparent; -fx-text-fill: white;
                        -fx-font-size: 13px; -fx-font-weight: bold;"/>
             <Button text="Quiz"

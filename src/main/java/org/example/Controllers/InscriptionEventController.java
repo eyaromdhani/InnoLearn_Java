@@ -1,21 +1,19 @@
-package org.example.controller;
+package org.example.Controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.geometry.Pos;
-import javafx.geometry.Insets;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.MainFX;
-import org.example.entity.Event;
-import org.example.entity.InscriptionEvent;
-import org.example.service.EventService;
-import org.example.service.InscriptionEventService;
+import org.example.Entities.Event;
+import org.example.Entities.InscriptionEvent;
+import org.example.Services.EventService;
+import org.example.Services.InscriptionEventService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -110,12 +108,12 @@ public class InscriptionEventController {
 
     private VBox createEventCard(Event event) {
         VBox card = new VBox();
-        card.getStyleClass().add("event-card");
+        card.getStyleClass().add("card-event");
         card.setPrefWidth(220);
         card.setMaxWidth(220);
 
         boolean isFull = event.getCapacite() <= 0;
-        boolean isEnded = event.getDateFin() != null && java.time.LocalDateTime.now().isAfter(event.getDateFin());
+        boolean isEnded = event.getDateFin() != null && LocalDateTime.now().isAfter(event.getDateFin());
 
         if (isEnded) {
             // Card is clickable for ended events (to see reviews)
@@ -123,7 +121,7 @@ public class InscriptionEventController {
             javafx.scene.effect.ColorAdjust desaturate = new javafx.scene.effect.ColorAdjust();
             desaturate.setSaturation(-0.5); // Less gray
             card.setEffect(desaturate);
-            card.setCursor(javafx.scene.Cursor.HAND);
+            card.setCursor(Cursor.HAND);
             card.setOnMouseClicked(e -> gotoReviews(event)); // New method
         } else if (isFull) {
             card.setOpacity(0.5);
@@ -131,7 +129,7 @@ public class InscriptionEventController {
             desaturate.setSaturation(-1.0);
             card.setEffect(desaturate);
         } else {
-            card.setCursor(javafx.scene.Cursor.HAND);
+            card.setCursor(Cursor.HAND);
             card.setOnMouseClicked(e -> showDetails(event));
         }
 
@@ -202,14 +200,13 @@ public class InscriptionEventController {
     }
 
     private void updateButtonStatus(Button btn, Event event) {
-        boolean isEnded = event.getDateFin() != null && java.time.LocalDateTime.now().isAfter(event.getDateFin());
+        boolean isEnded = event.getDateFin() != null && LocalDateTime.now().isAfter(event.getDateFin());
         String status = getInscriptionStatus(event.getId(), userId, null); // Pass null as we don't have email yet for global check
         
         if (isEnded) {
             btn.setText("Avis & Feedback");
             btn.setDisable(false);
-            btn.getStyleClass().setAll("btn-primary");
-            btn.setStyle("-fx-background-color: #FFAA00; -fx-text-fill: white;");
+            btn.getStyleClass().setAll("btn-feedback");
             btn.setOnAction(e -> {
                  e.consume();
                  gotoReviews(event);
@@ -243,7 +240,7 @@ public class InscriptionEventController {
         lblModalType.setText(event.getTypeEvenement() != null ? event.getTypeEvenement().toUpperCase() : "EVENT");
         lblModalLieu.setText("📍 Lieu: " + event.getLieu());
         
-        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("dd MMMM yyyy 'à' HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy 'à' HH:mm");
         String dateStr = event.getDateDebut() != null ? event.getDateDebut().format(formatter) : "Date non spécifiée";
         lblModalDate.setText("📅 Date: " + dateStr);
         
@@ -288,7 +285,7 @@ public class InscriptionEventController {
         InscriptionEvent inscriptionEvent = new InscriptionEvent();
         inscriptionEvent.setName(name);
         inscriptionEvent.setEmail(email);
-        inscriptionEvent.setDateInscrit(java.time.LocalDateTime.now());
+        inscriptionEvent.setDateInscrit(LocalDateTime.now());
         inscriptionEvent.setStatus("En attente");
         inscriptionEvent.setEventId(selectedEvent.getId());
         inscriptionEvent.setUserId(userId);

@@ -1,25 +1,17 @@
-package org.example.controller;
+package org.example.Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.Priority;
-import javafx.geometry.Pos;
 import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.example.MainFX;
-import org.example.entity.Event;
-import org.example.service.EventService;
+import org.example.Entities.Event;
+import org.example.Services.EventService;
 
 import java.io.IOException;
 import java.util.List;

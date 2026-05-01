@@ -1,6 +1,7 @@
-package org.example.service;
-import org.example.entity.InscriptionEvent;
-import org.example.utils.Mydatabase;
+package org.example.Services;
+import org.example.Entities.InscriptionEvent;
+import org.example.Entities.InscriptionEvent;
+import org.example.utils.MyDataBase;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ public class InscriptionEventService {
     private final Connection connection;
 
     public InscriptionEventService() {
-        this.connection = Mydatabase.getInstance().getConnection();
+        this.connection = MyDataBase.getInstance().getConnection();
     }
 
     public void addInscription(InscriptionEvent inscription) {
