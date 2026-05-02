@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.CaptchaController"
+            prefWidth="1200" prefHeight="800" style="-fx-background-color: #0f172a;">
+
+    <!-- Background Blobs -->
+    <Circle radius="300" fill="#6366f1" opacity="0.15" layoutX="1000" layoutY="0">
+        <effect><GaussianBlur radius="100"/></effect>
+    </Circle>
+    <Circle radius="250" fill="#38bdf8" opacity="0.1" layoutX="200" layoutY="700">
+        <effect><GaussianBlur radius="100"/></effect>
+    </Circle>
+
+    <VBox alignment="CENTER" spacing="40" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        
+        <VBox alignment="CENTER" spacing="10">
+            <Label text="Security Check" style="-fx-text-fill: white; -fx-font-size: 32px; -fx-font-weight: bold;"/>
+            <Label text="Please verify you are human to continue." style="-fx-text-fill: #94a3b8; -fx-font-size: 16px;"/>
+        </VBox>
+
+        <StackPane maxWidth="450" style="-fx-background-color: rgba(255,255,255,0.05); -fx-background-radius: 30; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 30; -fx-padding: 40;">
+            <VBox spacing="30" alignment="CENTER">
+                <!-- Captcha Image Display (Styled Label for now) -->
+                <HBox alignment="CENTER" spacing="10" style="-fx-background-color: #1e1b4b; -fx-padding: 20; -fx-background-radius: 15;">
+                    <Label fx:id="captchaText" text="A 7 X 2 B" 
+                           style="-fx-text-fill: #facc15; -fx-font-size: 36px; -fx-font-weight: 900; -fx-font-family: 'serif'; -fx-letter-spacing: 10;"/>
+                    <Button onAction="#refreshCaptcha" style="-fx-background-color: transparent; -fx-cursor: hand;">
+                        <graphic><Label text="🔄" style="-fx-text-fill: white; -fx-font-size: 20px;"/></graphic>
+                    </Button>
+                </HBox>
+
+                <VBox spacing="15">
+                    <TextField fx:id="inputField" promptText="Enter the code above" 
+                               style="-fx-background-color: rgba(255,255,255,0.1); -fx-text-fill: white; -fx-padding: 15; -fx-background-radius: 15; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 15; -fx-font-size: 16px;"/>
+                    
+                    <Button text="VERIFY &amp; ENTER" onAction="#handleVerify" maxWidth="Infinity"
+                            style="-fx-background-color: linear-gradient(to right, #6366f1, #38bdf8); -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 15; -fx-background-radius: 15; -fx-cursor: hand;">
+                        <effect><DropShadow color="rgba(99,102,241,0.4)" radius="20" offsetY="10"/></effect>
+                    </Button>
+                </VBox>
+                
+                <Label fx:id="errorLabel" text="Incorrect code. Try again." visible="false" style="-fx-text-fill: #ef4444;"/>
+            </VBox>
+        </StackPane>
+    </VBox>
+</AnchorPane>

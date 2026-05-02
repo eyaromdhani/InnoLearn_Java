@@ -1,0 +1,231 @@
+.root-pane {
+    -fx-background-color: #f8fafc;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    -fx-background-color: #1e1b4b;
+    -fx-padding: 30 0;
+}
+
+.logo-box {
+    -fx-padding: 0 25 30 25;
+}
+
+.logo-icon {
+    -fx-text-fill: #8b5cf6;
+    -fx-font-size: 24px;
+    -fx-padding: 0 10 0 0;
+}
+
+.logo-text {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.sidebar-sep {
+    -fx-border-color: rgba(255, 255, 255, 0.05);
+    -fx-padding: 0 20;
+}
+
+.nav-section {
+    -fx-padding: 30 15;
+}
+
+.nav-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #94a3b8;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12 20;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-background-radius: 10;
+    -fx-pref-width: 210;
+}
+
+.nav-btn:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-text-fill: white;
+}
+
+.logout-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ef4444;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 20 25;
+}
+
+.delete-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #64748b;
+    -fx-font-size: 11px;
+    -fx-cursor: hand;
+    -fx-padding: 10 20;
+}
+
+/* Main Content Area */
+.main-scroll {
+    -fx-background-color: transparent;
+}
+
+.main-content {
+    -fx-padding: 40 60;
+}
+
+.page-title {
+    -fx-text-fill: #1e1b4b;
+    -fx-font-size: 28px;
+    -fx-font-weight: 900;
+}
+
+.page-subtitle {
+    -fx-text-fill: #64748b;
+    -fx-font-size: 14px;
+}
+
+.edit-btn {
+    -fx-background-color: #7c3aed;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+}
+
+/* Profile Card */
+.profile-card {
+    -fx-background-color: white;
+    -fx-background-radius: 30;
+    -fx-padding: 40;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 30, 0, 0, 10);
+}
+
+.avatar-ring {
+    -fx-fill: transparent;
+    -fx-stroke: #e2e8f0;
+    -fx-stroke-width: 2;
+}
+
+.avatar-initials {
+    -fx-text-fill: #7c3aed;
+    -fx-font-size: 32px;
+    -fx-font-weight: 900;
+}
+
+.role-badge {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #64748b;
+    -fx-padding: 5 15;
+    -fx-background-radius: 20;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+
+.profile-name {
+    -fx-text-fill: #1e1b4b;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.profile-email {
+    -fx-text-fill: #7c3aed;
+    -fx-font-size: 14px;
+}
+
+.info-label {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+
+.info-value {
+    -fx-text-fill: #1e1b4b;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+/* Form Styling */
+.field-input {
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 25;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 25;
+    -fx-padding: 12 20;
+    -fx-text-fill: #1e1b4b;
+}
+
+.field-input:focused {
+    -fx-border-color: #7c3aed;
+    -fx-background-color: white;
+}
+
+.save-btn {
+    -fx-background-color: linear-gradient(to right, #8b5cf6, #7c3aed);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 12 30;
+    -fx-background-radius: 25;
+    -fx-cursor: hand;
+}
+
+.cancel-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #64748b;
+    -fx-cursor: hand;
+}
+
+/* Stat Cards */
+.stat-card {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-padding: 25;
+    -fx-alignment: CENTER;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 20, 0, 0, 5);
+}
+
+.stat-number {
+    -fx-text-fill: #1e1b4b;
+    -fx-font-size: 28px;
+    -fx-font-weight: 900;
+}
+
+.stat-label {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+/* Activity Section */
+.activity-item {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-padding: 15 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.02), 10, 0, 0, 2);
+}
+
+.activity-icon {
+    -fx-text-fill: #7c3aed;
+    -fx-font-size: 18px;
+}
+
+.activity-name {
+    -fx-text-fill: #1e1b4b;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.activity-meta {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 11px;
+}
+
+.activity-status {
+    -fx-text-fill: #22c55e;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-background-color: #f0fdf4;
+    -fx-padding: 4 10;
+    -fx-background-radius: 10;
+}

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.HomePageController"
+            prefWidth="1200" prefHeight="800" stylesheets="@home.css">
+
+    <VBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        
+        <!-- HEADER -->
+        <HBox alignment="CENTER_LEFT" spacing="30" styleClass="header">
+            <Label text="InnoLearn" styleClass="logo-text"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Accueil" styleClass="nav-link"/>
+                <Button text="Cours" styleClass="nav-link"/>
+                <Button text="Projets" styleClass="nav-link"/>
+                <Button text="Événements" styleClass="nav-link"/>
+                <Button text="Stages" styleClass="nav-link"/>
+            </HBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <HBox spacing="15" alignment="CENTER">
+                <Button style="-fx-background-color: transparent; -fx-cursor: hand;">
+                    <graphic><Label text="🌐 FR" style="-fx-text-fill: white; -fx-font-weight: bold;"/></graphic>
+                </Button>
+                <Button text="Logout" styleClass="signup-btn" style="-fx-background-color: #ef4444;" onAction="#handleLogout"/>
+            </HBox>
+        </HBox>
+
+        <HBox VBox.vgrow="ALWAYS">
+            <!-- SIDE PROFILE PANEL -->
+            <VBox spacing="30" prefWidth="300" style="-fx-background-color: #f8fafc; -fx-padding: 40; -fx-border-color: transparent #e2e8f0 transparent transparent;">
+                <VBox alignment="CENTER" spacing="15">
+                    <StackPane style="-fx-background-color: #6366f1; -fx-background-radius: 50; -fx-min-width: 100; -fx-min-height: 100;">
+                        <Label fx:id="profileInitials" text="JD" style="-fx-text-fill: white; -fx-font-size: 32px; -fx-font-weight: bold;"/>
+                    </StackPane>
+                    <VBox alignment="CENTER" spacing="5">
+                        <Label fx:id="profileName" text="John Doe" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1e1b4b;"/>
+                        <Label fx:id="profileRole" text="Student" style="-fx-text-fill: #64748b; -fx-font-size: 14px;"/>
+                    </VBox>
+                </VBox>
+
+                <VBox spacing="15">
+                    <Button text="👤 My Profile" maxWidth="Infinity" alignment="CENTER_LEFT" onAction="#goToProfile"
+                            style="-fx-background-color: #e0e7ff; -fx-text-fill: #4338ca; -fx-padding: 12 20; -fx-background-radius: 10; -fx-font-weight: bold;"/>
+                    <Button text="📑 My Courses" maxWidth="Infinity" alignment="CENTER_LEFT"
+                            style="-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-padding: 12 20; -fx-background-radius: 10;"/>
+                    <Button text="🏆 Certificates" maxWidth="Infinity" alignment="CENTER_LEFT"
+                            style="-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-padding: 12 20; -fx-background-radius: 10;"/>
+                    <Button text="⚙️ Settings" maxWidth="Infinity" alignment="CENTER_LEFT"
+                            style="-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-padding: 12 20; -fx-background-radius: 10;"/>
+                </VBox>
+            </VBox>
+
+            <!-- MAIN CONTENT AREA -->
+            <ScrollPane HBox.hgrow="ALWAYS" fitToWidth="true" style="-fx-background-color: white; -fx-background: white; -fx-border-width: 0;">
+                <VBox spacing="40" style="-fx-padding: 50;">
+                    <!-- HERO SECTION (Compact for logged in) -->
+                    <VBox spacing="15" style="-fx-background-color: #1e1b4b; -fx-padding: 40; -fx-background-radius: 30;">
+                        <Label fx:id="welcomeLabel" text="WELCOME BACK, JOHN" style="-fx-text-fill: #a5b4fc; -fx-font-weight: bold;"/>
+                        <Label text="Continuons votre apprentissage" style="-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: 900;"/>
+                        <HBox maxWidth="500" styleClass="search-container" style="-fx-background-color: rgba(255,255,255,0.1); -fx-border-color: rgba(255,255,255,0.2);">
+                            <TextField promptText="Rechercher un cours..." HBox.hgrow="ALWAYS" styleClass="search-field" style="-fx-text-fill: white;"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- AUJOURD'HUI SECTION -->
+                    <VBox spacing="25">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label text="Aujourd'hui" styleClass="section-header"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Hyperlink text="Voir tout" style="-fx-text-fill: #6366f1; -fx-font-weight: bold;"/>
+                        </HBox>
+
+                        <FlowPane hgap="30" vgap="30">
+                            <!-- Card 1 -->
+                            <VBox spacing="15" prefWidth="350" styleClass="course-card">
+                                <HBox spacing="15" alignment="CENTER_LEFT">
+                                    <StackPane styleClass="course-icon-bg">
+                                        <Label text="🎨" style="-fx-font-size: 24px;"/>
+                                    </StackPane>
+                                    <VBox>
+                                        <Label text="UI/UX Design Masterclass" styleClass="course-title"/>
+                                        <Label text="Progression: 65%" styleClass="course-author"/>
+                                    </VBox>
+                                </HBox>
+                                <ProgressBar progress="0.65" maxWidth="Infinity" style="-fx-accent: #6366f1;"/>
+                            </VBox>
+
+                            <!-- Card 2 -->
+                            <VBox spacing="15" prefWidth="350" styleClass="course-card">
+                                <HBox spacing="15" alignment="CENTER_LEFT">
+                                    <StackPane styleClass="course-icon-bg" style="-fx-background-color: #fef3c7;">
+                                        <Label text="💻" style="-fx-font-size: 24px;"/>
+                                    </StackPane>
+                                    <VBox>
+                                        <Label text="Fullstack Web Development" styleClass="course-title"/>
+                                        <Label text="Progression: 12%" styleClass="course-author"/>
+                                    </VBox>
+                                </HBox>
+                                <ProgressBar progress="0.12" maxWidth="Infinity" style="-fx-accent: #facc15;"/>
+                            </VBox>
+                        </FlowPane>
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+        </HBox>
+    </VBox>
+</AnchorPane>

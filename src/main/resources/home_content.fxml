@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.Insets?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.HomeContentController"
+            fitToWidth="true" hbarPolicy="NEVER"
+            style="-fx-background-color: white;">
+
+    <VBox spacing="0" style="-fx-background-color: white;">
+        
+        <!-- TOP NAVIGATION BAR -->
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: #1e1b4b; -fx-padding: 15 40;">
+            <Label text="InnoLearn" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;"/>
+            
+            <Region HBox.hgrow="ALWAYS"/>
+            
+            <HBox spacing="25" alignment="CENTER">
+                <Hyperlink text="Accueil" style="-fx-text-fill: white; -fx-underline: false; -fx-font-size: 13px;"/>
+                <Hyperlink text="Cours" style="-fx-text-fill: rgba(255,255,255,0.7); -fx-underline: false; -fx-font-size: 13px;"/>
+                <Hyperlink text="Projets" style="-fx-text-fill: rgba(255,255,255,0.7); -fx-underline: false; -fx-font-size: 13px;"/>
+                <Hyperlink text="Événements" style="-fx-text-fill: rgba(255,255,255,0.7); -fx-underline: false; -fx-font-size: 13px;"/>
+                <Hyperlink text="Stages" style="-fx-text-fill: rgba(255,255,255,0.7); -fx-underline: false; -fx-font-size: 13px;"/>
+            </HBox>
+            
+            <Region HBox.hgrow="ALWAYS"/>
+            
+            <HBox spacing="15" alignment="CENTER">
+                <Button fx:id="loginBtn" text="Login" onAction="#goToLogin"
+                        style="-fx-background-color: transparent; -fx-text-fill: white; -fx-border-color: rgba(255,255,255,0.3); -fx-border-radius: 20; -fx-padding: 6 20; -fx-cursor: hand;"/>
+                <Button fx:id="signupBtn" text="Sign Up" onAction="#goToSignup"
+                        style="-fx-background-color: #6366f1; -fx-text-fill: white; -fx-background-radius: 20; -fx-padding: 7 22; -fx-font-weight: bold; -fx-cursor: hand;"/>
+            </HBox>
+        </HBox>
+
+        <!-- HERO SECTION -->
+        <AnchorPane prefHeight="420" style="-fx-background-color: linear-gradient(to bottom right, #1e1b4b, #4338ca);">
+            
+            <!-- Abstract background shapes -->
+            <Circle radius="80" fill="#a855f7" opacity="0.2" layoutX="100" layoutY="100"/>
+            <Circle radius="40" fill="#6366f1" opacity="0.3" layoutX="850" layoutY="150"/>
+            
+            <VBox layoutX="80" layoutY="60" spacing="25" prefWidth="500">
+                <VBox spacing="5">
+                    <Label text="WELCOME TO THE FUTURE" style="-fx-text-fill: #a5b4fc; -fx-font-size: 12px; -fx-font-weight: bold; -fx-letter-spacing: 2px;"/>
+                    <Label text="Master New Skills," style="-fx-text-fill: white; -fx-font-size: 42px; -fx-font-weight: 900;"/>
+                    <Label text="Build Your Future." style="-fx-text-fill: #fbbf24; -fx-font-size: 42px; -fx-font-weight: 900;"/>
+                </VBox>
+                
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <ComboBox promptText="Toutes les catégories" 
+                              style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 5 10; -fx-pref-width: 180;"/>
+                    <TextField promptText="Rechercher vos cours, activités..." 
+                               style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 10 15; -fx-pref-width: 300;"/>
+                </HBox>
+                
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Trier par:" style="-fx-text-fill: white; -fx-opacity: 0.7;"/>
+                    <ComboBox value="Plus récents" 
+                              style="-fx-background-color: rgba(255,255,255,0.1); -fx-text-fill: white; -fx-background-radius: 5;"/>
+                </HBox>
+            </VBox>
+            
+            <!-- Illustration Image -->
+            <ImageView fitHeight="340" fitWidth="340" layoutX="600" layoutY="40" pickOnBounds="true" preserveRatio="true">
+                <Image url="@student_illustration_3d_1777720050679.png"/>
+            </ImageView>
+
+        </AnchorPane>
+
+        <!-- CONTENT SECTION (TODAY'S COURSES) -->
+        <VBox spacing="25" style="-fx-padding: 40 80;">
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Aujourd'hui" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #1e1b4b;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Hyperlink text="Voir tout" style="-fx-text-fill: #6366f1; -fx-font-weight: bold;"/>
+            </HBox>
+            
+            <FlowPane hgap="25" vgap="25">
+                <!-- Course Card 1 -->
+                <VBox prefWidth="280" spacing="15" style="-fx-background-color: #f8fafc; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <StackPane style="-fx-background-color: #e0e7ff; -fx-background-radius: 10; -fx-padding: 10;">
+                            <Label text="🎨" style="-fx-font-size: 20px;"/>
+                        </StackPane>
+                        <VBox spacing="2">
+                            <Label text="UI/UX Design Masterclass" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+                            <Label text="Par John Doe" style="-fx-text-fill: #64748b; -fx-font-size: 12px;"/>
+                        </VBox>
+                    </HBox>
+                    <ProgressBar progress="0.7" maxWidth="Infinity" style="-fx-accent: #6366f1; -fx-control-inner-background: #e2e8f0;"/>
+                    <Label text="70% complété" style="-fx-text-fill: #64748b; -fx-font-size: 11px;"/>
+                </VBox>
+
+                <!-- Course Card 2 -->
+                <VBox prefWidth="280" spacing="15" style="-fx-background-color: #f8fafc; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <StackPane style="-fx-background-color: #fef3c7; -fx-background-radius: 10; -fx-padding: 10;">
+                            <Label text="💻" style="-fx-font-size: 20px;"/>
+                        </StackPane>
+                        <VBox spacing="2">
+                            <Label text="Fullstack Web Development" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+                            <Label text="Par Jane Smith" style="-fx-text-fill: #64748b; -fx-font-size: 12px;"/>
+                        </VBox>
+                    </HBox>
+                    <ProgressBar progress="0.5" maxWidth="Infinity" style="-fx-accent: #f59e0b; -fx-control-inner-background: #e2e8f0;"/>
+                    <Label text="50% complété" style="-fx-text-fill: #64748b; -fx-font-size: 11px;"/>
+                </VBox>
+
+                <!-- Course Card 3 -->
+                <VBox prefWidth="280" spacing="15" style="-fx-background-color: #f8fafc; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 0, 5);">
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <StackPane style="-fx-background-color: #dcfce7; -fx-background-radius: 10; -fx-padding: 10;">
+                            <Label text="⚡" style="-fx-font-size: 20px;"/>
+                        </StackPane>
+                        <VBox spacing="2">
+                            <Label text="Advanced PHP &amp; Symfony" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+                            <Label text="Par Alex Johnson" style="-fx-text-fill: #64748b; -fx-font-size: 12px;"/>
+                        </VBox>
+                    </HBox>
+                    <ProgressBar progress="0.1" maxWidth="Infinity" style="-fx-accent: #10b981; -fx-control-inner-background: #e2e8f0;"/>
+                    <Label text="10% complété" style="-fx-text-fill: #64748b; -fx-font-size: 11px;"/>
+                </VBox>
+            </FlowPane>
+        </VBox>
+    </VBox>
+</ScrollPane>

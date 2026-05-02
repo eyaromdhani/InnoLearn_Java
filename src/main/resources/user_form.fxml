@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.UserFormController"
+            prefWidth="480" prefHeight="700"
+            fitToWidth="true"
+            style="-fx-background-color:#1e1b4b; -fx-background: #1e1b4b;">
+
+    <VBox spacing="14" style="-fx-padding:30;">
+
+        <Label fx:id="formTitle" text="Add User"
+               style="-fx-text-fill:white; -fx-font-size:22px; -fx-font-weight:900;"/>
+
+        <!-- Error Box -->
+        <VBox fx:id="errorBox" visible="false" managed="false"
+              style="-fx-background-color:#fee2e2; -fx-border-color:#ef4444;
+                     -fx-border-width:2; -fx-border-radius:10;
+                     -fx-background-radius:10; -fx-padding:10;">
+            <Label fx:id="errorMessage" text="" wrapText="true"
+                   style="-fx-text-fill:#b91c1c; -fx-font-weight:bold;"/>
+        </VBox>
+
+        <Label text="Full Name"
+               style="-fx-text-fill:#a5b4fc; -fx-font-size:11px; -fx-font-weight:bold;"/>
+        <TextField fx:id="nameField" promptText="Full Name"
+                   style="-fx-background-color:#f8fafc; -fx-background-radius:20;
+                          -fx-padding:10 16; -fx-font-size:13px;"/>
+
+        <Label text="Username"
+               style="-fx-text-fill:#a5b4fc; -fx-font-size:11px; -fx-font-weight:bold;"/>
+        <TextField fx:id="usernameField" promptText="Username"
+                   style="-fx-background-color:#f8fafc; -fx-background-radius:20;
+                          -fx-padding:10 16; -fx-font-size:13px;"/>
+
+        <Label text="Email"
+               style="-fx-text-fill:#a5b4fc; -fx-font-size:11px; -fx-font-weight:bold;"/>
+        <TextField fx:id="emailField" promptText="Email"
+                   style="-fx-background-color:#f8fafc; -fx-background-radius:20;
+                          -fx-padding:10 16; -fx-font-size:13px;"/>
+
+        <Label text="Password"
+               style="-fx-text-fill:#a5b4fc; -fx-font-size:11px; -fx-font-weight:bold;"/>
+        <PasswordField fx:id="passwordField"
+                       promptText="Password (leave blank to keep current)"
+                       style="-fx-background-color:#f8fafc; -fx-background-radius:20;
+                              -fx-padding:10 16; -fx-font-size:13px;"/>
+
+        <HBox spacing="16">
+            <VBox spacing="6" HBox.hgrow="ALWAYS">
+                <Label text="Country Code"
+                       style="-fx-text-fill:#a5b4fc; -fx-font-size:11px; -fx-font-weight:bold;"/>
+                <TextField fx:id="countryCodeField" promptText="+216"
+                           style="-fx-background-color:#f8fafc; -fx-background-radius:20;
+                                  -fx-padding:10 16; -fx-font-size:13px;"/>
+            </VBox>
+            <VBox spacing="6" HBox.hgrow="ALWAYS">
+                <Label text="Phone Number"
+                       style="-fx-text-fill:#a5b4fc; -fx-font-size:11px; -fx-font-weight:bold;"/>
+                <TextField fx:id="phoneField" promptText="Phone Number"
+                           style="-fx-background-color:#f8fafc; -fx-background-radius:20;
+                                  -fx-padding:10 16; -fx-font-size:13px;"/>
+            </VBox>
+        </HBox>
+
+        <HBox spacing="16">
+            <VBox spacing="6" HBox.hgrow="ALWAYS">
+                <Label text="Role"
+                       style="-fx-text-fill:#a5b4fc; -fx-font-size:11px; -fx-font-weight:bold;"/>
+                <ComboBox fx:id="roleCombo" promptText="Select Role"
+                          style="-fx-background-color:#f8fafc; -fx-background-radius:20;
+                                 -fx-padding:4 16; -fx-font-size:13px; -fx-pref-width:200;"/>
+            </VBox>
+            <VBox spacing="6" HBox.hgrow="ALWAYS">
+                <HBox spacing="24" alignment="CENTER_LEFT" VBox.vgrow="ALWAYS" style="-fx-padding:10 0 0 0;">
+                    <CheckBox fx:id="activeCheck" text="Active" selected="true"
+                              style="-fx-text-fill:white; -fx-font-weight:bold;"/>
+                    <CheckBox fx:id="bannedCheck" text="Banned"
+                              style="-fx-text-fill:white; -fx-font-weight:bold;"/>
+                </HBox>
+            </VBox>
+        </HBox>
+
+        <!-- Admin Strong Verification Panel -->
+        <VBox fx:id="adminVerificationPane" visible="false" managed="false" spacing="12"
+              style="-fx-background-color:#2a2656; -fx-border-color:#6366f1; -fx-border-width:1; 
+                     -fx-border-radius:12; -fx-background-radius:12; -fx-padding:16;">
+            <Label text="🛡 Admin Strong Verification Enrollment"
+                   style="-fx-text-fill:white; -fx-font-weight:bold; -fx-font-size:14px;"/>
+            <Label text="Required when role is Administrator. Setup hardware keys."
+                   style="-fx-text-fill:#94a3b8; -fx-font-size:11px;" wrapText="true"/>
+            
+            <HBox spacing="12">
+                <Button fx:id="btnUsbKey" text="1. USB Key" onAction="#onEnrollUsb" HBox.hgrow="ALWAYS" maxWidth="Infinity"
+                        style="-fx-background-color:#e0e7ff; -fx-text-fill:#3730a3; -fx-font-weight:bold; -fx-background-radius:8;"/>
+                <Button fx:id="btnFaceId" text="2. Face Capture" onAction="#onEnrollFace" HBox.hgrow="ALWAYS" maxWidth="Infinity" disable="true"
+                        style="-fx-background-color:#e2e8f0; -fx-text-fill:#475569; -fx-font-weight:bold; -fx-background-radius:8;"/>
+            </HBox>
+            <TextField fx:id="hardwareSignatureField" promptText="Hardware key will appear here..." editable="false"
+                       style="-fx-background-color:rgba(255,255,255,0.1); -fx-text-fill:white; -fx-prompt-text-fill:gray; -fx-font-family:monospace;"/>
+            <Label fx:id="enrollStatusLabel" text="" style="-fx-text-fill:#10b981; -fx-font-size:11px;"/>
+        </VBox>
+
+        <Region VBox.vgrow="ALWAYS"/>
+
+        <HBox spacing="12" alignment="CENTER_RIGHT">
+            <Button text="Cancel" onAction="#onCancel"
+                    style="-fx-background-color:#64748b; -fx-text-fill:white;
+                           -fx-background-radius:20; -fx-cursor:hand;
+                           -fx-padding:10 24; -fx-font-weight:bold;"/>
+            <Button fx:id="saveBtn" text="Save" onAction="#onSave"
+                    style="-fx-background-color:#6366f1; -fx-text-fill:white;
+                           -fx-background-radius:20; -fx-cursor:hand;
+                           -fx-padding:10 24; -fx-font-weight:bold;"/>
+        </HBox>
+    </VBox>
+</ScrollPane>

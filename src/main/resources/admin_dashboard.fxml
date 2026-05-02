@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.AdminDashboardController"
+            prefWidth="1280" prefHeight="800"
+            styleClass="root-pane"
+            stylesheets="@admin_dashboard.css">
+
+
+    <!-- LEFT SIDEBAR -->
+    <left>
+        <VBox styleClass="sidebar" prefWidth="256">
+            <HBox styleClass="logo-box" alignment="CENTER_LEFT">
+                <Label styleClass="logo-icon" text="✦"/>
+                <VBox spacing="0">
+                    <Label styleClass="logo-text" text="InnoLearn"/>
+                    <Label styleClass="logo-sub" text="Admin Panel"/>
+                </VBox>
+            </HBox>
+
+            <Separator styleClass="sidebar-sep"/>
+
+            <VBox styleClass="nav-section" VBox.vgrow="ALWAYS">
+                <Label styleClass="nav-group-label" text="OVERVIEW"/>
+                <Button styleClass="nav-btn, nav-active" text="⬛  Dashboard"/>
+                <Button styleClass="nav-btn" text="◉  Analytics" onAction="#goToAnalytics"/>
+
+                <Label styleClass="nav-group-label" text="MANAGEMENT"/>
+                <Button fx:id="btnUsers" styleClass="nav-btn" text="◎  Users" onAction="#goToUsers"/>
+                <Button styleClass="nav-btn" text="▦  Courses" onAction="#goToCourses"/>
+                <Button styleClass="nav-btn" text="◈  Projects" onAction="#goToProjects"/>
+                <Button styleClass="nav-btn" text="◆  Events" onAction="#goToEvents"/>
+                <Button styleClass="nav-btn" text="⊞  Quizzes" onAction="#goToQuizzes"/>
+                <Button styleClass="nav-btn" text="⊡  Internships" onAction="#goToInternships"/>
+
+                <Label styleClass="nav-group-label" text="SYSTEM"/>
+                <Button styleClass="nav-btn" text="⚙  Settings" onAction="#goToSettings"/>
+            </VBox>
+
+            <Separator styleClass="sidebar-sep"/>
+
+            <!-- Admin user card -->
+            <HBox styleClass="admin-card" alignment="CENTER_LEFT" spacing="12">
+                <StackPane styleClass="admin-avatar">
+                    <Label fx:id="adminInitials" styleClass="admin-initials" text="MA"/>
+                </StackPane>
+                <VBox spacing="2" HBox.hgrow="ALWAYS">
+                    <Label fx:id="adminName" styleClass="admin-name" text="Main Admin"/>
+                    <Label styleClass="admin-role" text="Administrator"/>
+                </VBox>
+                <Button styleClass="logout-icon" text="⇠" onAction="#logout"/>
+            </HBox>
+        </VBox>
+    </left>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <VBox styleClass="main-wrapper">
+
+            <!-- TOP BAR -->
+            <HBox styleClass="topbar" alignment="CENTER_LEFT">
+                <VBox HBox.hgrow="ALWAYS" spacing="2">
+                    <Label styleClass="topbar-title" text="Dashboard"/>
+                    <Label styleClass="topbar-date" fx:id="lblDate" text="Saturday, April 18, 2026"/>
+                </VBox>
+                <HBox spacing="12" alignment="CENTER_RIGHT">
+                    <TextField styleClass="search-field" promptText="🔍  Search..."/>
+                    <Button styleClass="notif-btn" text="🔔  3"/>
+                    <Button styleClass="profile-btn" text="◉  Profile" onAction="#goToProfile"/>
+                </HBox>
+            </HBox>
+
+            <!-- SCROLLABLE BODY -->
+            <ScrollPane styleClass="body-scroll" fitToWidth="true" VBox.vgrow="ALWAYS">
+                <VBox styleClass="body-content" spacing="24">
+
+                    <!-- KPI Cards -->
+                    <HBox spacing="16">
+                        <VBox styleClass="kpi-card, kpi-users" HBox.hgrow="ALWAYS">
+                            <HBox alignment="CENTER_LEFT" spacing="12">
+                                <Label styleClass="kpi-icon" text="◎"/>
+                                <Label styleClass="kpi-label" text="Total Users"/>
+                            </HBox>
+                            <Label fx:id="kpiUsers" styleClass="kpi-number" text="15"/>
+                            <Label styleClass="kpi-trend, trend-up" text="↑ 3 this week"/>
+                        </VBox>
+                        <VBox styleClass="kpi-card, kpi-courses" HBox.hgrow="ALWAYS">
+                            <HBox alignment="CENTER_LEFT" spacing="12">
+                                <Label styleClass="kpi-icon" text="▦"/>
+                                <Label styleClass="kpi-label" text="Active Courses"/>
+                            </HBox>
+                            <Label fx:id="kpiCourses" styleClass="kpi-number" text="20"/>
+                            <Label styleClass="kpi-trend, trend-up" text="↑ 6 new courses"/>
+                        </VBox>
+                        <VBox styleClass="kpi-card, kpi-events" HBox.hgrow="ALWAYS">
+                            <HBox alignment="CENTER_LEFT" spacing="12">
+                                <Label styleClass="kpi-icon" text="◆"/>
+                                <Label styleClass="kpi-label" text="Upcoming Events"/>
+                            </HBox>
+                            <Label fx:id="kpiEvents" styleClass="kpi-number" text="4"/>
+                            <Label styleClass="kpi-trend, trend-neutral" text="→ 2 workshops"/>
+                        </VBox>
+                        <VBox styleClass="kpi-card, kpi-internships" HBox.hgrow="ALWAYS">
+                            <HBox alignment="CENTER_LEFT" spacing="12">
+                                <Label styleClass="kpi-icon" text="⊡"/>
+                                <Label styleClass="kpi-label" text="Open Internships"/>
+                            </HBox>
+                            <Label fx:id="kpiInternships" styleClass="kpi-number" text="22"/>
+                            <Label styleClass="kpi-trend, trend-up" text="↑ 5 added"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- MIDDLE ROW: Users Table + Quick Actions -->
+                    <HBox spacing="20">
+
+                        <!-- Recent Users Table -->
+                        <VBox styleClass="table-card" HBox.hgrow="ALWAYS" spacing="16">
+                            <HBox alignment="CENTER_LEFT">
+                                <Label styleClass="card-title" text="Platform Activity" HBox.hgrow="ALWAYS"/>
+                                <Button styleClass="view-all-btn" text="View All →" onAction="#goToUsers"/>
+                            </HBox>
+                            <AreaChart fx:id="activityChart" styleClass="data-chart" legendVisible="false"
+                                       createSymbols="false" prefHeight="250">
+                                <xAxis>
+                                    <javafx.scene.chart.CategoryAxis side="BOTTOM"/>
+                                </xAxis>
+                                <yAxis>
+                                    <javafx.scene.chart.NumberAxis side="LEFT"/>
+                                </yAxis>
+                            </AreaChart>
+                        </VBox>
+
+                        <!-- Quick Actions + Stats -->
+                        <VBox spacing="16" prefWidth="280">
+
+                            <!-- Quick Actions -->
+                            <VBox styleClass="quick-card" spacing="12">
+                                <Label styleClass="card-title" text="Quick Actions"/>
+                                <Button styleClass="action-btn, action-primary" text="+ Add New User" onAction="#addUser" maxWidth="1.7976931348623157E308"/>
+                                <Button styleClass="action-btn, action-secondary" text="+ New Course" onAction="#addCourse" maxWidth="1.7976931348623157E308"/>
+                                <Button styleClass="action-btn, action-secondary" text="+ Create Event" onAction="#addEvent" maxWidth="1.7976931348623157E308"/>
+                                <Button styleClass="action-btn, action-warning" text="⊡ Review Applications" onAction="#reviewApplications" maxWidth="1.7976931348623157E308"/>
+                            </VBox>
+
+                            <!-- Role Distribution -->
+                            <VBox styleClass="quick-card" spacing="14">
+                                <Label styleClass="card-title" text="User Roles"/>
+
+                                <VBox spacing="8">
+                                    <HBox alignment="CENTER_LEFT">
+                                        <Label styleClass="role-label" text="Students" HBox.hgrow="ALWAYS"/>
+                                        <Label fx:id="countStudents" styleClass="role-count" text="8"/>
+                                    </HBox>
+                                    <ProgressBar fx:id="barStudents" styleClass="role-bar, bar-student" progress="0.53" maxWidth="1.7976931348623157E308"/>
+
+                                    <HBox alignment="CENTER_LEFT">
+                                        <Label styleClass="role-label" text="Instructors" HBox.hgrow="ALWAYS"/>
+                                        <Label fx:id="countInstructors" styleClass="role-count" text="2"/>
+                                    </HBox>
+                                    <ProgressBar fx:id="barInstructors" styleClass="role-bar, bar-instructor" progress="0.13" maxWidth="1.7976931348623157E308"/>
+
+                                    <HBox alignment="CENTER_LEFT">
+                                        <Label styleClass="role-label" text="Admins" HBox.hgrow="ALWAYS"/>
+                                        <Label fx:id="countAdmins" styleClass="role-count" text="4"/>
+                                    </HBox>
+                                    <ProgressBar fx:id="barAdmins" styleClass="role-bar, bar-admin" progress="0.27" maxWidth="1.7976931348623157E308"/>
+
+                                    <HBox alignment="CENTER_LEFT">
+                                        <Label styleClass="role-label" text="Recruiters" HBox.hgrow="ALWAYS"/>
+                                        <Label fx:id="countRecruiters" styleClass="role-count" text="1"/>
+                                    </HBox>
+                                    <ProgressBar fx:id="barRecruiters" styleClass="role-bar, bar-recruiter" progress="0.07" maxWidth="1.7976931348623157E308"/>
+                                </VBox>
+                            </VBox>
+                        </VBox>
+                    </HBox>
+
+                    <!-- BOTTOM ROW: Courses + Events -->
+                    <HBox spacing="20">
+
+                        <!-- Top Courses -->
+                        <VBox styleClass="table-card" HBox.hgrow="ALWAYS" spacing="16">
+                            <HBox alignment="CENTER_LEFT">
+                                <Label styleClass="card-title" text="Top Courses by Views" HBox.hgrow="ALWAYS"/>
+                                <Button styleClass="view-all-btn" text="View All →" onAction="#goToCourses"/>
+                            </HBox>
+                            <VBox fx:id="coursesBox" spacing="8">
+                                <!-- Populated by controller -->
+                                <HBox styleClass="course-row" alignment="CENTER_LEFT" spacing="14">
+                                    <Label styleClass="course-rank" text="#1"/>
+                                    <VBox HBox.hgrow="ALWAYS">
+                                        <Label styleClass="course-name" text="Mobile : Mastering Débutant (Part 1)"/>
+                                        <Label styleClass="course-meta" text="518 views · 20 completions"/>
+                                    </VBox>
+                                    <Label styleClass="course-level, level-beginner" text="Débutant"/>
+                                </HBox>
+                                <HBox styleClass="course-row" alignment="CENTER_LEFT" spacing="14">
+                                    <Label styleClass="course-rank" text="#2"/>
+                                    <VBox HBox.hgrow="ALWAYS">
+                                        <Label styleClass="course-name" text="Marketing Digital : Mastering Intermédiaire"/>
+                                        <Label styleClass="course-meta" text="517 views · 9 completions"/>
+                                    </VBox>
+                                    <Label styleClass="course-level, level-intermediate" text="Intermédiaire"/>
+                                </HBox>
+                                <HBox styleClass="course-row" alignment="CENTER_LEFT" spacing="14">
+                                    <Label styleClass="course-rank" text="#3"/>
+                                    <VBox HBox.hgrow="ALWAYS">
+                                        <Label styleClass="course-name" text="Java / Web : Mastering Avancé (Part 3)"/>
+                                        <Label styleClass="course-meta" text="451 views · 32 completions"/>
+                                    </VBox>
+                                    <Label styleClass="course-level, level-advanced" text="Avancé"/>
+                                </HBox>
+                                <HBox styleClass="course-row" alignment="CENTER_LEFT" spacing="14">
+                                    <Label styleClass="course-rank" text="#4"/>
+                                    <VBox HBox.hgrow="ALWAYS">
+                                        <Label styleClass="course-name" text="Marketing Digital : Mastering Avancé"/>
+                                        <Label styleClass="course-meta" text="400 views · 47 completions"/>
+                                    </VBox>
+                                    <Label styleClass="course-level, level-advanced" text="Avancé"/>
+                                </HBox>
+                                <HBox styleClass="course-row" alignment="CENTER_LEFT" spacing="14">
+                                    <Label styleClass="course-rank" text="#5"/>
+                                    <VBox HBox.hgrow="ALWAYS">
+                                        <Label styleClass="course-name" text="UML : Mastering Avancé (Part 3)"/>
+                                        <Label styleClass="course-meta" text="397 views · 36 completions"/>
+                                    </VBox>
+                                    <Label styleClass="course-level, level-advanced" text="Avancé"/>
+                                </HBox>
+                            </VBox>
+                        </VBox>
+
+                        <!-- Upcoming Events -->
+                        <VBox styleClass="table-card" prefWidth="360" spacing="16">
+                            <HBox alignment="CENTER_LEFT">
+                                <Label styleClass="card-title" text="Events" HBox.hgrow="ALWAYS"/>
+                                <Button styleClass="view-all-btn" text="View All →" onAction="#goToEvents"/>
+                            </HBox>
+                            <VBox spacing="10">
+                                <HBox styleClass="event-row" alignment="CENTER_LEFT" spacing="14">
+                                    <VBox styleClass="event-date-box" alignment="CENTER" minWidth="48">
+                                        <Label styleClass="event-day" text="09"/>
+                                        <Label styleClass="event-month" text="APR"/>
+                                    </VBox>
+                                    <VBox HBox.hgrow="ALWAYS">
+                                        <Label styleClass="event-name" text="TEDx Events"/>
+                                        <Label styleClass="event-meta" text="Workshop · Cap. 1"/>
+                                    </VBox>
+                                    <Label styleClass="event-badge, badge-active" text="Active"/>
+                                </HBox>
+                                <HBox styleClass="event-row" alignment="CENTER_LEFT" spacing="14">
+                                    <VBox styleClass="event-date-box" alignment="CENTER" minWidth="48">
+                                        <Label styleClass="event-day" text="20"/>
+                                        <Label styleClass="event-month" text="FEB"/>
+                                    </VBox>
+                                    <VBox HBox.hgrow="ALWAYS">
+                                        <Label styleClass="event-name" text="Conference Cyber Security"/>
+                                        <Label styleClass="event-meta" text="Conference · Cap. 600"/>
+                                    </VBox>
+                                    <Label styleClass="event-badge, badge-active" text="Active"/>
+                                </HBox>
+                                <HBox styleClass="event-row" alignment="CENTER_LEFT" spacing="14">
+                                    <VBox styleClass="event-date-box" alignment="CENTER" minWidth="48">
+                                        <Label styleClass="event-day" text="09"/>
+                                        <Label styleClass="event-month" text="FEB"/>
+                                    </VBox>
+                                    <VBox HBox.hgrow="ALWAYS">
+                                        <Label styleClass="event-name" text="Validation Conference"/>
+                                        <Label styleClass="event-meta" text="Conference · Cap. 1"/>
+                                    </VBox>
+                                    <Label styleClass="event-badge, badge-active" text="Active"/>
+                                </HBox>
+                            </VBox>
+                        </VBox>
+                    </HBox>
+
+                    <VBox styleClass="table-card" spacing="16">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label styleClass="card-title" text="Mini SOC - System Security Center" HBox.hgrow="ALWAYS"/>
+                            <HBox spacing="20" alignment="CENTER_RIGHT">
+                                <VBox alignment="CENTER">
+                                    <Label text="FAILED ATTEMPTS" style="-fx-text-fill: #94a3b8; -fx-font-size: 9px; -fx-font-weight: bold;"/>
+                                    <Label fx:id="lblFailedAttempts" text="12" style="-fx-text-fill: #ef4444; -fx-font-size: 18px; -fx-font-weight: 900;"/>
+                                </VBox>
+                                <VBox alignment="CENTER">
+                                    <Label text="ACTIVE SESSIONS" style="-fx-text-fill: #94a3b8; -fx-font-size: 9px; -fx-font-weight: bold;"/>
+                                    <Label fx:id="lblActiveSessions" text="4" style="-fx-text-fill: #3b82f6; -fx-font-size: 18px; -fx-font-weight: 900;"/>
+                                </VBox>
+                                <VBox alignment="CENTER">
+                                    <Label text="HEALTH" style="-fx-text-fill: #94a3b8; -fx-font-size: 9px; -fx-font-weight: bold;"/>
+                                    <Label fx:id="lblSystemStatus" text="OPTIMAL" style="-fx-text-fill: #22c55e; -fx-font-size: 14px; -fx-font-weight: 900;"/>
+                                </VBox>
+                            </HBox>
+                        </HBox>
+                        <VBox fx:id="socPanel" spacing="8" style="-fx-background-color: #0f172a; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Initializing Security Monitor..." style="-fx-text-fill: #3b82f6; -fx-font-family: 'monospace';"/>
+                        </VBox>
+                    </VBox>
+
+
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+
+</BorderPane>

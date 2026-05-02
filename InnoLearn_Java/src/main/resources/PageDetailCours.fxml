@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.web.WebView?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.Controllers.DetailCoursController"
+      prefWidth="1200.0" prefHeight="800.0"
+      style="-fx-background-color: #f4f4f8;">
+
+    <!-- NAVBAR -->
+    <HBox style="-fx-background-color: #0d0d1a; -fx-padding: 15 40 15 40;"
+          alignment="CENTER_LEFT" spacing="40">
+        <Label text="🎓 InnoLearn"
+               style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="← Retour aux cours" onAction="#retour"
+                style="-fx-background-color: rgba(255,255,255,0.1);
+                       -fx-text-fill: white; -fx-font-size: 13px;
+                       -fx-font-weight: bold; -fx-cursor: hand;
+                       -fx-background-radius: 20; -fx-padding: 8 20 8 20;"/>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: transparent; -fx-background: transparent;">
+        <VBox spacing="0">
+
+            <!-- HERO SECTION (dark) -->
+            <HBox style="-fx-background-color: #0d0d1a; -fx-padding: 50 80 50 80;"
+                  spacing="60" alignment="CENTER_LEFT">
+
+                <!-- LEFT: Info -->
+                <VBox spacing="18" HBox.hgrow="ALWAYS">
+
+                    <!-- Badge niveau -->
+                    <Label fx:id="badgeNiveau"
+                           style="-fx-background-color: #3a3af0;
+                                  -fx-text-fill: white;
+                                  -fx-background-radius: 6;
+                                  -fx-padding: 5 16 5 16;
+                                  -fx-font-size: 11px;
+                                  -fx-font-weight: bold;"/>
+
+                    <!-- Titre -->
+                    <Label fx:id="titreLabel"
+                           style="-fx-text-fill: white; -fx-font-size: 36px;
+                                  -fx-font-weight: bold;"
+                           wrapText="true" maxWidth="600"/>
+
+                    <!-- Description courte -->
+                    <Label fx:id="descCourteLabel"
+                           style="-fx-text-fill: #a0a0c0; -fx-font-size: 15px;"
+                           wrapText="true" maxWidth="600"/>
+
+                    <!-- Stats row -->
+                    <HBox spacing="40" alignment="CENTER_LEFT"
+                          style="-fx-padding: 10 0 0 0;">
+
+                        <VBox alignment="CENTER_LEFT">
+                            <Label fx:id="enseignantLabel"
+                                   style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+                            <Label text="Formateur"
+                                   style="-fx-text-fill: #6060a0; -fx-font-size: 11px;"/>
+                        </VBox>
+
+                        <VBox alignment="CENTER_LEFT">
+                            <Label fx:id="dureeLabel"
+                                   style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+                            <Label text="de contenu HD"
+                                   style="-fx-text-fill: #6060a0; -fx-font-size: 11px;"/>
+                        </VBox>
+
+                        <VBox alignment="CENTER_LEFT">
+                            <Label text="4.8 ★"
+                                   style="-fx-text-fill: #f8c537; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+                            <Label text="Note moyenne"
+                                   style="-fx-text-fill: #6060a0; -fx-font-size: 11px;"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <!-- RIGHT: Video/Media Preview Card -->
+                <VBox spacing="0" alignment="CENTER"
+                      style="-fx-background-color: #1a1a2e;
+                             -fx-background-radius: 16;
+                             -fx-effect: dropshadow(gaussian, rgba(58,58,240,0.4), 30, 0, 0, 10);"
+                      prefWidth="380" prefHeight="240">
+
+                    <!-- Video player réel -->
+                    <StackPane prefHeight="200" prefWidth="380"
+                               style="-fx-background-color: #0d0d1a; -fx-background-radius: 16 16 0 0;">
+                        <WebView fx:id="videoWebView" prefHeight="200" prefWidth="380" />
+                    </StackPane>
+
+                    <!-- Progress bar fake -->
+                    <HBox style="-fx-background-color: #1a1a2e; -fx-padding: 10 15 10 15;
+                                 -fx-background-radius: 0 0 16 16;" alignment="CENTER_LEFT" spacing="10">
+                        <Label text="0:00"
+                               style="-fx-text-fill: #6060a0; -fx-font-size: 11px;"/>
+                        <Region HBox.hgrow="ALWAYS"
+                                style="-fx-background-color: #3a3af0; -fx-pref-height: 3; -fx-background-radius: 3;"/>
+                        <Label fx:id="dureeVideoLabel"
+                               style="-fx-text-fill: #6060a0; -fx-font-size: 11px;"/>
+                        <Button text="Plein écran 🔲" onAction="#agrandirVideo"
+                                style="-fx-background-color: transparent; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 11px;"/>
+                    </HBox>
+                </VBox>
+            </HBox>
+
+            <!-- BODY (light) -->
+            <HBox spacing="40" style="-fx-padding: 50 80 50 80; -fx-background-color: #f4f4f8;"
+                  alignment="TOP_LEFT">
+
+                <!-- MAIN CONTENT (left) -->
+                <VBox spacing="40" HBox.hgrow="ALWAYS">
+
+                    <!-- CE QUE VOUS ALLEZ APPRENDRE -->
+                    <VBox spacing="20"
+                          style="-fx-background-color: white; -fx-background-radius: 16;
+                                 -fx-padding: 30;
+                                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 15, 0, 0, 4);">
+                        <Label text="Ce que vous allez apprendre"
+                               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #0d0d1a;"/>
+
+                        <GridPane hgap="20" vgap="15">
+                            <Label text="✓  Maîtriser les concepts fondamentaux du cours"
+                                   style="-fx-text-fill: #333; -fx-font-size: 13px;" wrapText="true"
+                                   GridPane.columnIndex="0" GridPane.rowIndex="0" maxWidth="280"/>
+                            <Label text="✓  Mettre en œuvre des solutions pratiques et réelles"
+                                   style="-fx-text-fill: #333; -fx-font-size: 13px;" wrapText="true"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="0" maxWidth="280"/>
+                            <Label text="✓  Comprendre les meilleures pratiques industrielles"
+                                   style="-fx-text-fill: #333; -fx-font-size: 13px;" wrapText="true"
+                                   GridPane.columnIndex="0" GridPane.rowIndex="1" maxWidth="280"/>
+                            <Label text="✓  Obtenir les compétences nécessaires pour vos projets"
+                                   style="-fx-text-fill: #333; -fx-font-size: 13px;" wrapText="true"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="1" maxWidth="280"/>
+                        </GridPane>
+                    </VBox>
+
+                    <!-- À PROPOS -->
+                    <VBox spacing="15"
+                          style="-fx-background-color: white; -fx-background-radius: 16;
+                                 -fx-padding: 30;
+                                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 15, 0, 0, 4);">
+                        <Label text="À propos de ce cours"
+                               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #0d0d1a;"/>
+                        <Label fx:id="descriptionLabel"
+                               style="-fx-text-fill: #555; -fx-font-size: 14px; -fx-line-spacing: 4;"
+                               wrapText="true"/>
+
+                        <!-- Bouton magique -->
+                        <Button text="Créer ma Fiche de Révision (NotebookLM) ✨" onAction="#genererResumePDF" style="-fx-background-color: #3a0ca3; -fx-text-fill: white;"/>
+
+                        <!-- La zone où le résumé va s'afficher -->
+                        <TextArea fx:id="resumeTextArea" editable="false" wrapText="true" prefHeight="250"
+                                  promptText="Le résumé IA de ce cours apparaîtra ici..."/>
+
+                    </VBox>
+
+                    <!-- PLAN DU PARCOURS -->
+                    <VBox spacing="15"
+                          style="-fx-background-color: white; -fx-background-radius: 16;
+                                 -fx-padding: 30;
+                                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 15, 0, 0, 4);">
+                        <Label text="Plan du Parcours"
+                               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #0d0d1a;"/>
+
+                        <VBox fx:id="modulesContainer" spacing="12"/>
+                    </VBox>
+
+                </VBox>
+
+                <!-- SIDEBAR (right) -->
+                <VBox spacing="20" prefWidth="320">
+
+                    <!-- CTA Card -->
+                    <VBox spacing="15"
+                          style="-fx-background-color: white; -fx-background-radius: 16;
+                                 -fx-padding: 25;
+                                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 20, 0, 0, 5);">
+
+                        <Label text="Commencer maintenant"
+                               style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #0d0d1a;"/>
+
+                        <VBox spacing="10">
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="📅" style="-fx-font-size: 16px;"/>
+                                <Label text="Accès à vie"
+                                       style="-fx-text-fill: #555; -fx-font-size: 13px;"/>
+                            </HBox>
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="📱" style="-fx-font-size: 16px;"/>
+                                <Label text="Disponible sur tous appareils"
+                                       style="-fx-text-fill: #555; -fx-font-size: 13px;"/>
+                            </HBox>
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="🏆" style="-fx-font-size: 16px;"/>
+                                <Label text="Certificat de complétion"
+                                       style="-fx-text-fill: #555; -fx-font-size: 13px;"/>
+                            </HBox>
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="⏱" style="-fx-font-size: 16px;"/>
+                                <Label fx:id="dureeInfoLabel"
+                                       style="-fx-text-fill: #555; -fx-font-size: 13px;"/>
+                            </HBox>
+                        </VBox>
+
+                        <Button text="S'inscrire au cours →"
+                                style="-fx-background-color: #3a3af0;
+                                       -fx-text-fill: white; -fx-font-weight: bold;
+                                       -fx-font-size: 14px; -fx-background-radius: 10;
+                                       -fx-padding: 14 20 14 20; -fx-cursor: hand;"
+                                maxWidth="Infinity"/>
+
+                        <Button fx:id="btnFavoris" text="Ajouter aux favoris ♡" onAction="#onToggleFavoris"
+                                style="-fx-background-color: transparent;
+                                       -fx-border-color: #3a3af0; -fx-border-radius: 10;
+                                       -fx-text-fill: #3a3af0; -fx-font-weight: bold;
+                                       -fx-font-size: 13px; -fx-background-radius: 10;
+                                       -fx-padding: 12 20 12 20; -fx-cursor: hand;"
+                                maxWidth="Infinity"/>
+                    </VBox>
+
+                    <!-- Formateur Card -->
+                    <VBox spacing="15"
+                          style="-fx-background-color: white; -fx-background-radius: 16;
+                                 -fx-padding: 25;
+                                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 20, 0, 0, 5);">
+
+                        <Label text="Votre Formateur"
+                               style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #0d0d1a;"/>
+
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <!-- Avatar cercle -->
+                            <StackPane prefWidth="60" prefHeight="60"
+                                       style="-fx-background-color: linear-gradient(to bottom right, #3a3af0, #7209b7);
+                                              -fx-background-radius: 30;">
+                                <Label text="👨‍🏫"
+                                       style="-fx-font-size: 26px;"/>
+                            </StackPane>
+
+                            <VBox spacing="4">
+                                <Label fx:id="enseignantNomLabel"
+                                       style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #0d0d1a;"/>
+                                <Label text="Expert certifié · InnoLearn"
+                                       style="-fx-text-fill: #3a3af0; -fx-font-size: 12px;"/>
+                            </VBox>
+                        </HBox>
+
+                        <HBox spacing="25" alignment="CENTER">
+                            <VBox alignment="CENTER">
+                                <Label text="2500+"
+                                       style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #0d0d1a;"/>
+                                <Label text="ÉTUDIANTS"
+                                       style="-fx-text-fill: #888; -fx-font-size: 10px;"/>
+                            </VBox>
+                            <VBox alignment="CENTER">
+                                <Label text="12"
+                                       style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #0d0d1a;"/>
+                                <Label text="COURS"
+                                       style="-fx-text-fill: #888; -fx-font-size: 10px;"/>
+                            </VBox>
+                            <VBox alignment="CENTER">
+                                <Label text="4.9/5"
+                                       style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #0d0d1a;"/>
+                                <Label text="NOTE"
+                                       style="-fx-text-fill: #888; -fx-font-size: 10px;"/>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Tags / Infos supplémentaires -->
+                    <VBox spacing="10"
+                          style="-fx-background-color: white; -fx-background-radius: 16;
+                                 -fx-padding: 25;
+                                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 20, 0, 0, 5);">
+                        <Label text="Informations"
+                               style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #0d0d1a;"/>
+                        <HBox spacing="8" alignment="CENTER_LEFT">
+                            <Label text="Type :"
+                                   style="-fx-text-fill: #888; -fx-font-size: 12px;"/>
+                            <Label fx:id="typeMediaLabel"
+                                   style="-fx-background-color: #f0f0ff;
+                                          -fx-text-fill: #3a3af0;
+                                          -fx-background-radius: 6;
+                                          -fx-padding: 3 10 3 10;
+                                          -fx-font-size: 12px; -fx-font-weight: bold;"/>
+                        </HBox>
+                        <HBox spacing="8" alignment="CENTER_LEFT">
+                            <Label text="Slug :"
+                                   style="-fx-text-fill: #888; -fx-font-size: 12px;"/>
+                            <Label fx:id="slugLabel"
+                                   style="-fx-text-fill: #555; -fx-font-size: 12px;"/>
+                        </HBox>
+                        <HBox spacing="8" alignment="CENTER_LEFT">
+                            <Label text="Créé le :"
+                                   style="-fx-text-fill: #888; -fx-font-size: 12px;"/>
+                            <Label fx:id="dateLabel"
+                                   style="-fx-text-fill: #555; -fx-font-size: 12px;"/>
+                        </HBox>
+                    </VBox>
+
+                </VBox>
+            </HBox>
+        </VBox>
+    </ScrollPane>
+</VBox>

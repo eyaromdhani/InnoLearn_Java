@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.WelcomeController"
+            prefWidth="1200" prefHeight="800" stylesheets="@home.css">
+
+    <VBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        
+        <!-- HEADER -->
+        <HBox alignment="CENTER_LEFT" spacing="30" styleClass="header">
+            <Label text="InnoLearn" styleClass="logo-text"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Accueil" styleClass="nav-link" onAction="#showAccueilGuide"/>
+                <Button text="Cours" styleClass="nav-link" onAction="#showCoursGuide"/>
+                <Button text="Projets" styleClass="nav-link" onAction="#showProjetsGuide"/>
+                <Button text="Événements" styleClass="nav-link" onAction="#showEventsGuide"/>
+                <Button text="Stages" styleClass="nav-link" onAction="#showStagesGuide"/>
+            </HBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <HBox spacing="15" alignment="CENTER">
+                <!-- Language Toggle -->
+                <Button style="-fx-background-color: transparent; -fx-cursor: hand;">
+                    <graphic><Label text="🌐 FR" style="-fx-text-fill: white; -fx-font-weight: bold;"/></graphic>
+                </Button>
+                <Button text="Login" styleClass="login-btn" onAction="#goToLogin"/>
+                <Button text="Sign Up" styleClass="signup-btn" onAction="#goToSignup"/>
+            </HBox>
+        </HBox>
+
+        <!-- HERO SECTION (Full Height since no Aujourd'hui) -->
+        <StackPane VBox.vgrow="ALWAYS">
+            <VBox spacing="25" styleClass="hero-section" alignment="CENTER_LEFT" style="-fx-padding: 0 100;">
+                <Label text="WELCOME TO THE FUTURE" styleClass="hero-tagline"/>
+                <VBox spacing="5">
+                    <Label text="Master New Skills," styleClass="hero-title"/>
+                    <Label text="Build Your Future." styleClass="hero-title, hero-accent"/>
+                </VBox>
+
+                <Label text="L'excellence de l'apprentissage à portée de main. Découvrez une plateforme conçue pour propulser votre carrière avec des cours d'experts, des projets collaboratifs et des opportunités de stage uniques." 
+                       maxWidth="600" wrapText="true" style="-fx-text-fill: #cbd5e1; -fx-font-size: 18px; -fx-line-spacing: 5;"/>
+
+                <!-- Search Bar (Visual only for visitors) -->
+                <HBox maxWidth="600" styleClass="search-container">
+                    <ComboBox promptText="Toutes les catégories" prefWidth="200" styleClass="category-combo"/>
+                    <TextField promptText="Rechercher vos cours, activités..." HBox.hgrow="ALWAYS" styleClass="search-field" editable="false"/>
+                </HBox>
+            </VBox>
+            
+            <!-- Abstract Background Shapes -->
+            <Circle radius="150" fill="white" opacity="0.05" translateX="400" translateY="-100">
+                <effect><GaussianBlur radius="50"/></effect>
+            </Circle>
+
+            <!-- Guide Overlay (Centered) -->
+            <VBox fx:id="guidePanel" visible="false" managed="false" maxWidth="600" styleClass="guide-panel" spacing="25" alignment="CENTER">
+                <StackPane alignment="TOP_RIGHT">
+                    <VBox spacing="15" alignment="CENTER">
+                        <Label fx:id="guideTitle" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1e1b4b;"/>
+                        <Label fx:id="guideDesc" wrapText="true" textAlignment="CENTER" style="-fx-font-size: 18px; -fx-text-fill: #64748b; -fx-line-spacing: 3;"/>
+                    </VBox>
+                </StackPane>
+                <Button text="DÉCOUVRIR PLUS" onAction="#closeGuide" styleClass="signup-btn" style="-fx-padding: 12 40;"/>
+            </VBox>
+        </StackPane>
+    </VBox>
+</AnchorPane>

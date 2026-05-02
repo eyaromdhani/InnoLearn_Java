@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.LoginPageController"
+            prefWidth="1100" prefHeight="800" style="-fx-background-color: #020617;">
+
+    <StackPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        
+        <!-- Background Cyber-Grid Effect -->
+        <Pane opacity="0.1">
+            <children>
+                <Line startX="0" startY="100" endX="1100" endY="100" stroke="#3b82f6" strokeWidth="0.5"/>
+                <Line startX="0" startY="200" endX="1100" endY="200" stroke="#3b82f6" strokeWidth="0.5"/>
+                <Line startX="0" startY="300" endX="1100" endY="300" stroke="#3b82f6" strokeWidth="0.5"/>
+                <Line startX="550" startY="0" endX="550" endY="800" stroke="#3b82f6" strokeWidth="0.5"/>
+            </children>
+        </Pane>
+
+        <VBox alignment="CENTER" spacing="30">
+            <VBox maxWidth="450" alignment="CENTER" spacing="25" 
+                  style="-fx-background-color: rgba(15, 23, 42, 0.95); -fx-background-radius: 30; -fx-padding: 50; -fx-border-color: #3b82f6; -fx-border-width: 2; -fx-border-radius: 30;">
+                
+                <effect>
+                    <DropShadow color="rgba(59, 130, 246, 0.4)" radius="50" spread="0.1"/>
+                </effect>
+
+                <VBox alignment="CENTER" spacing="10">
+                    <StackPane>
+                        <Circle radius="40" fill="transparent" stroke="#3b82f6" strokeWidth="2">
+                            <effect><Glow level="0.8"/></effect>
+                        </Circle>
+                        <Label text="🛡️" style="-fx-font-size: 32px;"/>
+                    </StackPane>
+                    <Label text="ADMIN PORTAL" style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold; -fx-letter-spacing: 5;"/>
+                    <Label text="SECURE TERMINAL ACCESS" style="-fx-text-fill: #3b82f6; -fx-font-size: 10px; -fx-font-weight: bold;"/>
+                </VBox>
+
+                <VBox spacing="20" style="-fx-padding: 20 0 0 0;">
+                    <VBox spacing="8">
+                        <Label text="ADMIN IDENTIFIER" style="-fx-text-fill: #94a3b8; -fx-font-size: 10px; -fx-font-weight: bold;"/>
+                        <TextField fx:id="emailField" promptText="ROOT_USER" 
+                                   style="-fx-background-color: #1e293b; -fx-text-fill: white; -fx-padding: 15; -fx-background-radius: 10; -fx-border-color: #334155; -fx-border-radius: 10;"/>
+                    </VBox>
+
+                    <VBox spacing="8">
+                        <Label text="SECURITY KEY" style="-fx-text-fill: #94a3b8; -fx-font-size: 10px; -fx-font-weight: bold;"/>
+                        <PasswordField fx:id="passwordField" promptText="••••••••••••" 
+                                       style="-fx-background-color: #1e293b; -fx-text-fill: white; -fx-padding: 15; -fx-background-radius: 10; -fx-border-color: #334155; -fx-border-radius: 10;"/>
+                    </VBox>
+
+                    <Button text="INITIALIZE ACCESS" onAction="#handleLogin" maxWidth="Infinity"
+                            style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 15; -fx-background-radius: 10; -fx-cursor: hand;">
+                        <effect><Glow level="0.3"/></effect>
+                    </Button>
+
+                    <Label fx:id="errorMessage" visible="false" managed="false" style="-fx-text-fill: #ef4444; -fx-font-size: 11px;"/>
+                </VBox>
+
+                <HBox alignment="CENTER">
+                    <Button onAction="#goBack" text="← EXIT SECURE ZONE" 
+                            style="-fx-background-color: transparent; -fx-text-fill: #475569; -fx-font-size: 10px; -fx-cursor: hand;"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </StackPane>
+</AnchorPane>

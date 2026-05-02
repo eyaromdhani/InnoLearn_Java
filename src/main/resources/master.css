@@ -1,0 +1,163 @@
+/* =========================================
+   INNOLEARN MASTER DESIGN SYSTEM (PREMIUM)
+   ========================================= */
+
+.root {
+    -fx-font-family: 'Segoe UI', 'Inter', sans-serif;
+    -fx-accent: #7c3aed;
+}
+
+/* 1. LAYOUTS & BACKGROUNDS */
+.root-pane {
+    -fx-background-color: #f8fafc;
+}
+
+/* 2. SIDEBAR (Premium Dark) */
+.sidebar {
+    -fx-background-color: #1e1b4b;
+    -fx-padding: 30 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0, 5, 0);
+}
+
+.logo-box {
+    -fx-padding: 0 25 40 25;
+}
+
+.logo-icon {
+    -fx-text-fill: #8b5cf6;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.logo-text {
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-font-weight: 900;
+}
+
+.nav-section {
+    -fx-padding: 10 15;
+}
+
+.nav-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #94a3b8;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 14 20;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-background-radius: 12;
+    -fx-pref-width: 230;
+    -fx-transition: 0.3s;
+}
+
+.nav-btn:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-text-fill: white;
+}
+
+.nav-active {
+    -fx-background-color: rgba(124, 58, 237, 0.15);
+    -fx-text-fill: white;
+    -fx-border-color: transparent transparent transparent #7c3aed;
+    -fx-border-width: 0 0 0 4;
+}
+
+/* 3. INPUTS (Image 2 Pill-Shape) */
+.pill-input {
+    -fx-background-color: #f1f5f9;
+    -fx-background-radius: 30;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 30;
+    -fx-padding: 12 20;
+    -fx-text-fill: #1e1b4b;
+    -fx-font-size: 13px;
+    -fx-prompt-text-fill: #94a3b8;
+}
+
+.pill-input:focused {
+    -fx-background-color: white;
+    -fx-border-color: #7c3aed;
+    -fx-border-width: 1.5;
+}
+
+.pill-combo {
+    -fx-background-color: #f1f5f9;
+    -fx-background-radius: 30;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 30;
+    -fx-padding: 10 15;
+}
+
+/* 4. BUTTONS (Premium Gradient) */
+.btn-primary {
+    -fx-background-color: linear-gradient(to right, #8b5cf6, #7c3aed);
+    -fx-text-fill: white;
+    -fx-font-weight: 900;
+    -fx-padding: 12 30;
+    -fx-background-radius: 30;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(124,58,237,0.3), 10, 0, 0, 5);
+}
+
+.btn-primary:hover {
+    -fx-effect: dropshadow(gaussian, rgba(124,58,237,0.5), 15, 0, 0, 8);
+}
+
+.btn-secondary {
+    -fx-background-color: white;
+    -fx-text-fill: #64748b;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 30;
+    -fx-background-radius: 30;
+    -fx-padding: 10 25;
+    -fx-cursor: hand;
+}
+
+/* 5. CARDS & SECTIONS */
+.premium-card {
+    -fx-background-color: white;
+    -fx-background-radius: 30;
+    -fx-padding: 30;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 30, 0, 0, 10);
+}
+
+.stat-card {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-padding: 25;
+    -fx-alignment: CENTER;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 20, 0, 0, 5);
+}
+
+/* 6. TYPOGRAPHY */
+.title-main {
+    -fx-text-fill: #1e1b4b;
+    -fx-font-size: 32px;
+    -fx-font-weight: 900;
+}
+
+.subtitle-main {
+    -fx-text-fill: #64748b;
+    -fx-font-size: 14px;
+}
+
+.label-caps {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 5 10;
+}
+
+/* 7. MIC & ICON BUTTONS */
+.mic-btn-inline {
+    -fx-background-color: transparent;
+    -fx-text-fill: #94a3b8;
+    -fx-cursor: hand;
+    -fx-font-size: 16px;
+    -fx-padding: 0 15 0 0;
+}
+
+.mic-btn-inline:hover {
+    -fx-text-fill: #ef4444;
+}
