@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.shape.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.Controllers.MfaController"
+            prefWidth="1000" prefHeight="660"
+            style="-fx-background-color:#1e1b4b;">
+
+    <HBox AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+          alignment="CENTER">
+
+        <!-- MFA Card -->
+        <VBox alignment="CENTER" spacing="20" prefWidth="400"
+              style="-fx-background-color:white; -fx-background-radius:20;
+                     -fx-padding:40; -fx-effect:dropshadow(gaussian,rgba(0,0,0,0.5),40,0,0,10);">
+
+            <!-- Icon -->
+            <StackPane>
+                <Circle radius="30" fill="#e0e7ff"/>
+                <Label text="📱" style="-fx-font-size:24px;"/>
+            </StackPane>
+
+            <!-- Titles -->
+            <VBox alignment="CENTER" spacing="5">
+                <Label text="Two-Factor Authentication"
+                       style="-fx-text-fill:#1e1b4b; -fx-font-size:22px; -fx-font-weight:900;"/>
+                <Label text="We've sent an 8-digit code to your phone"
+                       style="-fx-text-fill:#64748b; -fx-font-size:13px;"/>
+                <Label fx:id="lblPhoneSuffix" text="Ending in •••• "
+                       style="-fx-text-fill:#6366f1; -fx-font-size:13px; -fx-font-weight:bold;"/>
+            </VBox>
+
+            <!-- Error -->
+            <Label fx:id="lblError" text="" wrapText="true"
+                   style="-fx-text-fill:#ef4444; -fx-font-size:13px; -fx-font-weight:bold;"/>
+
+            <!-- Code Input -->
+            <TextField fx:id="codeField" promptText="Enter 8-digit code"
+                       alignment="CENTER"
+                       style="-fx-background-color:#f8fafc;
+                              -fx-border-color:#e2e8f0; -fx-border-width:3;
+                              -fx-border-radius:10; -fx-background-radius:10;
+                              -fx-padding:15; -fx-font-size:20px;
+                              -fx-font-weight:bold; -fx-text-fill:#1e293b;
+                              -fx-pref-width:300; -fx-letter-spacing:4px;"/>
+
+            <!-- Buttons -->
+            <Button text="Verify Code" onAction="#onVerify"
+                    prefWidth="300"
+                    style="-fx-background-color:linear-gradient(to right,#6366f1,#8b5cf6);
+                           -fx-text-fill:white; -fx-font-size:16px; -fx-font-weight:bold;
+                           -fx-padding:12; -fx-background-radius:10; -fx-cursor:hand;"/>
+
+            <HBox alignment="CENTER" spacing="10">
+                <Button text="Resend Code" onAction="#onResend"
+                        style="-fx-background-color:transparent; -fx-text-fill:#64748b;
+                               -fx-cursor:hand; -fx-underline:true;"/>
+                <Label text="|" style="-fx-text-fill:#cbd5e1;"/>
+                <Label fx:id="lblTimer" text="10:00"
+                       style="-fx-text-fill:#94a3b8; -fx-font-family:monospace;"/>
+            </HBox>
+            
+            <Button text="Cancel and Logout" onAction="#onCancel"
+                    style="-fx-background-color:transparent; -fx-text-fill:#ef4444;
+                           -fx-font-size:12px; -fx-cursor:hand; -fx-underline:true;"/>
+
+        </VBox>
+    </HBox>
+</AnchorPane>

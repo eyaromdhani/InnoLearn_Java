@@ -206,12 +206,11 @@ public class AdminProjectListController implements Initializable {
     @FXML
     private void onBackClick() {
         try {
-            org.example.MainFX.chargerPage("/PageAdmin.fxml");
+            org.example.MainFX.chargerPage("/AdminDashboard.fxml");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     private void handleEditProject(Project project) {
         showProjectForm(project);

@@ -197,7 +197,7 @@ public class PageAdminCoursController {
     @FXML
     void onRetourDashboardClick(ActionEvent event) {
         try {
-            MainFX.chargerPage("/PageAdmin.fxml");
+            MainFX.chargerPage("/AdminDashboard.fxml");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -23,11 +23,11 @@
         <HBox alignment="CENTER" spacing="10.0">
             <children>
                 <Label fx:id="linkAccueil" onMouseClicked="#handleAccueilClick" styleClass="nav-link" style="-fx-cursor: hand;" text="Accueil" />
-                <Label fx:id="linkCours" styleClass="nav-link" text="Cours" />
+                <Label fx:id="linkCours" onMouseClicked="#handleCoursClick" styleClass="nav-link" style="-fx-cursor: hand;" text="Cours" />
                 <Label fx:id="linkProjets" onMouseClicked="#handleProjetsClick" styleClass="nav-link" style="-fx-cursor: hand;" text="Projets" />
-                <Label fx:id="linkEvenements" styleClass="nav-link" text="Événements" />
+                <Label fx:id="linkEvenements" onMouseClicked="#handleEvenementsClick" styleClass="nav-link" style="-fx-cursor: hand;" text="Événements" />
                 <Label fx:id="linkStages" onMouseClicked="#handleStagesClick" styleClass="nav-link" style="-fx-cursor: hand;" text="Stages" />
-                <Label fx:id="linkLivres" styleClass="nav-link" text="Livres" />
+                <Label fx:id="linkLivres" onMouseClicked="#handleLivresClick" styleClass="nav-link" style="-fx-cursor: hand;" text="Livres" />
                 <Label fx:id="linkQuiz" onMouseClicked="#handleQuizClick" styleClass="nav-link" style="-fx-cursor: hand;" text="Quiz" />
 
             </children>

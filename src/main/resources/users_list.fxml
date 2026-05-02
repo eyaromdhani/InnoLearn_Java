@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.Controllers.UsersListController"
+            prefWidth="1100" prefHeight="650"
+            styleClass="root-pane"
+            stylesheets="@admin_dashboard.css">
+
+    <VBox spacing="0"
+          AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+        <!-- TOP BAR -->
+        <HBox styleClass="topbar" alignment="CENTER_LEFT" spacing="16">
+            <Button text="← Back" onAction="#goBack" styleClass="action-btn, action-secondary"/>
+            <Label text="👥 User Management" styleClass="topbar-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <TextField fx:id="searchField" promptText="🔍 Search..." styleClass="search-field"/>
+            <Button text="Search" onAction="#onSearch" styleClass="action-btn, action-primary"/>
+            <Button text="＋ Add User" onAction="#onAddUser" style="-fx-background-color:#4ade80;" styleClass="action-btn, action-primary"/>
+            <Button text="🔄 Refresh" onAction="#onRefresh" style="-fx-background-color:#fbbf24;" styleClass="action-btn, action-primary"/>
+        </HBox>
+
+        <!-- TABLE -->
+        <TableView fx:id="usersTable" VBox.vgrow="ALWAYS" styleClass="data-table">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+            <columns>
+                <TableColumn fx:id="colId"       text="ID"       prefWidth="60"/>
+                <TableColumn fx:id="colName"     text="Name"     prefWidth="160"/>
+                <TableColumn fx:id="colUsername" text="Username" prefWidth="130"/>
+                <TableColumn fx:id="colEmail"    text="Email"    prefWidth="210"/>
+                <TableColumn fx:id="colPhone"    text="Phone"    prefWidth="130"/>
+                <TableColumn fx:id="colActive"   text="Active"   prefWidth="70"/>
+                <TableColumn fx:id="colBanned"   text="Banned"   prefWidth="70"/>
+                <TableColumn fx:id="colActions"  text="Actions"  prefWidth="200"/>
+            </columns>
+        </TableView>
+
+        <!-- FOOTER -->
+        <HBox style="-fx-background-color:#2d2a6e; -fx-padding:12 30;" alignment="CENTER_LEFT">
+            <Label fx:id="statusLabel" text="Loading..."
+                   style="-fx-text-fill:rgba(255,255,255,0.7); -fx-font-size:13px;"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

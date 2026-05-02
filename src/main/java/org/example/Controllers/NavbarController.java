@@ -3,11 +3,15 @@ package org.example.Controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
+import org.example.Entities.G_user;
+import org.example.utils.SessionManager;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,23 +30,62 @@ public class NavbarController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Initialization logic if needed
+        G_user currentUser = SessionManager.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String name = currentUser.getName();
+            if (name != null && !name.isEmpty()) {
+                String[] parts = name.split(" ");
+                StringBuilder initials = new StringBuilder();
+                for (int i = 0; i < Math.min(parts.length, 2); i++) {
+                    if (!parts[i].isEmpty()) initials.append(parts[i].charAt(0));
+                }
+                if (profileInitials.getChildren().get(0) instanceof Label) {
+                    ((Label) profileInitials.getChildren().get(0)).setText(initials.toString().toUpperCase());
+                }
+            }
+        }
     }
 
     @FXML
     private void handleProfileClick() {
         javafx.scene.control.ContextMenu contextMenu = new javafx.scene.control.ContextMenu();
+        SessionManager session = SessionManager.getInstance();
+        G_user user = session.getCurrentUser();
         
-        javafx.scene.control.MenuItem studentItem = new javafx.scene.control.MenuItem("Espace Étudiant");
-        studentItem.setOnAction(e -> handleStagesClick());
+        if (user == null) return;
+
+        if (session.isStudent()) {
+            MenuItem studentItem = new MenuItem("Mon Espace Étudiant");
+            studentItem.setOnAction(e -> handleStagesClick());
+            contextMenu.getItems().add(studentItem);
+        }
         
-        javafx.scene.control.MenuItem recruiterItem = new javafx.scene.control.MenuItem("Espace Recruteur");
-        recruiterItem.setOnAction(e -> navigateTo("/RecruiterDashboard.fxml"));
+        if (session.isInstructor()) {
+            MenuItem instructorItem = new MenuItem("Espace Enseignant");
+            instructorItem.setOnAction(e -> navigateTo("/PageEnseignant.fxml"));
+            contextMenu.getItems().add(instructorItem);
+        }
+
+        if (user.getRoles().contains("RECRUITER")) {
+            MenuItem recruiterItem = new MenuItem("Espace Recruteur");
+            recruiterItem.setOnAction(e -> navigateTo("/RecruiterDashboard.fxml"));
+            contextMenu.getItems().add(recruiterItem);
+        }
         
-        javafx.scene.control.MenuItem adminItem = new javafx.scene.control.MenuItem("Administration");
-        adminItem.setOnAction(e -> navigateTo("/AdminDashboard.fxml"));
+        if (session.isAdmin()) {
+            MenuItem adminItem = new MenuItem("Administration");
+            adminItem.setOnAction(e -> navigateTo("/AdminDashboard.fxml"));
+            contextMenu.getItems().add(adminItem);
+        }
+
+        contextMenu.getItems().add(new javafx.scene.control.SeparatorMenuItem());
         
-        contextMenu.getItems().addAll(studentItem, recruiterItem, new javafx.scene.control.SeparatorMenuItem(), adminItem);
+        MenuItem logoutItem = new MenuItem("Déconnexion");
+        logoutItem.setOnAction(e -> {
+            session.logout();
+            navigateTo("/loginpage.fxml");
+        });
+        contextMenu.getItems().add(logoutItem);
         
         contextMenu.show(profileInitials, javafx.geometry.Side.BOTTOM, 0, 10);
     }
@@ -60,40 +103,71 @@ public class NavbarController implements Initializable {
 
     @FXML
     private void handleLogoClick() {
-        navigateTo("/PageAccueil.fxml");
+        if (SessionManager.getInstance().isAdmin()) {
+            navigateTo("/AdminDashboard.fxml");
+        } else {
+            navigateTo("/PageAccueil.fxml");
+        }
     }
 
     @FXML
     private void handleAccueilClick() {
-        navigateTo("/PageEtudiant.fxml");
+        if (SessionManager.getInstance().isAdmin()) {
+            navigateTo("/AdminDashboard.fxml");
+        } else {
+            navigateTo("/PageEtudiant.fxml");
+        }
+    }
+ 
+    @FXML
+    private void handleCoursClick() {
+        if (SessionManager.getInstance().isAdmin()) {
+            navigateTo("/PageAdminCours.fxml");
+        } else {
+            navigateTo("/PageCours.fxml");
+        }
     }
 
     @FXML
     private void handleStagesClick() {
-        try {
-            // Load Stages.fxml
-            Parent root = FXMLLoader.load(getClass().getResource("/Stages.fxml"));
-            
-            // Get the current stage
-            Stage stage = (Stage) logoContainer.getScene().getWindow();
-            
-            // Set the new scene root
-            stage.getScene().setRoot(root);
-            
-        } catch (Exception  e) {
-            e.printStackTrace();
-            System.err.println("Error loading Stages.fxml: " + e.getMessage());
+        if (SessionManager.getInstance().isAdmin()) {
+            navigateTo("/AdminDashboard.fxml");
+        } else {
+            navigateTo("/Stages.fxml");
         }
     }
 
     @FXML
     private void handleProjetsClick() {
-        navigateTo("/ProjectList.fxml");
+        if (SessionManager.getInstance().isAdmin()) {
+            navigateTo("/AdminProjectList.fxml");
+        } else {
+            navigateTo("/ProjectList.fxml");
+        }
+    }
+
+    @FXML
+    private void handleEvenementsClick() {
+        // Pour les événements, on peut diriger vers la liste générale ou admin
+        navigateTo("/AfficherEvent.fxml");
+    }
+
+    @FXML
+    private void handleLivresClick() {
+        if (SessionManager.getInstance().isAdmin()) {
+            navigateTo("/ManageBooks.fxml");
+        } else {
+            navigateTo("/StudentLibrary.fxml");
+        }
     }
 
     @FXML
     private void handleQuizClick() {
-        navigateTo("/StudentQuizDashboard.fxml");
+        if (SessionManager.getInstance().isAdmin()) {
+            navigateTo("/AdminQuizDashboard.fxml");
+        } else {
+            navigateTo("/StudentQuizDashboard.fxml");
+        }
     }
 
 

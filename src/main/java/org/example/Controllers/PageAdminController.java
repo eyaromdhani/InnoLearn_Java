@@ -29,7 +29,7 @@ public class PageAdminController {
     @FXML
     void onRetourAccueilClick(Event event) {
         try {
-            MainFX.chargerPage("/PageAccueil.fxml");
+            MainFX.chargerPage("/AdminDashboard.fxml");
         } catch (Exception e) {
             e.printStackTrace();
         }

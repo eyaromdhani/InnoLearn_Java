@@ -79,7 +79,8 @@ public class PPController {
     @FXML
     public void ouvrirAccueilPrincipal() {
         try {
-            MainFX.chargerPage("/PageAccueil.fxml");
+            String target = org.example.utils.SessionManager.getInstance().isAdmin() ? "/AdminDashboard.fxml" : "/PageAccueil.fxml";
+            MainFX.chargerPage(target);
         } catch (Exception e) {
             e.printStackTrace();
         }

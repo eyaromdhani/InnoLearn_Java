@@ -1,0 +1,93 @@
+.form-label-small {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 2 10;
+}
+
+.enroll-pill-combo {
+    -fx-background-color: white;
+    -fx-background-radius: 30;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 30;
+    -fx-padding: 5 15;
+    -fx-font-size: 13px;
+}
+
+.enroll-mini-pill-combo {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 20;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #64748b;
+    -fx-padding: 1 12;
+    -fx-min-width: 120;
+}
+
+.enroll-pill-input {
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 30;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 30;
+    -fx-padding: 12 45 12 20;
+    -fx-text-fill: #1e1b4b;
+    -fx-font-size: 13px;
+    -fx-prompt-text-fill: #94a3b8;
+}
+
+.enroll-pill-input:focused {
+    -fx-background-color: white;
+    -fx-border-color: #8b5cf6;
+    -fx-border-width: 1.5;
+}
+
+.enroll-inline-mic {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 0 15 0 0;
+}
+
+.enroll-inline-mic .label {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 14px;
+}
+
+.enroll-inline-mic:hover .label {
+    -fx-text-fill: #7c3aed;
+}
+
+.enroll-icon-btn-small {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.enroll-icon-btn-small .label {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 14px;
+}
+
+.enroll-pill-role {
+    -fx-background-color: #f1f5f9;
+    -fx-background-radius: 25;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 25;
+    -fx-padding: 10 20;
+    -fx-min-width: 130;
+    -fx-cursor: hand;
+    -fx-text-fill: #64748b;
+}
+
+.enroll-pill-role:selected {
+    -fx-background-color: white;
+    -fx-border-color: #7c3aed;
+    -fx-border-width: 1.5;
+    -fx-text-fill: #1e1b4b;
+    -fx-effect: dropshadow(gaussian, rgba(124,58,237,0.1), 10, 0, 0, 0);
+}
+
+.enroll-pill-role .label {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}

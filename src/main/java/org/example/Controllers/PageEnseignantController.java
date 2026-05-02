@@ -199,12 +199,9 @@ public class PageEnseignantController {
     @FXML
     void onRetourAccueilClick(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PageAccueil.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root, 900, 600));
-            stage.setTitle("Application de Gestion de Cours");
-        } catch (IOException e) {
+            String target = org.example.utils.SessionManager.getInstance().isAdmin() ? "/AdminDashboard.fxml" : "/PageAccueil.fxml";
+            org.example.MainFX.chargerPage(target);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

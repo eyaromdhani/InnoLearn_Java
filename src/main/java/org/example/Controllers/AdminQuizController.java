@@ -117,10 +117,8 @@ public class AdminQuizController implements Initializable {
     @FXML
     private void handleCreateQuiz() {
         try {
-            Stage stage = (Stage) quizGrid.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("/AddQuiz.fxml"));
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
+            org.example.MainFX.chargerPage("/AddQuiz.fxml");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -128,7 +126,6 @@ public class AdminQuizController implements Initializable {
     public void openFormulaireDialog(Formulaire f) {
         try {
             if (f == null) {
-                // Fallback just in case
                 handleCreateQuiz();
                 return;
             }
@@ -140,7 +137,7 @@ public class AdminQuizController implements Initializable {
             controller.initData(f);
 
             Stage stage = (Stage) quizGrid.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.getScene().setRoot(root);
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -161,9 +158,9 @@ public class AdminQuizController implements Initializable {
     @FXML
     private void handleGoToAccueil() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/PageEnseignant.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/AdminDashboard.fxml"));
             Stage stage = (Stage) quizGrid.getScene().getWindow();
-            stage.setTitle("InnoLearn - Accueil");
+            stage.setTitle("InnoLearn - Dashboard Admin");
             stage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();

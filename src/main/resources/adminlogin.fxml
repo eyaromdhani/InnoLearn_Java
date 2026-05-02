@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.shape.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.Controllers.AdminLoginController"
+            prefWidth="600" prefHeight="400"
+            style="-fx-background-color:#0f0e1a;">
+
+    <!-- Background Decoration -->
+    <Circle radius="100" fill="#ef4444" opacity="0.15" layoutX="100" layoutY="100" />
+    <Circle radius="150" fill="#a855f7" opacity="0.1" layoutX="500" layoutY="300" />
+
+    <VBox alignment="CENTER" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+        <VBox alignment="CENTER" spacing="20" prefWidth="380" maxWidth="380"
+              style="-fx-background-color:rgba(255,255,255,0.03);
+                     -fx-border-color:rgba(255,255,255,0.08);
+                     -fx-border-width:1; -fx-border-radius:15;
+                     -fx-background-radius:15; -fx-padding:35;
+                     -fx-effect:dropshadow(gaussian,rgba(0,0,0,0.6),30,0,0,10);">
+
+            <!-- Icon -->
+            <StackPane>
+                <Circle radius="25" fill="rgba(239,68,68,0.15)"/>
+                <Label text="🛡️" style="-fx-font-size:24px;"/>
+            </StackPane>
+
+            <!-- Titles -->
+            <VBox alignment="CENTER" spacing="5">
+                <Label text="Command Center"
+                       style="-fx-text-fill:white; -fx-font-size:22px; -fx-font-weight:900;"/>
+                <Label text="Restricted Admin Access"
+                       style="-fx-text-fill:#ef4444; -fx-font-size:12px; -fx-font-weight:bold; -fx-letter-spacing:1px;"/>
+            </VBox>
+
+            <VBox spacing="15" maxWidth="Infinity">
+                <!-- Username -->
+                <TextField fx:id="adminUserField" promptText="Admin Username"
+                           style="-fx-background-color:rgba(255,255,255,0.08);
+                                  -fx-border-color:rgba(255,255,255,0.1); -fx-border-width:2;
+                                  -fx-border-radius:8; -fx-background-radius:8;
+                                  -fx-padding:10 15; -fx-font-size:14px;
+                                  -fx-font-weight:bold; -fx-text-fill:white;
+                                  -fx-prompt-text-fill:rgba(255,255,255,0.3);"/>
+
+                <!-- Password -->
+                <PasswordField fx:id="adminPassField" promptText="Passcode"
+                               style="-fx-background-color:rgba(255,255,255,0.08);
+                                      -fx-border-color:rgba(255,255,255,0.1); -fx-border-width:2;
+                                      -fx-border-radius:8; -fx-background-radius:8;
+                                      -fx-padding:10 15; -fx-font-size:14px;
+                                      -fx-font-weight:bold; -fx-text-fill:white;
+                                      -fx-prompt-text-fill:rgba(255,255,255,0.3);"/>
+            </VBox>
+
+            <Label fx:id="errorMessage" text="" wrapText="true"
+                   style="-fx-text-fill:#ef4444; -fx-font-size:12px; -fx-font-weight:bold;"/>
+
+            <!-- Buttons -->
+            <Button text="AUTHORIZE" onAction="#onAdminLogin"
+                    maxWidth="Infinity"
+                    style="-fx-background-color:linear-gradient(to right,#ef4444,#dc2626);
+                           -fx-text-fill:white; -fx-font-size:15px; -fx-font-weight:900;
+                           -fx-letter-spacing:2px;
+                           -fx-padding:12; -fx-background-radius:8; -fx-cursor:hand;"/>
+        </VBox>
+    </VBox>
+</AnchorPane>

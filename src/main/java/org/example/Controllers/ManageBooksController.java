@@ -86,11 +86,8 @@ public class ManageBooksController implements Initializable {
     @FXML
     private void handleAddBook() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddBook.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) booksGrid.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
+            org.example.MainFX.chargerPage("/AddBook.fxml");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -104,7 +101,7 @@ public class ManageBooksController implements Initializable {
             controller.initData(b);
 
             Stage stage = (Stage) booksGrid.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.getScene().setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,10 +110,9 @@ public class ManageBooksController implements Initializable {
     @FXML
     private void handleGoBack() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/PageEnseignant.fxml"));
-            Stage stage = (Stage) booksGrid.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
+            String target = org.example.utils.SessionManager.getInstance().isAdmin() ? "/AdminDashboard.fxml" : "/PageEnseignant.fxml";
+            org.example.MainFX.chargerPage(target);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -124,11 +120,7 @@ public class ManageBooksController implements Initializable {
     @FXML
     private void handleGoToQuiz() {
         try {
-            // On charge la nouvelle interface des Quiz
-            Parent root = FXMLLoader.load(getClass().getResource("/AdminQuizDashboard.fxml"));
-            Stage stage = (Stage) booksGrid.getScene().getWindow();
-            stage.setTitle("InnoLearn - Gestion des Quiz");
-            stage.setScene(new Scene(root));
+            org.example.MainFX.chargerPage("/AdminQuizDashboard.fxml");
         } catch (Exception e) {
             e.printStackTrace();
         }

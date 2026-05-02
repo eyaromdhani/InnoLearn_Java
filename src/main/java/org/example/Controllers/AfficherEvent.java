@@ -180,44 +180,28 @@ public class AfficherEvent {
     void gotoajouter(ActionEvent event) {
         modeModification=false;
         eventSelectionne=null;
-        FXMLLoader loader = new FXMLLoader(MainFX.class.getResource("/AjouterEvent.fxml"));
         try {
-            Scene scene = new Scene(loader.load());
-            Stage stage=(Stage)eventsGrid.getScene().getWindow();
-            stage.setTitle("Ajouter Event");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            MainFX.chargerPage("/AjouterEvent.fxml");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @FXML
     public void gotoInscription() {
         try {
-            FXMLLoader loader = new FXMLLoader(MainFX.class.getResource("/InscriptionAdmin.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = (Stage) eventsGrid.getScene().getWindow();
-            stage.setTitle("Gestion Inscription");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur",
-                    "Impossible de charger la page.");
+            MainFX.chargerPage("/InscriptionAdmin.fxml");
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la page.");
         }
     }
 
     @FXML
     public void gotoAccueil() {
         try {
-            FXMLLoader loader = new FXMLLoader(MainFX.class.getResource("/PageAccueil.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = (Stage) eventsGrid.getScene().getWindow();
-            stage.setTitle("InnoLearn - Accueil");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de retourner à la page d'accueil.");
+            MainFX.chargerPage("/AdminDashboard.fxml");
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de retourner au Dashboard Admin.");
         }
     }
 

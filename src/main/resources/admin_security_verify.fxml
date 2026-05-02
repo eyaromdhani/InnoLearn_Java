@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.Controllers.AdminSecurityController"
+            prefWidth="1100" prefHeight="800" style="-fx-background-color: #020617;">
+
+    <StackPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        
+        <!-- Background Grid -->
+        <Pane opacity="0.05">
+            <children>
+                <Line startX="0" startY="50" endX="1100" endY="50" stroke="#3b82f6" strokeWidth="0.5"/>
+                <Line startX="50" startY="0" endX="50" endY="800" stroke="#3b82f6" strokeWidth="0.5"/>
+            </children>
+        </Pane>
+
+        <VBox alignment="CENTER" spacing="35">
+            
+            <VBox alignment="CENTER" spacing="10">
+                <Label text="SECURE ZONE" style="-fx-text-fill: #3b82f6; -fx-font-size: 12px; -fx-font-weight: bold; -fx-letter-spacing: 5;"/>
+                <Label fx:id="statusLabel" text="INITIALIZING SECURITY AUDIT..." style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+            </VBox>
+
+            <!-- Scanning Visual -->
+            <StackPane>
+                <Circle fx:id="scanCircle" radius="100" fill="transparent" stroke="#1e293b" strokeWidth="4"/>
+                <Circle radius="80" fill="transparent" stroke="#3b82f6" strokeWidth="2" strokeDashArray="10, 10">
+                    <effect><Glow level="0.8"/></effect>
+                </Circle>
+                <Label text="🔒" style="-fx-font-size: 50px;"/>
+            </StackPane>
+
+            <!-- Status Metrics -->
+            <VBox maxWidth="450" spacing="25" style="-fx-background-color: rgba(15, 23, 42, 0.8); -fx-padding: 35; -fx-background-radius: 25; -fx-border-color: #1e293b; -fx-border-width: 1; -fx-border-radius: 25;">
+                <VBox spacing="15">
+                    <HBox alignment="CENTER_LEFT" spacing="15">
+                        <Label text="HARDWARE KEY" style="-fx-text-fill: #94a3b8; -fx-font-size: 10px; -fx-font-weight: bold;" prefWidth="130"/>
+                        <Label fx:id="usbStatus" text="PENDING..." style="-fx-text-fill: #475569; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                    </HBox>
+                    <HBox alignment="CENTER_LEFT" spacing="15">
+                        <Label text="FACE RECOGNITION" style="-fx-text-fill: #94a3b8; -fx-font-size: 10px; -fx-font-weight: bold;" prefWidth="130"/>
+                        <Label fx:id="faceStatus" text="PENDING..." style="-fx-text-fill: #475569; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                    </HBox>
+                </VBox>
+
+                <ProgressBar fx:id="scanProgress" progress="0.1" maxWidth="Infinity" 
+                             style="-fx-accent: #3b82f6; -fx-control-inner-background: #0f172a; -fx-background-radius: 10;"/>
+
+                <!-- VERIFY BUTTON (Initially hidden) -->
+                <Button fx:id="btnVerify" text="VERIFY &amp; PROCEED" onAction="#handleProceed" 
+                        maxWidth="Infinity" visible="false" managed="false"
+                        style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 15; -fx-background-radius: 10; -fx-cursor: hand;">
+                    <effect><Glow level="0.3"/></effect>
+                </Button>
+            </VBox>
+
+            <Label text="AUTHORIZED PERSONNEL ONLY" style="-fx-text-fill: #ef4444; -fx-font-size: 10px; -fx-font-weight: bold; -fx-opacity: 0.6;"/>
+        </VBox>
+    </StackPane>
+</AnchorPane>
