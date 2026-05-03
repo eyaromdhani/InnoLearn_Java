@@ -2,6 +2,7 @@ package org.example.Controllers;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,6 +21,11 @@ import java.sql.SQLException;
 import java.util.Random;
 
 public class MfaController {
+
+    @FXML
+    private void handleBack(ActionEvent event) {
+        org.example.MainFX.goBack();
+    }
 
     @FXML private Label lblPhoneSuffix;
     @FXML private TextField codeField;
@@ -116,17 +122,30 @@ public class MfaController {
                     userService.update(currentUser);
                 }
                 
-                // Redirection intelligente selon le rôle
-                String roles = currentUser.getRoles();
-                String targetPage = "PageEtudiant.fxml"; // Default
+                // Redirection intelligente en utilisant SessionManager
+                SessionManager session = SessionManager.getInstance();
+                String targetPage = null;
                 
-                if (roles != null) {
-                    if (roles.contains("ADMIN")) targetPage = "AdminDashboard.fxml";
-                    else if (roles.contains("RECRUITER")) targetPage = "RecruiterDashboard.fxml";
-                    else if (roles.contains("INSTRUCTOR")) targetPage = "PageEnseignant.fxml";
+                System.out.println("[DEBUG] Final Redirection Check...");
+                System.out.println("[DEBUG] User: " + currentUser.getUsername() + " | Roles: " + currentUser.getRoles());
+                
+                if (session.isAdmin()) {
+                    targetPage = "AdminDashboard.fxml";
+                } else if (session.isInstructor()) {
+                    targetPage = "PageEnseignant.fxml";
+                } else if (session.isRecruiter()) {
+                    targetPage = "RecruiterDashboard.fxml";
+                } else if (session.isStudent()) {
+                    targetPage = "PageEtudiant.fxml";
                 }
                 
-                org.example.MainFX.chargerPage("/" + targetPage);
+                if (targetPage != null) {
+                    System.out.println("[DEBUG] Role detected! Redirecting to: " + targetPage);
+                    org.example.MainFX.chargerPage("/" + targetPage);
+                } else {
+                    System.out.println("[DEBUG] ERROR: No specific role detected for this user.");
+                    lblError.setText("Error: Account role not recognized.");
+                }
 
             } catch (Exception ex) {
                 lblError.setText("Error: " + ex.getMessage());

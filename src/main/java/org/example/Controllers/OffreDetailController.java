@@ -43,7 +43,6 @@ public class OffreDetailController {
     private OffreStage currentOffre;
     private StagesController parentController;
     private ServiceStageCondidature serviceCandidature;
-    private final int MOCK_STUDENT_ID = 10;
 
     public void setOffre(OffreStage os, StagesController parent) {
         this.currentOffre = os;
@@ -77,8 +76,8 @@ public class OffreDetailController {
         if (txtApplyTitle != null) txtApplyTitle.setText("Candidature : " + os.getTitre());
         
         try {
-            // Fetch student profile (MOCK_STUDENT_ID = 10)
-            StageCondidature profile = serviceCandidature.getProfileEtudiant(MOCK_STUDENT_ID);
+            // Fetch student profile (Session-based)
+            StageCondidature profile = serviceCandidature.getProfileEtudiant();
             if (profile != null) {
                 if (txtApplyDomain != null) txtApplyDomain.setText(profile.getDomaine());
                 if (txtApplyCompetences != null) txtApplyCompetences.setText(profile.getCompetences());
@@ -162,7 +161,7 @@ public class OffreDetailController {
             candidature.setLettre_motivation(motivation);
             candidature.setDate_publication(Date.valueOf(LocalDate.now()));
             candidature.setStatut("EN_ATTENTE");
-            candidature.setId_etudiant(MOCK_STUDENT_ID);
+            // id_etudiant is handled by the Service (Session-based)
             candidature.setId_offre(currentOffre.getId());
 
             serviceCandidature.ajouter(candidature);

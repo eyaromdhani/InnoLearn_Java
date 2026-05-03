@@ -200,8 +200,8 @@ public class StagesController implements Initializable {
                 // 1. Total Offers
                 int totalOffres = serviceOffre.afficherAll().size();
                 
-                // 2. Student Apps Stats (Student 10)
-                java.util.Map<String, Integer> stats = serviceDemande.getStatsCandidatures(10);
+                // 2. Student Apps Stats (Session-based)
+                java.util.Map<String, Integer> stats = serviceDemande.getStatsCandidatures();
                 
                 javafx.application.Platform.runLater(() -> {
                     lblStatTotalOffres.setText(String.valueOf(totalOffres));
@@ -412,6 +412,13 @@ public class StagesController implements Initializable {
             scrollPaneContent.setVvalue(0);
         } catch (Exception e) {
             e.printStackTrace();
+            javafx.application.Platform.runLater(() -> {
+                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+                alert.setTitle("Erreur de chargement");
+                alert.setHeaderText("Impossible de charger le profil");
+                alert.setContentText(e.getMessage() + "\nCause: " + (e.getCause() != null ? e.getCause().getMessage() : "Inconnue"));
+                alert.show();
+            });
         }
     }
 
@@ -505,8 +512,8 @@ public class StagesController implements Initializable {
 
         new Thread(() -> {
             try {
-                // 1. Get student domain
-                StageCondidature profile = serviceDemande.getProfileEtudiant(10); // Hardcoded ID 10
+                // 1. Get student domain (Session-based)
+                StageCondidature profile = serviceDemande.getProfileEtudiant();
                 if (profile == null || profile.getDomaine() == null) {
                     javafx.application.Platform.runLater(() -> {
                         contentArea.getChildren().clear();

@@ -1,23 +1,29 @@
 package org.example.Controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.example.Entities.Categorie_cours;
 import org.example.MainFX;
 import org.example.Services.CategorieCoursService;
+import org.example.utils.SessionManager;
 import java.sql.SQLException;
 import java.util.List;
 
 public class PPController {
 
-    @FXML private FlowPane cardsContainer;
-    @FXML private TextField searchField;
-    @FXML private ComboBox<String> categorieCombo;
+    @FXML
+    private FlowPane cardsContainer;
+    @FXML
+    private TextField searchField;
+    @FXML
+    private ComboBox<String> categorieCombo;
 
     private CategorieCoursService service = new CategorieCoursService();
     private List<Categorie_cours> toutesLesCategories;
-    @FXML private ComboBox<String> triCombo;
+    @FXML
+    private ComboBox<String> triCombo;
 
     // Couleurs pour les cards
     private String[] gradients = {
@@ -29,9 +35,14 @@ public class PPController {
             "linear-gradient(to bottom right, #f8961e, #f72585)"
     };
 
-    private String[] badgeColors = {"#4361ee", "#f72585", "#ff6b6b", "#4cc9f0", "#06d6a0", "#f8961e"};
-    private String[] badgeBg = {"#e8e8ff", "#ffe8f5", "#fff0e8", "#e8f8ff", "#e8fff8", "#fff5e8"};
-    private String[] emojis = {"🎯", "🚀", "⭐", "💡", "🔥", "📚"};
+    private String[] badgeColors = { "#4361ee", "#f72585", "#ff6b6b", "#4cc9f0", "#06d6a0", "#f8961e" };
+    private String[] badgeBg = { "#e8e8ff", "#ffe8f5", "#fff0e8", "#e8f8ff", "#e8fff8", "#fff5e8" };
+    private String[] emojis = { "🎯", "🚀", "⭐", "💡", "🔥", "📚" };
+
+    @FXML
+    public void onBackClick(ActionEvent event) {
+        org.example.MainFX.goBack();
+    }
 
     @FXML
     public void initialize() {
@@ -54,8 +65,7 @@ public class PPController {
                     "Plus récents",
                     "Plus anciens",
                     "A → Z",
-                    "Z → A"
-            );
+                    "Z → A");
             triCombo.setValue("Plus récents");
 
             // Écoute le tri
@@ -67,6 +77,7 @@ public class PPController {
             System.out.println(e.getMessage());
         }
     }
+
     @FXML
     public void ouvrirCours() {
         try {
@@ -79,8 +90,8 @@ public class PPController {
     @FXML
     public void ouvrirAccueilPrincipal() {
         try {
-            String target = org.example.utils.SessionManager.getInstance().isAdmin() ? "/AdminDashboard.fxml" : "/PageAccueil.fxml";
-            MainFX.chargerPage(target);
+            SessionManager.getInstance().logout();
+            MainFX.chargerPage("/loginpage.fxml");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,6 +114,7 @@ public class PPController {
             e.printStackTrace();
         }
     }
+
     @FXML
     public void ouvrirOpportunites() {
         try {
@@ -111,6 +123,7 @@ public class PPController {
             e.printStackTrace();
         }
     }
+
     @FXML
     public void ouvrirQuiz() {
         try {
@@ -120,9 +133,6 @@ public class PPController {
             e.printStackTrace();
         }
     }
-
-
-
 
     private void chargerCategories() {
         categorieCombo.getItems().add("Toutes les catégories");
@@ -221,14 +231,10 @@ public class PPController {
     private void trierCategories(String tri) {
         List<Categorie_cours> triees = new java.util.ArrayList<>(toutesLesCategories);
         switch (tri) {
-            case "A → Z" -> triees.sort((a, b) ->
-                    a.getTitre().compareToIgnoreCase(b.getTitre()));
-            case "Z → A" -> triees.sort((a, b) ->
-                    b.getTitre().compareToIgnoreCase(a.getTitre()));
-            case "Plus récents" -> triees.sort((a, b) ->
-                    b.getDatepublication().compareTo(a.getDatepublication()));
-            case "Plus anciens" -> triees.sort((a, b) ->
-                    a.getDatepublication().compareTo(b.getDatepublication()));
+            case "A → Z" -> triees.sort((a, b) -> a.getTitre().compareToIgnoreCase(b.getTitre()));
+            case "Z → A" -> triees.sort((a, b) -> b.getTitre().compareToIgnoreCase(a.getTitre()));
+            case "Plus récents" -> triees.sort((a, b) -> b.getDatepublication().compareTo(a.getDatepublication()));
+            case "Plus anciens" -> triees.sort((a, b) -> a.getDatepublication().compareTo(b.getDatepublication()));
         }
         afficherCards(triees);
     }

@@ -90,6 +90,11 @@ public class NavbarController implements Initializable {
         contextMenu.show(profileInitials, javafx.geometry.Side.BOTTOM, 0, 10);
     }
 
+    @FXML
+    private void handleBackClick() {
+        org.example.MainFX.goBack();
+    }
+
     private void navigateTo(String fxmlPath) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
@@ -103,20 +108,13 @@ public class NavbarController implements Initializable {
 
     @FXML
     private void handleLogoClick() {
-        if (SessionManager.getInstance().isAdmin()) {
-            navigateTo("/AdminDashboard.fxml");
-        } else {
-            navigateTo("/PageAccueil.fxml");
-        }
+        handleAccueilClick();
     }
 
     @FXML
     private void handleAccueilClick() {
-        if (SessionManager.getInstance().isAdmin()) {
-            navigateTo("/AdminDashboard.fxml");
-        } else {
-            navigateTo("/PageEtudiant.fxml");
-        }
+        SessionManager.getInstance().logout();
+        navigateTo("/loginpage.fxml");
     }
  
     @FXML

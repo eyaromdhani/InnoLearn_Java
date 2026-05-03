@@ -27,7 +27,6 @@ public class StudentCandidaturesController {
 
     private ServiceStageCondidature serviceMethod = new ServiceStageCondidature(MyDataBase.getInstance().getConnection());
     private ObservableList<StageCondidature> observableList;
-    private final int MOCK_STUDENT_ID = 10;
 
     @FXML
     public void initialize() {
@@ -45,10 +44,7 @@ public class StudentCandidaturesController {
 
     private void loadData() {
         try {
-            List<StageCondidature> tous = serviceMethod.afficherAll();
-            List<StageCondidature> mesCandidatures = tous.stream()
-                    .filter(c -> c.getId_etudiant() != null && c.getId_etudiant() == MOCK_STUDENT_ID)
-                    .collect(Collectors.toList());
+            List<StageCondidature> mesCandidatures = serviceMethod.afficherMesCandidatures();
             observableList = FXCollections.observableArrayList(mesCandidatures);
             tableCandidatures.setItems(observableList);
         } catch (SQLException e) {

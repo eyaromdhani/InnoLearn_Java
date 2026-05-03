@@ -97,8 +97,9 @@ public class PageAjouterCoursController {
 
             // Création automatique du slug simple
             String slug = titre.toLowerCase().replace(" ", "-");
+            int enseignantId = org.example.utils.Session.getUserId();
 
-            Cours nouveauCours = new Cours(titre, description, slug, typeMedia, mediaUrl, duree, niveau, LocalDateTime.now(), "Enseignant Actuel", categorie.getId());
+            Cours nouveauCours = new Cours(titre, description, slug, typeMedia, mediaUrl, duree, niveau, LocalDateTime.now(), enseignantId, categorie.getId());
 
             coursService.ajouter(nouveauCours);
             

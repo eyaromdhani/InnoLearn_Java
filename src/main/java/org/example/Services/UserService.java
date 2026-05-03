@@ -44,18 +44,18 @@ public class UserService implements ICrud<G_user>{
         ps.setString(1, user.getName());
         ps.setString(2, user.getUsername());
         ps.setString(3, user.getEmail());
-        ps.setString(4, BCrypt.withDefaults().hashToString(12, user.getPasswordHash().toCharArray()));
-        ps.setString(5, user.getCountryCode());
+        ps.setString(4, user.getPasswordHash() != null ? BCrypt.withDefaults().hashToString(12, user.getPasswordHash().toCharArray()) : "");
+        ps.setString(5, user.getCountryCode() != null ? user.getCountryCode() : "+216");
         ps.setString(6, user.getPhoneNumber());
         ps.setString(7, user.getRoles());
-        ps.setBoolean(8, user.getActive());
+        ps.setBoolean(8, Boolean.TRUE.equals(user.getActive()));
         ps.setString(9, user.getAvatarUrl());
         ps.setString(10, user.getVerificationKey());
         ps.setString(11, user.getKeyExpiresAt() != null ? user.getKeyExpiresAt().toString() : null);
-        ps.setBoolean(12, user.getPhoneVerified());
-        ps.setInt(13, user.getFailedLoginAttempts());
+        ps.setBoolean(12, Boolean.TRUE.equals(user.getPhoneVerified()));
+        ps.setInt(13, user.getFailedLoginAttempts() != null ? user.getFailedLoginAttempts() : 0);
         ps.setString(14, user.getLastFailedLoginAttempt() != null ? user.getLastFailedLoginAttempt().toString() : null);
-        ps.setBoolean(15, user.getBanned());
+        ps.setBoolean(15, Boolean.TRUE.equals(user.getBanned()));
         ps.setString(16, user.getAdminHardwareKeyHash());
         ps.setString(17, user.getAdminFaceSignatureHash());
 

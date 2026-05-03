@@ -202,7 +202,7 @@ public class CoursController {
         duree.setStyle("-fx-text-fill: #888; -fx-font-size: 12px;");
 
         // Enseignant
-        Label enseignant = new Label("👨‍🏫 " + c.getEnseignant());
+        Label enseignant = new Label("👨‍🏫 ID: " + c.getEnseignantId());
         enseignant.setStyle("-fx-text-fill: #888; -fx-font-size: 12px;");
 
         // ✅ Bouton Détails → ouvre la page détail

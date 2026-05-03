@@ -45,22 +45,37 @@ public class SessionManager {
     public boolean isAdmin() {
         if (currentUser == null) return false;
         String roles = currentUser.getRoles();
-        return roles != null && roles.contains("ROLE_ADMIN");
+        if (roles == null) return false;
+        String r = roles.toUpperCase();
+        return r.contains("ADMIN");
     }
 
     public boolean isInstructor() {
         if (currentUser == null) return false;
         String roles = currentUser.getRoles();
-        return roles != null && roles.contains("ROLE_INSTRUCTOR");
+        if (roles == null) return false;
+        String r = roles.toUpperCase();
+        return r.contains("INSTRUCTOR") || r.contains("ENSEIGNANT") || r.contains("TEACHER");
+    }
+
+    public boolean isRecruiter() {
+        if (currentUser == null) return false;
+        String roles = currentUser.getRoles();
+        if (roles == null) return false;
+        String r = roles.toUpperCase();
+        return r.contains("RECRUITER") || r.contains("PARTNER");
     }
 
     public boolean isStudent() {
         if (currentUser == null) return false;
         String roles = currentUser.getRoles();
-        return roles != null && roles.contains("ROLE_STUDENT");
+        if (roles == null) return false;
+        String r = roles.toUpperCase();
+        return r.contains("STUDENT") || (!isAdmin() && !isInstructor() && !isRecruiter());
     }
 
     public void logout() {
         this.currentUser = null;
+        org.example.utils.Session.clear();
     }
 }

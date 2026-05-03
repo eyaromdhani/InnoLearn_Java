@@ -1,6 +1,7 @@
 package org.example.Services;
 
 import org.example.Entities.StageCondidature;
+import org.example.utils.Session;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,11 @@ public class ServiceStageCondidature implements ServiceStageCondidatureInterface
     }
 
     public void ajouter(StageCondidature sc) throws SQLException {
+        // Set student ID automatically from Session if not already set
+        if (sc.getId_etudiant() == null || sc.getId_etudiant() == 0) {
+            sc.setId_etudiant(Session.getUserId());
+        }
+
         String req = "INSERT INTO stagecondidature (type_request, titre, description, domaine, competences, cv, lettre_motivation, date_publication, statut, id_etudiant, id_offre) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pst = conn.prepareStatement(req)) {
@@ -84,7 +90,9 @@ public class ServiceStageCondidature implements ServiceStageCondidatureInterface
         return liste;
     }
 
-    public List<StageCondidature> afficherParRecruteur(int idRecruteur) throws SQLException {
+    @Override
+    public List<StageCondidature> afficherParRecruteur() throws SQLException {
+        int idRecruteur = Session.getUserId();
         List<StageCondidature> liste = new ArrayList<>();
         String req = "SELECT sc.* FROM stagecondidature sc "
                    + "JOIN offrestage o ON sc.id_offre = o.id "
@@ -118,7 +126,9 @@ public class ServiceStageCondidature implements ServiceStageCondidatureInterface
         return null;
     }
 
-    public StageCondidature getProfileEtudiant(int idEtudiant) throws SQLException {
+    @Override
+    public StageCondidature getProfileEtudiant() throws SQLException {
+        int idEtudiant = org.example.utils.Session.getUserId();
         String req = "SELECT * FROM stagecondidature WHERE id_etudiant = ? AND type_request = 'DEMANDE' LIMIT 1";
         try (PreparedStatement pst = conn.prepareStatement(req)) {
             pst.setInt(1, idEtudiant);
@@ -129,7 +139,9 @@ public class ServiceStageCondidature implements ServiceStageCondidatureInterface
         return null;
     }
 
-    public java.util.Map<String, Integer> getStatsCandidatures(int idEtudiant) throws SQLException {
+    @Override
+    public java.util.Map<String, Integer> getStatsCandidatures() throws SQLException {
+        int idEtudiant = Session.getUserId();
         java.util.Map<String, Integer> stats = new java.util.HashMap<>();
         String req = "SELECT statut, COUNT(*) as count FROM stagecondidature WHERE id_etudiant = ? AND type_request = 'CANDIDATURE' GROUP BY statut";
         try (PreparedStatement pst = conn.prepareStatement(req)) {
@@ -154,7 +166,9 @@ public class ServiceStageCondidature implements ServiceStageCondidatureInterface
         return stats;
     }
 
-    public java.util.Map<String, Integer> getStatsCandidaturesForRecruiter(int idRecruteur) throws SQLException {
+    @Override
+    public java.util.Map<String, Integer> getStatsCandidaturesForRecruiter() throws SQLException {
+        int idRecruteur = Session.getUserId();
         java.util.Map<String, Integer> stats = new java.util.HashMap<>();
         String req = "SELECT sc.statut, COUNT(*) as count FROM stagecondidature sc "
                    + "JOIN offrestage o ON sc.id_offre = o.id "
@@ -194,6 +208,20 @@ public class ServiceStageCondidature implements ServiceStageCondidatureInterface
             }
         }
         return null;
+    }
+
+    @Override
+    public List<StageCondidature> afficherMesCandidatures() throws SQLException {
+        int idEtudiant = Session.getUserId();
+        List<StageCondidature> liste = new ArrayList<>();
+        String req = "SELECT * FROM stagecondidature WHERE id_etudiant = ?";
+        try (PreparedStatement pst = conn.prepareStatement(req)) {
+            pst.setInt(1, idEtudiant);
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) liste.add(extractFromRS(rs));
+            }
+        }
+        return liste;
     }
 
     private StageCondidature extractFromRS(ResultSet rs) throws SQLException {

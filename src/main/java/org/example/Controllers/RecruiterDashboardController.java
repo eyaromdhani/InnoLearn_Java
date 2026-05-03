@@ -34,7 +34,6 @@ public class RecruiterDashboardController implements Initializable {
     @FXML private Label lblStatPending;
 
     private ServiceOffreStage serviceOffre;
-    private final int MOCK_RECRUITER_ID = 8;
     private List<OffreStage> allMyOffres;
 
     @Override
@@ -117,11 +116,11 @@ public class RecruiterDashboardController implements Initializable {
             try {
                 ServiceStageCondidature serviceDemande = new ServiceStageCondidature(MyDataBase.getInstance().getConnection());
                 
-                // 1. Total My Offers (Filtered by Recruiter ID)
-                int myOffersCount = serviceOffre.afficherParRecruteur(MOCK_RECRUITER_ID).size();
+                // 1. Total My Offers (Automatically filtered by Session)
+                int myOffersCount = serviceOffre.afficherParRecruteur().size();
                 
-                // 2. Candidatures Stats for this recruiter's offers
-                java.util.Map<String, Integer> stats = serviceDemande.getStatsCandidaturesForRecruiter(MOCK_RECRUITER_ID);
+                // 2. Candidatures Stats for this recruiter's offers (Session-based)
+                java.util.Map<String, Integer> stats = serviceDemande.getStatsCandidaturesForRecruiter();
 
                 javafx.application.Platform.runLater(() -> {
                     lblStatMyOffers.setText(String.valueOf(myOffersCount));
@@ -136,8 +135,8 @@ public class RecruiterDashboardController implements Initializable {
 
     private void loadData() {
         try {
-            // Filter to only show THIS recruiter's offers
-            allMyOffres = serviceOffre.afficherParRecruteur(MOCK_RECRUITER_ID);
+            // Filter to only show THIS recruiter's offers (Session-based)
+            allMyOffres = serviceOffre.afficherParRecruteur();
             updateDisplay(allMyOffres);
             
             // Populate combos

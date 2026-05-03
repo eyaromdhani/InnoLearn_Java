@@ -54,7 +54,6 @@ public class ProfileController implements Initializable {
     private ServiceExperience serviceExperience;
     private StageCondidature existingProfile;
     private String currentCVPath;
-    private final int MOCK_STUDENT_ID = 10;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -80,19 +79,20 @@ public class ProfileController implements Initializable {
 
     private void loadUserData() {
         try {
+            int currentId = org.example.utils.Session.getUserId();
             java.sql.Connection conn = MyDataBase.getInstance().getConnection();
             try (java.sql.Statement st = conn.createStatement()) {
-                // Fetching from table 'user' (ID 10 = Jihene)
-                try (java.sql.ResultSet rs = st.executeQuery("SELECT * FROM user WHERE id = " + MOCK_STUDENT_ID)) {
+                // Fetching from table 'user' using Session ID
+                try (java.sql.ResultSet rs = st.executeQuery("SELECT * FROM user WHERE id = " + currentId)) {
                     if (rs.next()) {
                         String nom = rs.getString("name");
                         String email = rs.getString("email");
-                        lblWelcome.setText("Profil de " + (nom != null ? nom : "Jihene"));
-                        lblUserMeta.setText("Étudiante Esprit — " + (email != null ? email : "jihen@esprit.tn"));
+                        lblWelcome.setText("Profil de " + (nom != null ? nom : "Utilisateur"));
+                        lblUserMeta.setText("Étudiant Esprit — " + (email != null ? email : "email non spécifié"));
                     }
                 } catch (Exception e) {
                     System.err.println("Note: Could not load user labels from DB: " + e.getMessage());
-                    lblWelcome.setText("Mon Profil Professionnel (Jihene)");
+                    lblWelcome.setText("Mon Profil Professionnel");
                 }
             }
         } catch (Exception e) {
@@ -103,7 +103,8 @@ public class ProfileController implements Initializable {
     private void loadExperiences() {
         timelineList.getChildren().clear();
         try {
-            java.util.List<Experience> experiences = serviceExperience.getParEtudiant(MOCK_STUDENT_ID);
+            int currentId = org.example.utils.Session.getUserId();
+            java.util.List<Experience> experiences = serviceExperience.getParEtudiant(currentId);
             for (int i = 0; i < experiences.size(); i++) {
                 Experience exp = experiences.get(i);
                 try {
@@ -126,7 +127,7 @@ public class ProfileController implements Initializable {
 
     private void loadExistingProfile() {
         try {
-            existingProfile = serviceCandidature.getProfileEtudiant(MOCK_STUDENT_ID);
+            existingProfile = serviceCandidature.getProfileEtudiant();
             if (existingProfile != null) {
                 txtDomaine.setText(existingProfile.getDomaine());
                 txtCompetences.setText(existingProfile.getCompetences());
@@ -175,7 +176,8 @@ public class ProfileController implements Initializable {
         }
 
         try {
-            Experience newExp = new Experience(MOCK_STUDENT_ID, type, annee, etablissement, domaine, niveau, desc);
+            int currentId = org.example.utils.Session.getUserId();
+            Experience newExp = new Experience(currentId, type, annee, etablissement, domaine, niveau, desc);
             serviceExperience.ajouter(newExp);
             
             // Reload UI
@@ -244,7 +246,8 @@ public class ProfileController implements Initializable {
             );
 
             // Fetch current experiences
-            java.util.List<Experience> experiences = serviceExperience.getParEtudiant(MOCK_STUDENT_ID);
+            int currentId = org.example.utils.Session.getUserId();
+            java.util.List<Experience> experiences = serviceExperience.getParEtudiant(currentId);
             
             // Temporary profile object
             StageCondidature tempProfile = new StageCondidature();
@@ -257,7 +260,7 @@ public class ProfileController implements Initializable {
                  java.sql.Connection conn = MyDataBase.getInstance().getConnection();
                  try (java.sql.Statement st = conn.createStatement()) {
                     // Query table `user`
-                    try (java.sql.ResultSet rs = st.executeQuery("SELECT * FROM user WHERE id = " + MOCK_STUDENT_ID)) {
+                    try (java.sql.ResultSet rs = st.executeQuery("SELECT * FROM user WHERE id = " + currentId)) {
                         if (rs.next()) {
                             sName = rs.getString("name");
                             sEmail = rs.getString("email");
@@ -322,7 +325,7 @@ public class ProfileController implements Initializable {
             if (isNew) {
                 existingProfile = new StageCondidature();
                 existingProfile.setType_request("DEMANDE");
-                existingProfile.setId_etudiant(MOCK_STUDENT_ID);
+                existingProfile.setId_etudiant(org.example.utils.Session.getUserId());
                 existingProfile.setStatut("ACTIF");
                 existingProfile.setDate_publication(Date.valueOf(LocalDate.now()));
             }
@@ -337,7 +340,7 @@ public class ProfileController implements Initializable {
             if (isNew) {
                 serviceCandidature.ajouter(existingProfile);
                 // After adding, we should probably fetch it again to get the generated ID
-                existingProfile = serviceCandidature.getProfileEtudiant(MOCK_STUDENT_ID);
+                existingProfile = serviceCandidature.getProfileEtudiant();
             } else {
                 serviceCandidature.modifier(existingProfile);
             }

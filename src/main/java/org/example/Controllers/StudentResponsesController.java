@@ -18,7 +18,6 @@ public class StudentResponsesController {
     @FXML private FlowPane containerDemandes;
 
     private ServiceStageCondidature serviceCandidature;
-    private final int MOCK_STUDENT_ID = 10;
 
     @FXML
     public void initialize() {
@@ -36,16 +35,16 @@ public class StudentResponsesController {
         containerDemandes.getChildren().clear();
 
         try {
-            List<StageCondidature> all = serviceCandidature.afficherAll();
+            // Use the session-based method to get only current user's data
+            List<StageCondidature> myAll = serviceCandidature.afficherMesCandidatures();
             
             // Filter candidatures for this student
-            List<StageCondidature> myCandidatures = all.stream()
-                .filter(c -> c.getId_etudiant() != null && c.getId_etudiant() == MOCK_STUDENT_ID && "CANDIDATURE".equalsIgnoreCase(c.getType_request()))
+            List<StageCondidature> myCandidatures = myAll.stream()
+                .filter(c -> "CANDIDATURE".equalsIgnoreCase(c.getType_request()))
                 .toList();
-
             // Filter demands for this student
-            List<StageCondidature> myDemands = all.stream()
-                .filter(c -> c.getId_etudiant() != null && c.getId_etudiant() == MOCK_STUDENT_ID && "DEMANDE".equalsIgnoreCase(c.getType_request()))
+            List<StageCondidature> myDemands = myAll.stream()
+                .filter(c -> "DEMANDE".equalsIgnoreCase(c.getType_request()))
                 .toList();
 
             for (StageCondidature sc : myCandidatures) {

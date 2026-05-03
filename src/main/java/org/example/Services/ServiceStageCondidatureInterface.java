@@ -12,6 +12,9 @@ public interface ServiceStageCondidatureInterface {
     void modifier(StageCondidature sc) throws SQLException;
     List<StageCondidature> afficherAll() throws SQLException;
     StageCondidature getById(int id) throws SQLException;
-    StageCondidature getProfileEtudiant(int idEtudiant) throws SQLException;
-    Map<String, Integer> getStatsCandidaturesForRecruiter(int idRecruteur) throws SQLException;
+    StageCondidature getProfileEtudiant() throws SQLException;
+    Map<String, Integer> getStatsCandidaturesForRecruiter() throws SQLException;
+    List<StageCondidature> afficherParRecruteur() throws SQLException;
+    List<StageCondidature> afficherMesCandidatures() throws SQLException;
+    Map<String, Integer> getStatsCandidatures() throws SQLException;
 }

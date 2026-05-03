@@ -34,7 +34,6 @@ public class StudentOffresController {
     private ServiceOffreStage serviceOffre = new ServiceOffreStage(MyDataBase.getInstance().getConnection());
     private ServiceStageCondidature serviceCondidature = new ServiceStageCondidature(MyDataBase.getInstance().getConnection());
     private ObservableList<OffreStage> observableList;
-    private final int MOCK_STUDENT_ID = 10; 
 
     @FXML
     public void initialize() {
@@ -77,7 +76,7 @@ public class StudentOffresController {
         try {
             StageCondidature c = new StageCondidature();
             c.setId_offre(selected.getId());
-            c.setId_etudiant(MOCK_STUDENT_ID);
+            // Student ID is now handled automatically by Service (Session-based)
             c.setTitre("Candidature pour " + selected.getTitre());
             c.setDomaine(selected.getDomaine());
             c.setLettre_motivation(txtMotivation.getText());

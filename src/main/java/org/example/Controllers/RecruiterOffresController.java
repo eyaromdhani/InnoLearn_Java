@@ -27,7 +27,6 @@ public class RecruiterOffresController {
     @FXML private FlowPane cardsContainerAutresOffres;
 
     private ServiceOffreStage serviceMethod = new ServiceOffreStage(MyDataBase.getInstance().getConnection());
-    private final int MOCK_RECRUITER_ID = 8; // Simulated Logged in recruiter
 
     @FXML private javafx.scene.control.TextField txtSearch;
     @FXML private javafx.scene.control.ComboBox<String> comboSort;
@@ -78,14 +77,15 @@ public class RecruiterOffresController {
     }
 
     private void processData(List<OffreStage> tous) {
+        int currentId = org.example.utils.Session.getUserId();
         // Mes offres
         List<OffreStage> mesOffres = tous.stream()
-                .filter(o -> o.getId_recruteur() != null && o.getId_recruteur() == MOCK_RECRUITER_ID)
+                .filter(o -> o.getId_recruteur() != null && o.getId_recruteur() == currentId)
                 .collect(Collectors.toList());
         
         // Autres offres
         List<OffreStage> autresOffres = tous.stream()
-                .filter(o -> o.getId_recruteur() == null || o.getId_recruteur() != MOCK_RECRUITER_ID)
+                .filter(o -> o.getId_recruteur() == null || o.getId_recruteur() != currentId)
                 .collect(Collectors.toList());
         
         updateDisplayMesOffres(mesOffres);

@@ -19,6 +19,7 @@ import org.example.Entities.Categorie_cours;
 import org.example.Entities.Cours;
 import org.example.Services.CategorieCoursService;
 import org.example.Services.CoursService;
+import org.example.utils.SessionManager;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -29,6 +30,9 @@ public class PageEnseignantController {
 
     @FXML
     private FlowPane cardsContainer;
+    
+    @FXML
+    private FlowPane allCardsContainer;
 
     private CoursService coursService = new CoursService();
     private CategorieCoursService categorieCoursService = new CategorieCoursService();
@@ -40,13 +44,25 @@ public class PageEnseignantController {
 
     private void chargerCartesCours() {
         cardsContainer.getChildren().clear();
+        if (allCardsContainer != null) allCardsContainer.getChildren().clear();
         try {
-            List<Cours> listeCours = coursService.afficher();
+            int enseignantId = org.example.utils.Session.getUserId();
+            List<Cours> listeCours = coursService.afficherParEnseignant(enseignantId);
+            List<Cours> tousLesCours = coursService.afficher();
             List<Categorie_cours> categories = categorieCoursService.afficher();
 
             for (Cours cours : listeCours) {
-                VBox card = createCourseCard(cours, categories);
+                VBox card = createCourseCard(cours, categories, true);
                 cardsContainer.getChildren().add(card);
+            }
+
+            if (allCardsContainer != null) {
+                for (Cours cours : tousLesCours) {
+                    if (cours.getEnseignantId() != enseignantId) {
+                        VBox card = createCourseCard(cours, categories, false);
+                        allCardsContainer.getChildren().add(card);
+                    }
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,7 +84,7 @@ public class PageEnseignantController {
 
     private int cardIndex = 0;
 
-    private VBox createCourseCard(Cours c, List<Categorie_cours> categories) {
+    private VBox createCourseCard(Cours c, List<Categorie_cours> categories, boolean isOwner) {
         int index = cardIndex % gradients.length;
         cardIndex++;
 
@@ -134,15 +150,21 @@ public class PageEnseignantController {
         actionsBox.setAlignment(Pos.CENTER);
         actionsBox.setStyle("-fx-padding: 10 0 0 0;");
 
-        Button btnModifier = new Button("✍ Modifier");
-        btnModifier.setStyle("-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 6 15 6 15; -fx-cursor: hand;");
-        btnModifier.setOnAction(e -> onModifierCoursClick(c, e));
+        if (isOwner) {
+            Button btnModifier = new Button("✍ Modifier");
+            btnModifier.setStyle("-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 6 15 6 15; -fx-cursor: hand;");
+            btnModifier.setOnAction(e -> onModifierCoursClick(c, e));
 
-        Button btnSupprimer = new Button("🗑 Supp");
-        btnSupprimer.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 6 15 6 15; -fx-cursor: hand;");
-        btnSupprimer.setOnAction(e -> onSupprimerCours(c));
+            Button btnSupprimer = new Button("🗑 Supp");
+            btnSupprimer.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 6 15 6 15; -fx-cursor: hand;");
+            btnSupprimer.setOnAction(e -> onSupprimerCours(c));
 
-        actionsBox.getChildren().addAll(btnModifier, btnSupprimer);
+            actionsBox.getChildren().addAll(btnModifier, btnSupprimer);
+        } else {
+            Label labelAuteur = new Label("Par Prof. ID " + c.getEnseignantId());
+            labelAuteur.setStyle("-fx-text-fill: #3a0ca3; -fx-font-weight: bold; -fx-font-size: 13px;");
+            actionsBox.getChildren().add(labelAuteur);
+        }
 
         body.getChildren().addAll(badge, titre, description, duree, categorie, actionsBox);
         card.getChildren().addAll(header, body);
@@ -197,10 +219,15 @@ public class PageEnseignantController {
     }
 
     @FXML
+    void onBackClick(ActionEvent event) {
+        org.example.MainFX.goBack();
+    }
+
+    @FXML
     void onRetourAccueilClick(ActionEvent event) {
         try {
-            String target = org.example.utils.SessionManager.getInstance().isAdmin() ? "/AdminDashboard.fxml" : "/PageAccueil.fxml";
-            org.example.MainFX.chargerPage(target);
+            SessionManager.getInstance().logout();
+            org.example.MainFX.chargerPage("/loginpage.fxml");
         } catch (Exception e) {
             e.printStackTrace();
         }

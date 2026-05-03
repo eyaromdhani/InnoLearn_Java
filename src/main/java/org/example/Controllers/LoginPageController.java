@@ -1,6 +1,7 @@
 package org.example.Controllers;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -68,6 +69,7 @@ public class LoginPageController {
                 
                 if (result.verified) {
                     SessionManager.getInstance().setCurrentUser(found);
+                    org.example.utils.Session.setUserId(found.getId());
                     
                     // Specialized Security for Admins (USB + Face ID)
                     if (found.getRoles() != null && found.getRoles().contains("ROLE_ADMIN")) {
@@ -101,18 +103,15 @@ public class LoginPageController {
         errorMessage.setManaged(true);
     }
 
+    @FXML
+    private void handleBack(ActionEvent event) {
+        org.example.MainFX.goBack();
+    }
+
     private void navigateTo(String fxml) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + fxml));
-            Parent root = loader.load();
-            Scene scene = emailField.getScene();
-            scene.setRoot(root);
-            if (fxml.contains("login") || fxml.contains("signup")) {
-                scene.getStylesheets().add(getClass().getResource("/login.css").toExternalForm());
-            } else if (fxml.contains("home") || fxml.contains("welcome")) {
-                scene.getStylesheets().add(getClass().getResource("/home.css").toExternalForm());
-            }
-        } catch (IOException e) {
+            org.example.MainFX.chargerPage("/" + fxml);
+        } catch (Exception e) {
             showError("Navigation Error: Could not load " + fxml);
             e.printStackTrace();
         }

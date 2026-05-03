@@ -12,11 +12,21 @@ public class MyDataBase {
     private Connection connection;
     private static MyDataBase instance;
 
-    // Constructeur privé
     private MyDataBase() {
         try {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
             System.out.println("Connexion établie !");
+            
+            // Auto-migration pour ajouter enseignant_id
+            try {
+                java.sql.Statement stmt = connection.createStatement();
+                stmt.execute("ALTER TABLE cours ADD COLUMN enseignant_id INT");
+                stmt.execute("ALTER TABLE cours ADD CONSTRAINT fk_cours_user FOREIGN KEY (enseignant_id) REFERENCES user(id)");
+                System.out.println("Migration BD: Colonne enseignant_id ajoutée avec succès !");
+            } catch (SQLException e) {
+                // Ignore, la colonne existe probablement déjà
+            }
+            
         } catch (SQLException e) {
             System.err.println("Erreur de connexion : " + e.getMessage());
         }

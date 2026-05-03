@@ -11,5 +11,5 @@ public interface ServiceOffreStageInterface {
     OffreStage getById(int id) throws SQLException;
     void modifier(OffreStage os) throws SQLException;
     void supprimer(int id) throws SQLException;
-    List<OffreStage> afficherParRecruteur(int idRecruteur) throws SQLException;
+    List<OffreStage> afficherParRecruteur() throws SQLException;
 }

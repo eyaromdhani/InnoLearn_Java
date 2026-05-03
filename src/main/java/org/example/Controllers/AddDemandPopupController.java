@@ -34,7 +34,6 @@ public class AddDemandPopupController {
 
     private ServiceStageCondidature serviceCandidature;
     private StagesController parentController;
-    private static final int MOCK_STUDENT_ID = 10;
     private static final int MAX_DESC = 500;
     private String selectedCVPath = null;
 
@@ -47,7 +46,7 @@ public class AddDemandPopupController {
     
     private void preFillFromProfile() {
         try {
-            StageCondidature profile = serviceCandidature.getProfileEtudiant(MOCK_STUDENT_ID);
+            StageCondidature profile = serviceCandidature.getProfileEtudiant();
             if (profile != null) {
                 if (profile.getDomaine() != null) txtDomain.setText(profile.getDomaine());
                 if (profile.getCompetences() != null) txtCompetences.setText(profile.getCompetences());
@@ -121,7 +120,7 @@ public class AddDemandPopupController {
             sc.setDescription(txtDescription.getText().trim());
             sc.setLettre_motivation(txtMotivation.getText().trim());
             sc.setCv(selectedCVPath);
-            sc.setId_etudiant(MOCK_STUDENT_ID);
+            // Student ID is handled by the Service (Session-based)
             sc.setStatut("EN_ATTENTE");
             sc.setDate_publication(Date.valueOf(LocalDate.now()));
 

@@ -1,6 +1,7 @@
 package org.example.Controllers;
 
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -109,18 +110,52 @@ public class SignUpPageController {
     @FXML
     private void handleSignup() {
         try {
+            if (nameField.getText().isEmpty() || usernameField.getText().isEmpty() || emailField.getText().isEmpty() || passwordField.getText().isEmpty()) {
+                System.out.println("Veuillez remplir tous les champs.");
+                return;
+            }
+
             G_user newUser = new G_user();
             newUser.setName(nameField.getText());
             newUser.setUsername(usernameField.getText());
             newUser.setEmail(emailField.getText());
             newUser.setPasswordHash(passwordField.getText());
-            newUser.setRoles(studentToggle.isSelected() ? "[\"ROLE_STUDENT\"]" : 
-                            (teacherToggle.isSelected() ? "[\"ROLE_INSTRUCTOR\"]" : "[\"ROLE_RECRUITER\"]"));
+            newUser.setCountryCode(countryCodeField != null ? countryCodeField.getText() : "+216");
+            newUser.setPhoneNumber(phoneField.getText());
+            
+            // Set default states
+            newUser.setActive(true);
+            newUser.setPhoneVerified(false);
+            newUser.setBanned(false);
+            newUser.setFailedLoginAttempts(0);
+            
+            // Define roles based on selection
+            if (studentToggle.isSelected()) newUser.setRoles("[\"ROLE_STUDENT\"]");
+            else if (teacherToggle.isSelected()) newUser.setRoles("[\"ROLE_INSTRUCTOR\"]");
+            else if (partnerToggle.isSelected()) newUser.setRoles("[\"ROLE_RECRUITER\"]");
+            else newUser.setRoles("[\"ROLE_STUDENT\"]"); // Default
             
             userService.create(newUser);
-            SessionManager.getInstance().setCurrentUser(foundUser());
+            
+            // Log in the user and proceed to MFA
+            G_user registeredUser = userService.findByUsername(newUser.getUsername());
+            SessionManager.getInstance().setCurrentUser(registeredUser);
+            org.example.utils.Session.setUserId(registeredUser.getId());
             navigateTo("mfa_verify.fxml");
-        } catch (SQLException e) { e.printStackTrace(); }
+            
+        } catch (SQLException e) { 
+            if (e.getMessage().contains("Duplicate entry")) {
+                System.out.println("Erreur : Ce nom d'utilisateur ou cet email est déjà utilisé.");
+                // Optionnel : afficher une alerte à l'utilisateur
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur d'inscription");
+                alert.setHeaderText(null);
+                alert.setContentText("Ce nom d'utilisateur ou cet email est déjà utilisé. Veuillez en choisir un autre.");
+                alert.showAndWait();
+            } else {
+                e.printStackTrace();
+            }
+        }
     }
 
     private G_user foundUser() throws SQLException { return userService.findByUsername(usernameField.getText()); }
@@ -133,11 +168,14 @@ public class SignUpPageController {
     @FXML private void startPasswordVoice() { VoiceService.getInstance().startListening(passwordField, micPass); }
 
     @FXML private void goToLogin() { navigateTo("loginpage.fxml"); }
+    @FXML
+    private void handleBack(ActionEvent event) {
+        org.example.MainFX.goBack();
+    }
+
     private void navigateTo(String fxml) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + fxml));
-            Parent root = loader.load();
-            nameField.getScene().setRoot(root);
-        } catch (IOException e) { e.printStackTrace(); }
+            org.example.MainFX.chargerPage("/" + fxml);
+        } catch (Exception e) { e.printStackTrace(); }
     }
 }

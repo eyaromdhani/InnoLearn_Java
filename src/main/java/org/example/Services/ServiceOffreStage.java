@@ -1,6 +1,7 @@
 package org.example.Services;
 
 import org.example.Entities.OffreStage;
+import org.example.utils.Session;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,11 @@ public class ServiceOffreStage implements ServiceOffreStageInterface {
     }
 
     public void ajouter(OffreStage os) throws SQLException {
+        // Set recruiter ID automatically from Session if not already set
+        if (os.getId_recruteur() == null || os.getId_recruteur() == 0) {
+            os.setId_recruteur(Session.getUserId());
+        }
+
         String req = "INSERT INTO offrestage (titre, description, entreprise, lieu, domaine, competences, duree, date_publication, statut, id_recruteur) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -56,7 +62,9 @@ public class ServiceOffreStage implements ServiceOffreStageInterface {
         return liste;
     }
 
-    public List<OffreStage> afficherParRecruteur(int idRecruteur) throws SQLException {
+    @Override
+    public List<OffreStage> afficherParRecruteur() throws SQLException {
+        int idRecruteur = Session.getUserId();
         List<OffreStage> liste = new ArrayList<>();
         String req = "SELECT * FROM offrestage WHERE id_recruteur = ?";
         try (PreparedStatement pst = conn.prepareStatement(req)) {

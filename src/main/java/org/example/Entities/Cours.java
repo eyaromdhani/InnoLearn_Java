@@ -12,14 +12,14 @@ public class Cours {
     private int duree;
     private String niveau;
     private LocalDateTime dateCreation;
-    private String enseignant;
+    private int enseignantId;
     private int categorieCourId;
 
     // Constructor
     public Cours() {
     }
 
-    public Cours(int id, String nom, String description, String slug, String typeMedia, String mediaUrl, int duree, String niveau, LocalDateTime dateCreation, String enseignant, int categorieCourId) {
+    public Cours(int id, String nom, String description, String slug, String typeMedia, String mediaUrl, int duree, String niveau, LocalDateTime dateCreation, int enseignantId, int categorieCourId) {
         this.id = id;
         this.nom = nom;
         this.description = description;
@@ -29,11 +29,11 @@ public class Cours {
         this.duree = duree;
         this.niveau = niveau;
         this.dateCreation = dateCreation;
-        this.enseignant = enseignant;
+        this.enseignantId = enseignantId;
         this.categorieCourId = categorieCourId;
     }
 
-    public Cours(String nom, String description, String slug, String typeMedia, String mediaUrl, int duree, String niveau, LocalDateTime dateCreation, String enseignant, int categorieCourId) {
+    public Cours(String nom, String description, String slug, String typeMedia, String mediaUrl, int duree, String niveau, LocalDateTime dateCreation, int enseignantId, int categorieCourId) {
         this.nom = nom;
         this.description = description;
         this.slug = slug;
@@ -42,7 +42,7 @@ public class Cours {
         this.duree = duree;
         this.niveau = niveau;
         this.dateCreation = dateCreation;
-        this.enseignant = enseignant;
+        this.enseignantId = enseignantId;
         this.categorieCourId = categorieCourId;
     }
 
@@ -118,12 +118,12 @@ public class Cours {
         this.dateCreation = dateCreation;
     }
 
-    public String getEnseignant() {
-        return enseignant;
+    public int getEnseignantId() {
+        return enseignantId;
     }
 
-    public void setEnseignant(String enseignant) {
-        this.enseignant = enseignant;
+    public void setEnseignantId(int enseignantId) {
+        this.enseignantId = enseignantId;
     }
 
     public int getCategorieCourId() {
@@ -146,7 +146,7 @@ public class Cours {
                 ", duree=" + duree +
                 ", niveau='" + niveau + '\'' +
                 ", dateCreation=" + dateCreation +
-                ", enseignant='" + enseignant + '\'' +
+                ", enseignantId=" + enseignantId +
                 ", categorieCourId=" + categorieCourId +
                 '}';
     }

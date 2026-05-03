@@ -17,7 +17,7 @@ public class CoursService implements IService<Cours> {
 
     @Override
     public void ajouter(Cours c) throws SQLException {
-        String sql = "INSERT INTO `cours`(`nom`, `description`, `slug`, `type_media`, `media_url`, `duree`, `niveau`, `date_creation`, `enseignant`, `categorie_cours_id`) " +
+        String sql = "INSERT INTO `cours`(`nom`, `description`, `slug`, `type_media`, `media_url`, `duree`, `niveau`, `date_creation`, `enseignant_id`, `categorie_cours_id`) " +
                 "VALUES (?,?,?,?,?,?,?,?,?,?)";
 
         PreparedStatement statement = conn.prepareStatement(sql);
@@ -29,7 +29,7 @@ public class CoursService implements IService<Cours> {
         statement.setInt(6, c.getDuree());
         statement.setString(7, c.getNiveau());
         statement.setTimestamp(8, Timestamp.valueOf(c.getDateCreation()));
-        statement.setString(9, c.getEnseignant());
+        statement.setInt(9, c.getEnseignantId());
         statement.setInt(10, c.getCategorieCourId());
         statement.executeUpdate();
         System.out.println("Ajouter avec succes");
@@ -52,7 +52,7 @@ public class CoursService implements IService<Cours> {
             c.setDuree(resultSet.getInt("duree"));
             c.setNiveau(resultSet.getString("niveau"));
             c.setDateCreation(resultSet.getTimestamp("date_creation").toLocalDateTime());
-            c.setEnseignant(resultSet.getString("enseignant"));
+            c.setEnseignantId(resultSet.getInt("enseignant_id"));
             c.setCategorieCourId(resultSet.getInt("categorie_cours_id"));
             cours.add(c);
         }
@@ -61,7 +61,7 @@ public class CoursService implements IService<Cours> {
 
     @Override
     public void modifier(Cours c) throws SQLException {
-        String sql = "UPDATE `cours` SET `nom`=?, `description`=?, `slug`=?, `type_media`=?, `media_url`=?, `duree`=?, `niveau`=?, `date_creation`=?, `enseignant`=?, `categorie_cours_id`=? WHERE id=?";
+        String sql = "UPDATE `cours` SET `nom`=?, `description`=?, `slug`=?, `type_media`=?, `media_url`=?, `duree`=?, `niveau`=?, `date_creation`=?, `enseignant_id`=?, `categorie_cours_id`=? WHERE id=?";
         PreparedStatement statement = conn.prepareStatement(sql);
         statement.setString(1, c.getNom());
         statement.setString(2, c.getDescription());
@@ -71,7 +71,7 @@ public class CoursService implements IService<Cours> {
         statement.setInt(6, c.getDuree());
         statement.setString(7, c.getNiveau());
         statement.setTimestamp(8, Timestamp.valueOf(c.getDateCreation()));
-        statement.setString(9, c.getEnseignant());
+        statement.setInt(9, c.getEnseignantId());
         statement.setInt(10, c.getCategorieCourId());
         statement.setInt(11, c.getId());
         statement.executeUpdate();
@@ -104,7 +104,31 @@ public class CoursService implements IService<Cours> {
             c.setDuree(rs.getInt("duree"));
             c.setNiveau(rs.getString("niveau"));
             c.setDateCreation(rs.getTimestamp("date_creation").toLocalDateTime());
-            c.setEnseignant(rs.getString("enseignant"));
+            c.setEnseignantId(rs.getInt("enseignant_id"));
+            c.setCategorieCourId(rs.getInt("categorie_cours_id"));
+            cours.add(c);
+        }
+        return cours;
+    }
+
+    public List<Cours> afficherParEnseignant(int enseignantId) throws SQLException {
+        List<Cours> cours = new ArrayList<>();
+        String sql = "SELECT * FROM `cours` WHERE `enseignant_id` = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, enseignantId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Cours c = new Cours();
+            c.setId(rs.getInt("id"));
+            c.setNom(rs.getString("nom"));
+            c.setDescription(rs.getString("description"));
+            c.setSlug(rs.getString("slug"));
+            c.setTypeMedia(rs.getString("type_media"));
+            c.setMediaUrl(rs.getString("media_url"));
+            c.setDuree(rs.getInt("duree"));
+            c.setNiveau(rs.getString("niveau"));
+            c.setDateCreation(rs.getTimestamp("date_creation").toLocalDateTime());
+            c.setEnseignantId(rs.getInt("enseignant_id"));
             c.setCategorieCourId(rs.getInt("categorie_cours_id"));
             cours.add(c);
         }

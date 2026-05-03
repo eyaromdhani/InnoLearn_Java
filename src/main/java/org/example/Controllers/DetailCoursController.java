@@ -82,7 +82,7 @@ public class DetailCoursController {
         descCourteLabel.setText(descCourte);
 
         // --- Stats ---
-        enseignantLabel.setText("Prof. " + cours.getEnseignant());
+        enseignantLabel.setText("Prof. ID " + cours.getEnseignantId());
         dureeLabel.setText(cours.getDuree() + "h");
         dureeVideoLabel.setText(cours.getDuree() + ":00");
         dureeInfoLabel.setText(cours.getDuree() + " heures de contenu");
@@ -91,7 +91,7 @@ public class DetailCoursController {
         descriptionLabel.setText(cours.getDescription());
 
         // --- Sidebar formateur ---
-        enseignantNomLabel.setText("Prof. " + cours.getEnseignant());
+        enseignantNomLabel.setText("Prof. ID " + cours.getEnseignantId());
 
         // --- Infos techniques ---
         typeMediaLabel.setText(cours.getTypeMedia() != null ? cours.getTypeMedia() : "Vidéo");

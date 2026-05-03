@@ -177,6 +177,11 @@ public class AfficherEvent {
     }
 
     @FXML
+    void onBackClick(ActionEvent event) {
+        org.example.MainFX.goBack();
+    }
+
+    @FXML
     void gotoajouter(ActionEvent event) {
         modeModification=false;
         eventSelectionne=null;

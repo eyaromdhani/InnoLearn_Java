@@ -42,9 +42,8 @@ public class RecruiterCandidaturesController {
 
     public void loadData() {
         try {
-            final int MOCK_RECRUITER_ID = 8;
-            // Charger les candidatures liées à ce recruteur
-            List<StageCondidature> allMyCandidatures = serviceMethod.afficherParRecruteur(MOCK_RECRUITER_ID);
+            // Charger les candidatures liées à ce recruteur (Session-based)
+            List<StageCondidature> allMyCandidatures = serviceMethod.afficherParRecruteur();
             
             // Filter by status
             List<StageCondidature> pending = allMyCandidatures.stream()
